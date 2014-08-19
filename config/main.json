@@ -1,0 +1,18 @@
+{
+	"componentsRootMap": {
+		"controllers": "/controllers",
+		"views": "/views",
+		"layouts": "/layouts",
+		"libs": "/libs",
+		"vendor": "/vendor",
+		"images": "/assets/imgs",
+		"js": "/js",
+		"css": "/css"
+	},
+	"defaultLayout": "main",
+	"page404": "page404",
+	"routMap": {
+		"/": ["Test", "actionDefault"],
+		".*": ["System", "action404"]
+	}
+}
