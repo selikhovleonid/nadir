@@ -17,7 +17,7 @@ class Autoloader {
 	/**
 	 * @var array {
 	 * 		@type string $root Корень директории для подргузки
-	 * 		@type boolean $isLoaded Флаг, определяющий используется ли директория в автоподгрузке
+	 * 		@type boolean $isLoaded Флаг, определяющий использована ли уже директория в автоподгрузке
 	 * } Множество корней директорий для автоподгрузки. 
 	 */
 	private static $_rootSet = array();
