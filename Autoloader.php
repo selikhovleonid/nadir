@@ -7,11 +7,11 @@
  * @author coon.
  */
 class Autoloader {
+	
 	/**
 	 * Константа, определяющая корень веб приложения.
 	 * @var string
 	 */
-
 	const APP_ROOT = APP_ROOT;
 
 	/**
