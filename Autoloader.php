@@ -2,10 +2,15 @@
 
 /**
  * Автоподгрузчик классов PHP, реализован как Singleton.
- *
- * @author coon
+ * Автоподгрузчик распознает как систему имен, принятую в пакетах PEAR, 
+ * так и систему именований классов, основанную на неймспейсах.
+ * @author coon.
  */
 class Autoloader {
+	/**
+	 * Константа, определяющая корень веб приложения.
+	 * @var string
+	 */
 
 	const APP_ROOT = APP_ROOT;
 
@@ -15,10 +20,11 @@ class Autoloader {
 	private static $_instance = NULL;
 
 	/**
+	 * Множество корней директорий для автоподгрузки. 
 	 * @var array {
-	 * 		@type string $root Корень директории для подргузки
-	 * 		@type boolean $isLoaded Флаг, определяющий использована ли уже директория в автоподгрузке
-	 * } Множество корней директорий для автоподгрузки. 
+	 * 		@type string $root Корень директории для подргузки.
+	 * 		@type boolean $isLoaded Флаг, определяющий использована ли уже директория в автоподгрузке.
+	 * }
 	 */
 	private static $_rootSet = array();
 
@@ -28,7 +34,7 @@ class Autoloader {
 
 	/**
 	 * Возвращает singleton-экземпляр класса Autoloder.
-	 * @return Autoloder
+	 * @return Autoloder.
 	 */
 	public static function getInstance() {
 		if (is_null(self::$_instance)) {
@@ -40,7 +46,7 @@ class Autoloader {
 	/**
 	 * Проверка на вхождение во множество уже зарегестрированных корней для автоподгрузки.
 	 * @param string $sRoot Корень директории относительно корня приложения.
-	 * @return boolean
+	 * @return boolean.
 	 */
 	private function _isInRootSet($sRoot) {
 		foreach (self::$_rootSet as $aSet) {
@@ -54,7 +60,7 @@ class Autoloader {
 	/**
 	 * Добавляет корень директории для автоподгрузки, выполняя проверку на дублирование.
 	 * @param string $sRoot Корень директории относительно корня приложения.
-	 * @return Autoloader
+	 * @return Autoloader.
 	 */
 	public function add($sRoot) {
 		$sRoot = trim($sRoot);
@@ -81,6 +87,11 @@ class Autoloader {
 		return self::$_rootSet;
 	}
 
+	/**
+	 * Запускает автоподгрузчик классов, помечая все зарегистрированные, 
+	 * но неподгруженные корни директорий как подгруженные.
+	 * @return void.
+	 */
 	public function run() {
 		foreach (self::$_rootSet as & $aSet) {
 			if (!$aSet['isLoaded']) {
@@ -93,11 +104,11 @@ class Autoloader {
 	/**
 	 * Возвращает безымянную замкнутую функцию автоподгрузки классов PHP
 	 * (как в стиле PEAR, так и основанную на неймспейсах).
-	 * @param string $sRoot
-	 * @return callable Замыкание (closure)
+	 * @param string $sRoot Корень директории относительно корня приложения.
+	 * @return callable Замыкание (closure).
 	 */
 	private static function _getFuncCall($sRoot) {
-		// Currying
+		// Каррирование (currying)
 		return function ($sClassName) use ($sRoot) {
 					if (preg_match('/\\\\/', $sClassName)) {
 						$sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $sClassName);
