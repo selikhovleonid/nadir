@@ -1,4 +1,4 @@
-nadir
-=====
+Nadir Framework
+===============
 
-Nadir Framework repository.
+Yet another light MVC PHP framework.
