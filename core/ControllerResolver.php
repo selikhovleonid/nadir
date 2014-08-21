@@ -18,14 +18,14 @@ class ControllerResolver {
 
 	public function __construct(Request $oRequest) {
 		$this->_request	 = $oRequest;
-		$this->_routeMap = AppHelper::getInstance()->getConfig(AppHelper::ROUTE_MAP);
+		$this->_routeMap = AppHelper::getInstance()->getConfig('routeMap');
 	}
 
 	private function _createCtrl() {
 		$oView			 = ViewFactory::createView($this->_ctrlName, $this->_actionName);
 		$sCtrlNameFull	 = '\\controllers\\' . $this->_ctrlName;
 		if (!is_null($oView)) {
-			$sLayoutName = AppHelper::getInstance()->getConfig(AppHelper::DEFAULT_LAYOUT);
+			$sLayoutName = AppHelper::getInstance()->getConfig('defaultLayout');
 			if (!is_null($sLayoutName)) {
 				$oLayout = ViewFactory::createLayout($sLayoutName, $oView);
 				$oCtrl = new $sCtrlNameFull($this->_request, $oLayout);

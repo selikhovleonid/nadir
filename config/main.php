@@ -9,7 +9,13 @@ return array(
 		'vendor'		 => '/vendor',
 		'images'		 => '/assets/imgs',
 		'js'			 => '/js',
-		'css'			 => 'css'
+		'css'			 => '/css'
+	),
+	'autoloadingRootSet' => array(
+		'/', // controllers autoload
+		'/libs', // model-access classes autoload
+//		'/libs/some_dbms_name', // for example
+//		'/vendor/some_framework_name/src', // for example
 	),
 	'defaultLayout'		 => 'main',
 	'page404'			 => 'page404',

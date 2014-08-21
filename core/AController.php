@@ -56,7 +56,7 @@ abstract class AController {
 	}
 	
 	protected function render404() {
-		$sRawName = AppHelper::getInstance()->getConfig(AppHelper::PAGE_404);
+		$sRawName = AppHelper::getInstance()->getConfig('page404');
 		Headers::getInstance()->addByHttpCode(404)->run();
 		$this->view = ViewFactory::createView(NULL, $sRawName);
 		$this->view->render();

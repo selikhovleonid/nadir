@@ -12,18 +12,10 @@ class AppHelper {
 
 	const APP_ROOT = APP_ROOT;
 
-	private static $_instance				 = NULL;
-	private $_configSet				 = array();
-	private static $_mainConfigPattern		 = array(); // TODO concrete pattern map
-	private static $_componentsWithAutoload = array('controllers', 'libs', 'vendor');
-	private $_siteUrl				 = '';
-
-	const COMPONENTS_ROOT_MAP	 = 'componentsRootMap';
-	const ROUTE_MAP			 = 'routeMap';
-	const DEFAULT_LAYOUT		 = 'defaultLayout';
-	const PAGE_404			 = 'page404';
-	const FILE_UPLOADER		 = 'fileuploader';
-	const FACEBOOK			 = 'facebook';
+	private static $_instance			 = NULL;
+	private $_configSet			 = array();
+	private static $_mainConfigPattern	 = array(); // TODO concrete pattern map
+	private $_siteUrl			 = '';
 
 	/**
 	 * @return self.
@@ -81,37 +73,16 @@ class AppHelper {
 		return $this->_siteUrl;
 	}
 
+	// ????
 	public function getComponentUrl($sName, $fAsAbsolute = TRUE) {
-		$aRootMap	 = $this->getConfig(self::COMPONENTS_ROOT_MAP);
-		$sSiteUrl	 = '';
-		if ($fAsAbsolute) {
-			$sSiteUrl = $this->_siteUrl;
-		}
+		$aRootMap	 = $this->getConfig('componentsRootMap');
+		$sSiteUrl	 = $fAsAbsolute ? $this->_siteUrl : '';
 		return isset($aRootMap[$sName]) ? $sSiteUrl . $aRootMap[$sName] : NULL;
 	}
 
 	public function getComponentRoot($sName) {
-		$aRootMap = $this->getConfig(self::COMPONENTS_ROOT_MAP);
+		$aRootMap = $this->getConfig('componentsRootMap');
 		return isset($aRootMap[$sName]) ? self::APP_ROOT . $aRootMap[$sName] : NULL;
 	}
 
-	public function getAutoloadRootSet() {
-		$aRes		 = array(DIRECTORY_SEPARATOR);
-		$aRootMap	 = $this->getConfig(self::COMPONENTS_ROOT_MAP);
-		foreach (self::$_componentsWithAutoload as $sComponent) {
-			if (isset($aRootMap[$sComponent])) {
-				if ($sComponent == 'controllers') {
-					$sCtrlRoot	 = substr($aRootMap[$sComponent], 0, -strlen(DIRECTORY_SEPARATOR . 'controllers'));
-					$aRes[]		 = $sCtrlRoot != '' ? : DIRECTORY_SEPARATOR;
-				} else {
-					$aRes[] = $aRootMap[$sComponent];
-				}
-			} else {
-				throw new CoreException("Required component root isn't set in main config.");
-			}
-		}
-		return $aRes;
-	}
-
 }
-

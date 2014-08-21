@@ -47,7 +47,7 @@ class WebApp implements IFrontController {
 	 * @return void.
 	 */
 	private function _initAutoload() {
-		$aRoot = AppHelper::getInstance()->getAutoloadRootSet();
+		$aRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
 		foreach ($aRoot as $sRoot) {
 			\Autoloader::getInstance()->add($sRoot);
 		}
