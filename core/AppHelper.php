@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Description of AppHelper
- *
+ * Класс, отвечающий за загрузку данных конфигурации и обеспечивающий общий 
+ * доступ приложения к ним.
  * @author coon
  */
 
@@ -16,21 +16,23 @@ class AppHelper {
 	private $_configSet				 = array();
 	private static $_mainConfigPattern		 = array(); // TODO concrete pattern map
 	private static $_componentsWithAutoload = array('controllers', 'libs', 'vendor');
-	private $_siteUrl = '';
+	private $_siteUrl				 = '';
 
 	const COMPONENTS_ROOT_MAP	 = 'componentsRootMap';
-	const ROUT_MAP			 = 'routMap';
+	const ROUT_MAP			 = 'routeMap';
 	const DEFAULT_LAYOUT		 = 'defaultLayout';
 	const PAGE_404			 = 'page404';
-	const FILE_UPLOADER			 = 'fileuploader';
-	const FACEBOOK = 'facebook';
+	const FILE_UPLOADER		 = 'fileuploader';
+	const FACEBOOK			 = 'facebook';
 
+	/**
+	 * @return self.
+	 * @throws CoreException.
+	 */
 	private function __construct() {
-		$this->_siteUrl = $this->_getSiteUrl();
-		$sFilePath	 = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main.json';
-		$mContent	 = @file_get_contents($sFilePath);
-		if ($mContent !== FALSE) {
-			$mConfig = json_decode($mContent, TRUE);
+		$sFilePath = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main.php';
+		if (is_readable($sFilePath)) {
+			$mConfig = include $sFilePath;
 			if (is_array($mConfig)) {
 				$oValidator = new Validator(self::$_mainConfigPattern);
 				if ($oValidator->isValid($mConfig)) {
@@ -39,7 +41,7 @@ class AppHelper {
 					throw new CoreException("Main config isn't valid.");
 				}
 			} else {
-				throw new CoreException("{$sFilePath} isn't valid JSON file.");
+				throw new CoreException("Main config must be an array.");
 			}
 		} else {
 			throw new CoreException("Unable load {$sFilePath} as main config file.");
@@ -62,7 +64,7 @@ class AppHelper {
 			return NULL;
 		}
 	}
-	
+
 	private function _getSiteUrl() {
 		// Copyright 2010, Sebastian Tschan
 		$fHttp = !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'on') === 0;
@@ -74,11 +76,11 @@ class AppHelper {
 						$_SERVER['SERVER_PORT'] === 80 ? '' : ':' . $_SERVER['SERVER_PORT']))) .
 				substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], DIRECTORY_SEPARATOR));
 	}
-	
+
 	public function getSiteUrl() {
 		return $this->_siteUrl;
 	}
-	
+
 	public function getComponentUrl($sName, $fAsAbsolute = TRUE) {
 		$aRootMap	 = $this->getConfig(self::COMPONENTS_ROOT_MAP);
 		$sSiteUrl	 = '';
