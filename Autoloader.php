@@ -7,24 +7,22 @@
  * @author coon.
  */
 class Autoloader {
-	
 	/**
 	 * Константа, определяющая корень веб приложения.
 	 * @var string
 	 */
+
 	const APP_ROOT = APP_ROOT;
 
 	/**
-	 * @var Autoloader 
+	 * Объект-singleton текущего класса. 
+	 * @var self 
 	 */
 	private static $_instance = NULL;
 
 	/**
-	 * Множество корней директорий для автоподгрузки. 
-	 * @var array {
-	 * 		@type string $root Корень директории для подргузки.
-	 * 		@type boolean $isLoaded Флаг, определяющий использована ли уже директория в автоподгрузке.
-	 * }
+	 * Множество корней директорий для автоподгрузки.
+	 * @var array[].
 	 */
 	private static $_rootSet = array();
 
@@ -34,7 +32,7 @@ class Autoloader {
 
 	/**
 	 * Возвращает singleton-экземпляр класса Autoloder.
-	 * @return Autoloder.
+	 * @return self.
 	 */
 	public static function getInstance() {
 		if (is_null(self::$_instance)) {
@@ -61,7 +59,7 @@ class Autoloader {
 	 * Добавляет (регистрирует) корень директории для автоподгрузки, выполняя 
 	 * проверку на дублирование.
 	 * @param string $sRoot Корень директории относительно корня приложения.
-	 * @return Autoloader.
+	 * @return self.
 	 */
 	public function add($sRoot) {
 		$sRoot = trim($sRoot);
@@ -82,7 +80,7 @@ class Autoloader {
 
 	/**
 	 * Аксессор, возвращающий множество корней директорий для автоподгрузки.
-	 * @return array Множество зарегистрированных корней.
+	 * @return string[] Множество зарегистрированных корней.
 	 */
 	public function getRootSet() {
 		return self::$_rootSet;

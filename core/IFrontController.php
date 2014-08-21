@@ -22,8 +22,7 @@ interface IFrontController {
 	public function init();
 
 	/**
-	 * Обрабатывает объект Запроса, передавая его объекту Преобразователя 
-	 * контроллеров.
+	 * Обрабатывает объект Request, передавая его объекту ControllerResolver. 
 	 * @return void.
 	 */
 	public function handleRequest();
