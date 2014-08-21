@@ -19,7 +19,7 @@ class AppHelper {
 	private $_siteUrl				 = '';
 
 	const COMPONENTS_ROOT_MAP	 = 'componentsRootMap';
-	const ROUT_MAP			 = 'routeMap';
+	const ROUTE_MAP			 = 'routeMap';
 	const DEFAULT_LAYOUT		 = 'defaultLayout';
 	const PAGE_404			 = 'page404';
 	const FILE_UPLOADER		 = 'fileuploader';

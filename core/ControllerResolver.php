@@ -18,7 +18,7 @@ class ControllerResolver {
 
 	public function __construct(Request $oRequest) {
 		$this->_request	 = $oRequest;
-		$this->_routeMap = AppHelper::getInstance()->getConfig(AppHelper::ROUT_MAP);
+		$this->_routeMap = AppHelper::getInstance()->getConfig(AppHelper::ROUTE_MAP);
 	}
 
 	private function _createCtrl() {
