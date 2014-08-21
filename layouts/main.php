@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Coon Framework</title>
+		<title>Nadir Framework</title>
 	</head>
 	<body>
 		<h1>Header</h1>
