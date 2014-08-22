@@ -45,7 +45,7 @@ class ControllerResolver {
 
 	private function _tryAssignController() {
 		foreach ($this->_routeMap as $sRoute => $aCtrlConf) {
-			if (preg_match('#^' . $sRoute . '/?$#', $this->_request->getUri(), $aParam)) {
+			if (preg_match('#^' . $sRoute . '/?$#', $this->_request->getUrlPath(), $aParam)) {
 				$this->_ctrlName	 = $aCtrlConf[0];
 				$this->_actionName	 = $aCtrlConf[1];
 				unset($aParam[0]);
