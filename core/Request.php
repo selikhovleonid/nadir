@@ -29,7 +29,9 @@ class Request {
 	 * @return string|null
 	 */
 	public function getMethod() {
-		return isset($this->_serverMap['REQUEST_METHOD']) ? $this->_serverMap['REQUEST_METHOD'] : NULL;
+		return isset($this->_serverMap['REQUEST_METHOD']) 
+			? $this->_serverMap['REQUEST_METHOD'] 
+			: NULL;
 	}
 
 	/**
@@ -57,7 +59,9 @@ class Request {
 		if (empty($sKey)) {
 			return $this->_requestMap;
 		} else {
-			return isset($this->_requestMap[$sKey]) ? $this->_requestMap[$sKey] : NULL;
+			return isset($this->_requestMap[$sKey]) 
+				? $this->_requestMap[$sKey] 
+				: NULL;
 		}
 	}
 
@@ -66,7 +70,9 @@ class Request {
 	 * @return boolean.
 	 */
 	public function isAjax() {
-		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
+			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) 
+			== 'xmlhttprequest';
 	}
 
 }

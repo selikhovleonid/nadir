@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Класс-помощник-приложения, отвечающий за загрузку данных конфигурации и обеспечивающий общий 
- * доступ приложения к ним. Реализован как Singleton.
+ * Класс-помощник-приложения, отвечающий за загрузку данных конфигурации и 
+ * обеспечивающий общий доступ приложения к ним. Реализован как Singleton.
  * @author coon
  */
 
@@ -47,7 +47,8 @@ class AppHelper {
 	 */
 	private function __construct() {
 		$this->_siteBaseUrl	 = self::_getBaseUrl();
-		$sFilePath			 = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main.php';
+		$sFilePath			 = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config' 
+			. DIRECTORY_SEPARATOR . 'main.php';
 		if (is_readable($sFilePath)) {
 			$mConfig = include $sFilePath;
 			if (is_array($mConfig)) {
@@ -96,7 +97,10 @@ class AppHelper {
 	 * @return string.
 	 */
 	private static function _getBaseUrl() {
-		$sProtocol = !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
+		$sProtocol = !empty($_SERVER['HTTPS']) 
+			&& strtolower($_SERVER['HTTPS']) == 'on' 
+			? 'https' 
+			: 'http';
 		return $sProtocol . '://' . $_SERVER['SERVER_NAME'];
 	}
 
@@ -123,13 +127,16 @@ class AppHelper {
 	}
 
 	/**
-	 * Метод возвращает полный путь к родительской директории компонента по его имени.
+	 * Метод возвращает полный путь к родительской директории компонента по его 
+	 * имени.
 	 * @param string $sName Имя компонента.
 	 * @return string|null.
 	 */
 	public function getComponentRoot($sName) {
 		$aRootMap = $this->getConfig('componentsRootMap');
-		return isset($aRootMap[$sName]) ? self::APP_ROOT . $aRootMap[$sName] : NULL;
+		return isset($aRootMap[$sName]) 
+			? self::APP_ROOT . $aRootMap[$sName] 
+			: NULL;
 	}
 
 }

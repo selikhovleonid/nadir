@@ -7,23 +7,14 @@
  * @author coon.
  */
 class Autoloader {
-	/**
-	 * Константа, определяющая корень веб приложения.
-	 * @var string
-	 */
-
+	
+	/** @var string Константа, определяющая корень веб приложения. */
 	const APP_ROOT = APP_ROOT;
 
-	/**
-	 * Объект-singleton текущего класса. 
-	 * @var self 
-	 */
+	/** @var self Объект-singleton текущего класса. */
 	private static $_instance = NULL;
 
-	/**
-	 * Множество корней директорий для автоподгрузки.
-	 * @var array[].
-	 */
+	/** @var array[]. */
 	private static $_rootSet = array();
 
 	private function __construct() {
@@ -42,7 +33,8 @@ class Autoloader {
 	}
 
 	/**
-	 * Проверка на вхождение во множество уже зарегестрированных корней для автоподгрузки.
+	 * Проверка на вхождение во множество уже зарегестрированных корней для 
+	 * автоподгрузки.
 	 * @param string $sRoot Корень директории относительно корня приложения.
 	 * @return boolean.
 	 */
