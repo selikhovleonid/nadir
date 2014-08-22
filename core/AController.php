@@ -93,6 +93,7 @@ abstract class AController {
 
 	/**
 	 * Рендерит страницу с ошибкой 404.
+	 * @return void.
 	 */
 	protected function render404() {
 		$sRawName	 = AppHelper::getInstance()->getConfig('page404');
@@ -104,6 +105,7 @@ abstract class AController {
 	/**
 	 * Рендерит страницу с данными в JSON-формате.
 	 * @param mixed $mData Входные данные.
+	 * @return void.
 	 */
 	protected function renderJson($mData) {
 		echo stripslashes(json_encode($mData));
