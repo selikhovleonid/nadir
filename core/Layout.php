@@ -1,23 +1,35 @@
 <?php
 
 /**
- * Description of Layout
- *
+ * Класс макета.
+ * @property mixed $name Переменная для передачи пользовательских данных из 
+ * контроллера в файл макета.
  * @author coon
  */
+
 namespace core;
 
 class Layout extends AView {
-	
-	public $view = NULL;	
 
+	/** @var \core\View Объект представления. */
+	public $view = NULL;
+
+	/**
+	 * Связывает объект с файлом макета и косвенно,через объект представления, с
+	 * файлом разметки представления.
+	 * @param string $sLayoutFilePath Путь к файлу с разметкой макета.
+	 * @param \core\View|null $oView Объект представления.
+	 */
 	public function __construct($sLayoutFilePath, View $oView) {
 		parent::__construct($sLayoutFilePath);
 		$this->view = $oView;
 	}
-	
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function render() {
-		require_once($this->filePath);
+		include $this->filePath;
 	}
 
 }
