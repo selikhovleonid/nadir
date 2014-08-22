@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Description of AController
- *
+ * Абстрактный класс контроллера. Несмотря на то, что ни один метод не объявлен
+ * как абстрактный, модификатор abstract указан намеренно, чтобы исключить
+ * возможность создания экземпляра этого класса.
  * @author coon
  */
 
@@ -10,10 +11,21 @@ namespace core;
 
 abstract class AController {
 
+	/** @var \core\Request Объект запроса. */
 	protected $request = NULL;
-	protected $view	 = NULL;
-	protected $layout	 = NULL;
 
+	/** @var \core\View Объект представления. */
+	protected $view = NULL;
+
+	/** @var \core\Layout Объект макета. */
+	protected $layout = NULL;
+
+	/**
+	 * Связывает объект с объектом запроса и, возможно, объектом представления 
+	 * (полного или частичного).
+	 * @param \core\Request $oRequest.
+	 * @param \core\AView|null $oView.
+	 */
 	public function __construct(Request $oRequest, AView $oView = NULL) {
 		$this->request = $oRequest;
 		if (!is_null($oView)) {
@@ -26,13 +38,26 @@ abstract class AController {
 		}
 	}
 
+	/**
+	 * Служит для связывания контроллера с представлением (как с умалчиваемым,
+	 * так и с соответствующим другому контроллеру).
+	 * @param string $sCtrlName Имя контроллера.
+	 * @param string $sActionName Имя action.
+	 * @return void.
+	 */
 	protected function setView($sCtrlName, $sActionName) {
 		$this->view = ViewFactory::createView($sCtrlName, $sActionName);
 		if (!is_null($this->layout)) {
 			$this->layout->view = $this->view;
 		}
 	}
-	
+
+	/**
+	 * Связывает контроллер с макетом.
+	 * @param string $sLayoutName Имя макета.
+	 * @return void.
+	 * @throws CoreException.
+	 */
 	protected function setLayout($sLayoutName) {
 		if (!is_null($this->view)) {
 			$this->layout = ViewFactory::createLayout($sLayoutName, $this->view);
@@ -41,28 +66,46 @@ abstract class AController {
 		}
 	}
 
+	/**
+	 * Осуществляе рендеринг страницы, как полный (макет и представление), так и
+	 * частичный (представление).
+	 * @return void.
+	 * @throws CoreException.
+	 */
 	protected function render() {
 		if (!is_null($this->layout)) {
 			$this->layout->render();
 		} elseif (!is_null($this->view)) {
 			$this->partialRender();
 		} else {
-			throw new CoreException('Unable render with empty View.');;
+			throw new CoreException('Unable render with empty View.');
+			;
 		}
 	}
-	
+
+	/**
+	 * Метод осуществляет частичный рендеринг (одного представления, без макета).
+	 * @return void.
+	 */
 	protected function partialRender() {
 		$this->view->render();
 	}
-	
+
+	/**
+	 * Рендерит страницу с ошибкой 404.
+	 */
 	protected function render404() {
-		$sRawName = AppHelper::getInstance()->getConfig('page404');
+		$sRawName	 = AppHelper::getInstance()->getConfig('page404');
 		Headers::getInstance()->addByHttpCode(404)->run();
-		$this->view = ViewFactory::createView(NULL, $sRawName);
+		$this->view	 = ViewFactory::createView(NULL, $sRawName);
 		$this->view->render();
 	}
-	
-	public function renderJson($mData) {
+
+	/**
+	 * Рендерит страницу с данными в JSON-формате.
+	 * @param mixed $mData Входные данные.
+	 */
+	protected function renderJson($mData) {
 		echo stripslashes(json_encode($mData));
 	}
 
