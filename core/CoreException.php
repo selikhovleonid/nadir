@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Description of CoreException
- *
+ * Класс определяет объекты исключений, генерируемых при загрузке ядра фреймворка.
+ * Реализует шаблон Wrapper.
  * @author coon
  */
 namespace core;

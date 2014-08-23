@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Description of Headers
- *
+ * Класс отвечает за генерацию заголовков страницы.
  * @author coon
  */
 
@@ -10,13 +9,23 @@ namespace core;
 
 class Headers {
 
-	private static $_instance	 = NULL;
+	/** @var self Объект-singleton текущего класса. */
+	private static $_instance = NULL;
+
+	/** @var string[] Стек заголовков страницы. */
 	private $_headerList = array();
 
+	/**
+	 * @ignore.
+	 */
 	private function __construct() {
 		// nothing here
 	}
 
+	/**
+	 * Возвращает singleton-экземпляр текущего класса.
+	 * @return self.
+	 */
 	public static function getInstance() {
 		if (is_null(self::$_instance)) {
 			self::$_instance = new self();
@@ -24,6 +33,12 @@ class Headers {
 		return self::$_instance;
 	}
 
+	/**
+	 * Возвращает человеко-читаемое описание HTTP-кода состояния.
+	 * @param integer $nCode Код состояния.
+	 * @return string Описание.
+	 * @throws CoreException
+	 */
 	private static function _getHTTPExplanationByCode($nCode) {
 		switch ((int) $nCode) {
 			case 100: return 'Continue';
@@ -68,18 +83,32 @@ class Headers {
 				throw new CoreException('Unknown HTTP code');
 		}
 	}
-	
+
+	/**
+	 * Добавляет заголовок в стек.
+	 * @param string $sHeader Заголовок страницы.
+	 * @return self.
+	 */
 	public function add($sHeader) {
 		$this->_headerList[] = $sHeader;
 		return self::$_instance;
 	}
 
+	/**
+	 * Добавить заголовок страницы в стек по коду состояния.
+	 * @param integer $nCode Код.
+	 * @return self.
+	 */
 	public function addByHttpCode($nCode) {
-		$sProtocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-		$sHeader = "{$sProtocol} {$nCode} " . self::_getHTTPExplanationByCode($nCode);
+		$sProtocol	 = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+		$sHeader	 = "{$sProtocol} {$nCode} " . self::_getHTTPExplanationByCode($nCode);
 		return $this->add($sHeader);
 	}
-	
+
+	/**
+	 * Устанавливает все сохраненные в стеке заголовки в страницу.
+	 * @return void.
+	 */
 	public function run() {
 		foreach ($this->_headerList as $sHeader) {
 			header($sHeader);
