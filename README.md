@@ -29,4 +29,4 @@ Nadir - это микрофреймворк, базирующийся на ме�
 4. Контроллер
 5. Представление.
 
-[Конфигурирование веб-сервера.]:https://github.com/selikhovleonid/nadir/tree/master/docs/.markdown
+[Конфигурирование веб-сервера.]:https://github.com/selikhovleonid/nadir/tree/master/docs/webserver.markdown
