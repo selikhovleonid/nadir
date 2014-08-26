@@ -28,7 +28,9 @@ class WebApp implements IFrontController {
 	 */
 	public function init() {
 		$this->_initAutoload();
+		$this->_initUserProcess();
 		$this->handleRequest();
+		$this->_stopUserProcess();
 	}
 
 	/**
@@ -52,6 +54,22 @@ class WebApp implements IFrontController {
 			\Autoloader::getInstance()->add($sRoot);
 		}
 		\Autoloader::getInstance()->run();
+	}
+
+	/**
+	 * Метод выполняет запуск пользовательских процессов.
+	 * @return void.
+	 */
+	private function _initUserProcess() {
+		UserProcess::getInstance()->run();
+	}
+
+	/**
+	 * Метод останавливает пользовательские процессы.
+	 * @return void.
+	 */
+	private function _stopUserProcess() {
+		UserProcess::getInstance()->stop();
 	}
 
 }
