@@ -3,17 +3,30 @@
 
 Конфигурирование Apache2 (.htaccess или директива VirtualHost)
 --------------------------------------------------------------
+Инструкции для модуля mod_rewrite.
+
 ````
+#...
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . index.php
+RewriteRule ^(.*)$ index.php
+#...
 ````
 
 Конфигурирование Nginx
 ----------------------
+Инструкции для модуля ngx_http_rewrite_module.
+
 ````
-if (!-e $request_filename) {
-  rewrite ^(.*) /index.php last;
+server {
+	#...
+	location /  {
+		index  index.php;
+		if (!-e $request_filename) {
+			rewrite ^(.*)$ /index.php last;
+		}
+	}
+	#...
 }
 ````
