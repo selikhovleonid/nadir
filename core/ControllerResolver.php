@@ -40,7 +40,10 @@ class ControllerResolver {
 	 * @return \core\Controller.
 	 */
 	private function _createCtrl() {
-		$oView			 = ViewFactory::createView($this->_ctrlName, $this->_actionName);
+		$oView			 = ViewFactory::createView(
+			$this->_ctrlName, 
+			str_replace('action', '', $this->_actionName)
+		);
 		$sCtrlNameFull	 = '\\controllers\\' . $this->_ctrlName;
 		if (!is_null($oView)) {
 			$sLayoutName = AppHelper::getInstance()->getConfig('defaultLayout');

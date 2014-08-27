@@ -39,6 +39,14 @@ abstract class AController {
 	}
 
 	/**
+	 * Возвращает объект ассоциированного представления.
+	 * @return \core\View|null.
+	 */
+	protected function getView() {
+		return $this->view;
+	}
+
+	/**
 	 * Служит для связывания контроллера с представлением (как с умалчиваемым,
 	 * так и с соответствующим другому контроллеру).
 	 * @param string $sCtrlName Имя контроллера.
@@ -50,6 +58,14 @@ abstract class AController {
 		if (!is_null($this->layout)) {
 			$this->layout->view = $this->view;
 		}
+	}
+
+	/**
+	 * Возвращает объект ассоциированного макета.
+	 * @return \core\Layout|null.
+	 */
+	protected function getLayout() {
+		return $this->layout;
 	}
 
 	/**
