@@ -68,13 +68,13 @@ abstract class AView {
 	/**
 	 * Связывает объект с файлом представления.
 	 * @param string $sViewFilePath Путь к файлу с разметкой представления.
-	 * @throws CoreException.
+	 * @throws Exception.
 	 */
 	public function setFilePath($sViewFilePath) {
 		if (is_readable($sViewFilePath)) {
 			$this->filePath = $sViewFilePath;
 		} else {
-			throw new CoreException("View file {$sViewFilePath} isn't readable");
+			throw new Exception("View file {$sViewFilePath} isn't readable");
 		}		
 	}
 

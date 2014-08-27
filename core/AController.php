@@ -56,13 +56,13 @@ abstract class AController {
 	 * Связывает контроллер с макетом.
 	 * @param string $sLayoutName Имя макета.
 	 * @return void.
-	 * @throws CoreException.
+	 * @throws Exception.
 	 */
 	protected function setLayout($sLayoutName) {
 		if (!is_null($this->view)) {
 			$this->layout = ViewFactory::createLayout($sLayoutName, $this->view);
 		} else {
-			throw new CoreException('Unable set Layout without View.');
+			throw new Exception('Unable set Layout without View.');
 		}
 	}
 
@@ -70,7 +70,7 @@ abstract class AController {
 	 * Осуществляе рендеринг страницы, как полный (макет и представление), так и
 	 * частичный (представление).
 	 * @return void.
-	 * @throws CoreException.
+	 * @throws Exception.
 	 */
 	protected function render() {
 		if (!is_null($this->layout)) {
@@ -78,7 +78,7 @@ abstract class AController {
 		} elseif (!is_null($this->view)) {
 			$this->partialRender();
 		} else {
-			throw new CoreException('Unable render with empty View.');
+			throw new Exception('Unable render with empty View.');
 			;
 		}
 	}

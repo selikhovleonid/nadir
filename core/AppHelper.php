@@ -43,7 +43,7 @@ class AppHelper {
 	 * не содержит функциональности. Возможно, следует использовать
 	 * сторонний валидатор.
 	 * @return self.
-	 * @throws CoreException.
+	 * @throws Exception.
 	 */
 	private function __construct() {
 		$this->_siteBaseUrl	 = self::_getBaseUrl();
@@ -56,13 +56,13 @@ class AppHelper {
 				if ($oValidator->isValid($mConfig)) {
 					$this->_configSet = $mConfig;
 				} else {
-					throw new CoreException("Main config isn't valid.");
+					throw new Exception("Main config isn't valid.");
 				}
 			} else {
-				throw new CoreException("Main config must be an array.");
+				throw new Exception("Main config must be an array.");
 			}
 		} else {
-			throw new CoreException("Unable load {$sFilePath} as main config file.");
+			throw new Exception("Unable load {$sFilePath} as main config file.");
 		}
 	}
 

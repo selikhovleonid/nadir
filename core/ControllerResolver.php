@@ -94,7 +94,7 @@ class ControllerResolver {
 
 	/**
 	 * Запуск action контроллера на исполнение.
-	 * @throws CoreException.
+	 * @throws Exception.
 	 */
 	public function run() {
 		$this->_tryAssignController();
@@ -106,7 +106,7 @@ class ControllerResolver {
 				$this->_callActionWithArgs($oCtrl);
 			}
 		} else {
-			throw new CoreException('Unable assign controller with this route path.');
+			throw new Exception('Unable assign controller with this route path.');
 		}
 	}
 

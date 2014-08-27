@@ -7,6 +7,6 @@
  */
 namespace core;
 
-class CoreException extends \Exception {
+class Exception extends \Exception {
 	//put your code here
 }

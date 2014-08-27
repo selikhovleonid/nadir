@@ -37,7 +37,7 @@ class Headers {
 	 * Возвращает человеко-читаемое описание HTTP-кода состояния.
 	 * @param integer $nCode Код состояния.
 	 * @return string Описание.
-	 * @throws CoreException
+	 * @throws Exception
 	 */
 	private static function _getHTTPExplanationByCode($nCode) {
 		switch ((int) $nCode) {
@@ -80,7 +80,7 @@ class Headers {
 			case 504: return 'Gateway Time-out';
 			case 505: return 'HTTP Version not supported';
 			default:
-				throw new CoreException('Unknown HTTP code');
+				throw new Exception('Unknown HTTP code');
 		}
 	}
 
