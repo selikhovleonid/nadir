@@ -1,1 +1,1 @@
-<h2>Content</h2>
+<h2>Content: <?= $this->foo; ?></h2>

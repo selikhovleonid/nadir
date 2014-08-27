@@ -7,43 +7,7 @@
 
 namespace core;
 
-abstract class AView {
-	
-	/** @var array Карта пользовательских пар ключ-значение. */
-	private $_dataMap	 = array();
-
-	/**
-	 * Определяет пользовательскую переменную. (Используется переопределение 
-	 * "магического" метода).
-	 * @param string $sKey Переменная.
-	 * @param mixed $sValue Значение.
-	 */
-	public function __set($sKey, $sValue) {
-		$this->_dataMap[$sKey] = $sValue;
-	}
-
-	/**
-	 * Возвращает значение пользовательской переменной, если таковая установлена.
-	 * (Используется переопределение "магического" метода).
-	 * @param string $sKey Переменная.
-	 * @return mixed|null
-	 */
-	public function __get($sKey) {
-		if (array_key_exists($sKey, $this->_dataMap)) {
-			return $this->_dataMap[$sKey];
-		} else {
-			return NULL;
-		}
-	}
-
-	/**
-	 * Переопределяет "магический" метод.
-	 * @param string $sKey.
-	 * @return boolean.
-	 */
-	public function __isset($sKey) {
-		return isset($this->$this->_dataMap[$sKey]);
-	}
+abstract class AView extends AUserPropAccessor {
 
 	/** @var string Путь к файлу с разметкой представления. */
 	protected $filePath = '';

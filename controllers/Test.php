@@ -11,6 +11,7 @@ namespace controllers;
 class Test extends \core\AController {
 
 	public function actionDefault() {
+		$this->view->foo = 'Hello World!';
 		$this->render();
 	}
 
