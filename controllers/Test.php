@@ -11,7 +11,9 @@ namespace controllers;
 class Test extends \core\AController {
 
 	public function actionDefault() {
-		$this->view->foo = 'Hello World!';
+		$this->layout->isUserOnline	 = FALSE;
+		$this->view->foo			 = 'bar';
+		$this->view->bar			 = array(42, 'baz');
 		$this->render();
 	}
 
