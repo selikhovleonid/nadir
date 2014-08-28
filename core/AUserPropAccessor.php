@@ -52,7 +52,7 @@ abstract class AUserPropAccessor {
 	 * @return boolean.
 	 */
 	public function __isset($sKey) {
-		return isset($this->$this->_dataMap[$sKey]);
+		return isset($this->_dataMap[$sKey]);
 	}
 
 }
