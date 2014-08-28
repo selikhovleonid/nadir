@@ -19,7 +19,7 @@ class Validator {
 	 * @param mixed[] $aPattern Шаблон.
 	 * @return self.
 	 */
-	public function __construct(array $aPattern) {
+	public function __construct(array& $aPattern) {
 		$this->_pattern = $aPattern;
 	}
 
@@ -29,7 +29,7 @@ class Validator {
 	 * @param mixed[] $aData Данные для валидации.
 	 * @return boolean.
 	 */
-	public function isValid(array $aData) {
+	public function isValid(array& $aData) {
 		// TODO business logic
 		return TRUE;
 	}

@@ -27,15 +27,13 @@ class AppHelper {
 
 	/**
 	 * @var mixed[] Шаблон для валидации основной конфигурации.
-	 * @todo Создать шаблон для валидатора. Возможно, следует использовать
-	 * сторонний валидатор.
 	 */
-	private static $_mainConfigPattern	 = array(); // TODO concrete pattern map
-	
+	private $_mainConfigPattern = array();
+
 	/**
 	 * @var string Базовый URL сайта. 
 	 */
-	private $_siteBaseUrl		 = '';
+	private $_siteBaseUrl = '';
 
 	/**
 	 * Загружает основной конфигурационный файл и выполняет проверку валидности.
@@ -47,22 +45,26 @@ class AppHelper {
 	 */
 	private function __construct() {
 		$this->_siteBaseUrl	 = self::_getBaseUrl();
-		$sFilePath			 = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config' 
-			. DIRECTORY_SEPARATOR . 'main.php';
-		if (is_readable($sFilePath)) {
-			$mConfig = include $sFilePath;
-			if (is_array($mConfig)) {
-				$oValidator = new Validator(self::$_mainConfigPattern);
+		$sConfigDir = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config';
+		$sConfigPath = $sConfigDir . DIRECTORY_SEPARATOR . 'main.php';
+		$sPatternPath = $sConfigDir	. DIRECTORY_SEPARATOR . 'pattern.php';
+		if (is_readable($sConfigPath) && is_readable($sPatternPath)) {
+			$mConfig = include $sConfigPath;
+			$mPattern = include $sPatternPath;
+			if (is_array($mConfig) && is_array($mPattern)) {
+				$oValidator = new Validator($mPattern);
 				if ($oValidator->isValid($mConfig)) {
 					$this->_configSet = $mConfig;
+					$this->_mainConfigPattern = $mPattern;
 				} else {
 					throw new Exception("Main config isn't valid.");
 				}
 			} else {
-				throw new Exception("Main config must be an array.");
+				throw new Exception('Main config and its pattern shall be arrays.');
 			}
 		} else {
-			throw new Exception("Unable load {$sFilePath} as main config file.");
+			throw new Exception('Unable load ' . $sConfigPath 
+				. 'as main config file or' . $sPatternPath . 'as its pattern.');
 		}
 	}
 
@@ -90,6 +92,14 @@ class AppHelper {
 		} else {
 			return NULL;
 		}
+	}
+	
+	/**
+	 * Возвращает шаблон для валидации основной конфигурации приложения.
+	 * @return array
+	 */
+	public function getConfigPattern() {
+		return $this->_mainConfigPattern;
 	}
 
 	/**

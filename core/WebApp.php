@@ -9,6 +9,8 @@
 
 namespace core;
 
+use extensions\core\UserProcess;
+
 class WebApp implements IFrontController {
 
 	private function __construct() {

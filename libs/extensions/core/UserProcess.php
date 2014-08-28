@@ -7,9 +7,9 @@
  * @author coon.
  */
 
-namespace core;
+namespace extensions\core;
 
-class UserProcess implements IProcess {
+class UserProcess implements \core\IProcess {
 
 	/** @var self Объект-singleton текущего класса. */
 	private static $_instance = NULL;
