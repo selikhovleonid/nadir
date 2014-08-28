@@ -5,6 +5,7 @@ return array(
 		'controllers'	 => '/controllers',
 		'views'			 => '/views',
 		'layouts'		 => '/layouts',
+		'models'		 => '/models',
 		'libs'			 => '/libs',
 		'vendor'		 => '/vendor',
 		'images'		 => '/assets/imgs',

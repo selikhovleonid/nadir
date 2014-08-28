@@ -9,8 +9,6 @@
 
 namespace core;
 
-use extensions\core\UserProcess;
-
 class WebApp implements IFrontController {
 
 	private function __construct() {
@@ -63,7 +61,7 @@ class WebApp implements IFrontController {
 	 * @return void.
 	 */
 	private function _initUserProcess() {
-		UserProcess::getInstance()->run();
+		\extensions\core\Process::getInstance()->run();
 	}
 
 	/**
@@ -71,7 +69,7 @@ class WebApp implements IFrontController {
 	 * @return void.
 	 */
 	private function _stopUserProcess() {
-		UserProcess::getInstance()->stop();
+		\extensions\core\Process::getInstance()->stop();
 	}
 
 }

@@ -9,7 +9,7 @@
 
 namespace extensions\core;
 
-class UserProcess implements \core\IProcess {
+class Process implements \core\IProcess {
 
 	/** @var self Объект-singleton текущего класса. */
 	private static $_instance = NULL;
