@@ -29,8 +29,9 @@ ngx_http_rewrite_module соответственно.
 1. [Конфигурирование веб-сервера.]
 2. [Основной конфигурационный файл приложения.]
 4. [Контроллер.]
-5. Представление.
+5. [Представление.]
 
 [Конфигурирование веб-сервера.]:https://github.com/selikhovleonid/nadir/blob/master/docs/webserver.markdown
 [Основной конфигурационный файл приложения.]:https://github.com/selikhovleonid/nadir/blob/master/docs/mainconfig.markdown
 [Контроллер.]:https://github.com/selikhovleonid/nadir/blob/master/docs/controller.markdown
+[Представление.]:https://github.com/selikhovleonid/nadir/blob/master/docs/view.markdown
