@@ -50,7 +50,7 @@ abstract class AController {
 	 * Служит для связывания контроллера с представлением (как с умалчиваемым,
 	 * так и с соответствующим другому контроллеру).
 	 * @param string $sCtrlName Имя контроллера.
-	 * @param string $sActionName Имя action.
+	 * @param string $sActionName Имя действия (без префикса action).
 	 * @return void.
 	 */
 	protected function setView($sCtrlName, $sActionName) {
@@ -95,7 +95,6 @@ abstract class AController {
 			$this->partialRender();
 		} else {
 			throw new Exception('Unable render with empty View.');
-			;
 		}
 	}
 
