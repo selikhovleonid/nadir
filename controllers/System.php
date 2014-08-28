@@ -10,7 +10,7 @@ namespace controllers;
 
 class System extends \core\AController {
 
-	public function action404() {
+	public function actionPage404() {
 		$this->render404();
 	}
 

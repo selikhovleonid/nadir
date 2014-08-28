@@ -28,6 +28,6 @@ return array(
 //	),
 	'routeMap'			 => array(
 		'/'	 => array('Test', 'actionDefault'),
-		'.*' => array('System', 'action404')
+		'.*' => array('System', 'actionPage404')
 	)
 );
