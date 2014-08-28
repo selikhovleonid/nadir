@@ -12,9 +12,8 @@ return array(
 		'css'			 => '/css'
 	),
 	'autoloadingRootSet' => array(
-		'/', // controllers autoload
+		'/', // controllers & models autoload
 		'/libs', // core extensions classes autoload
-		'/models', // models autoload
 //		'/libs/some_dbms_name', // for example
 //		'/vendor/some_framework_name/src', // for example
 	),
