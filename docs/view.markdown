@@ -13,16 +13,16 @@ Yet another MVC PHP microframework.
 
 Передача пользовательских переменных из контроллера в представление осуществляется
 присваиванием нужных значений этим переменным как свойствам связанного с контроллером
-объекта `$this->view` (аналогично для макета - `$this->layout`). Например:
+объекта View (аналогично для макета - Layout). Например:
 ````php
 \\...
 public function actionFoo() {
 	\\...
 	$this->setView('test', 'foo');
 	$this->setLayout('main');
-	$this->layout->isUserOnline	 = TRUE;
-	$this->view->foo			 = 'bar';
-	$this->view->bar			 = array(42, 'baz');
+	$this->getLayout()->isUserOnline = FALSE;
+	$this->getView()->foo			 = 'bar';
+	$this->getView()->bar			 = array(42, 'baz');
 	\\...
 }
 \\...

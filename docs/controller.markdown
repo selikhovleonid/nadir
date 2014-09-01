@@ -37,13 +37,13 @@ lowerCamelCase (например, `actionFoo()`).
 
 Передача пользовательских переменных из контроллера в представление осуществляется
 присваиванием нужных значений этим переменным как свойствам связанного с контроллером
-объекта `$this->view`. Например:
+объекта View. Например:
 ````php
 \\...
 public function actionFoo() {
 	\\...
-	$this->view->foo = 'bar';
-	$this->view->bar = array(42, 'baz');
+	$this->getView()->foo = 'bar';
+	$this->getView()->bar = array(42, 'baz');
 	\\...
 }
 \\...
