@@ -2,6 +2,8 @@
 
 Yet another MVC PHP microframework.
 
+[![License](https://poser.pugx.org/leaphly/cart-bundle/license.svg)](https://packagist.org/packages/leaphly/cart-bundle)
+
 ##Манифест
 
 Nadir - это микрофреймворк, базирующийся на меташаблоне MVC, с максимально общим, 
