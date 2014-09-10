@@ -86,7 +86,7 @@ class Autoloader {
 	public function run() {
 		foreach (self::$_rootSet as & $aSet) {
 			if (!$aSet['isLoaded']) {
-				spl_autoload_register(self::_getFuncCall($aSet['root']));
+				spl_autoload_register(self::_getFuncCall($aSet['root']), TRUE, TRUE);
 				$aSet['isLoaded'] = TRUE;
 			}
 		}
