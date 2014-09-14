@@ -11,12 +11,12 @@ namespace core;
 
 class View extends AView {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function render() {
-		include $this->filePath;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function render() {
+        include $this->filePath;
+    }
 
 }
 

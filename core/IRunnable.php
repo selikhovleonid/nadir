@@ -9,10 +9,10 @@ namespace core;
 
 interface IRunnable {
 
-	/**
-	 * Запускает процесс на исполнение.
-	 * @return void.
-	 */
-	public function run();
+    /**
+     * Запускает процесс на исполнение.
+     * @return void.
+     */
+    public function run();
 }
 

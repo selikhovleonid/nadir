@@ -10,10 +10,10 @@ namespace core;
 
 interface IProcess extends IRunnable {
 
-	/**
-	 * Останавливает и/или уничтожает процесс.
-	 * @return void.
-	 */
-	public function stop();
+    /**
+     * Останавливает и/или уничтожает процесс.
+     * @return void.
+     */
+    public function stop();
 }
 

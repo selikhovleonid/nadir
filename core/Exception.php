@@ -5,8 +5,9 @@
  * Реализует шаблон Wrapper.
  * @author coon
  */
+
 namespace core;
 
 class Exception extends \Exception {
-	//put your code here
+    //put your code here
 }
