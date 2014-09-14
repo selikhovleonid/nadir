@@ -15,7 +15,7 @@ class Tools {
     /**
      * @ignore.
      */
-    private function __construct() {
+    public function __construct() {
         // nothing here
     }
 
