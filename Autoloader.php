@@ -1,22 +1,25 @@
 <?php
 
 /**
- * Автоподгрузчик классов PHP, реализован как Singleton.
- * Распознает как систему имен, принятую в пакетах PEAR, 
- * так и систему именований классов, основанную на неймспейсах.
+ * Автоподгрузчик классов PHP, реализован как Singleton. Распознает как систему 
+ * имен, принятую в пакетах PEAR, так и систему именований классов, основанную на 
+ * неймспейсах.
  * @author coon.
  */
 class Autoloader {
-	
-	/** @var string Константа, определяющая корень веб приложения. */
-	const APP_ROOT = APP_ROOT;
+
+	/** @var string Путь к корню веб-приложения. */
+	private $_appRoot = NULL;
 
 	/** @var self Объект-singleton текущего класса. */
 	private static $_instance = NULL;
 
 	/** @var array[]. */
-	private static $_rootSet = array();
+	private $_rootSet = array();
 
+	/**
+	 * @ignore.
+	 */
 	private function __construct() {
 		// nothing here
 	}
@@ -39,7 +42,7 @@ class Autoloader {
 	 * @return boolean.
 	 */
 	private function _isInRootSet($sRoot) {
-		foreach (self::$_rootSet as $aSet) {
+		foreach ($this->_rootSet as $aSet) {
 			if ($aSet['root'] == $sRoot) {
 				return TRUE;
 			}
@@ -48,26 +51,57 @@ class Autoloader {
 	}
 
 	/**
+	 * Устанавливает корень веб-приложения.
+	 * @param string $sAppRoot Путь к корню приложения.
+	 * @return self.
+	 */
+	public function setAppRoot($sAppRoot) {
+		$this->_appRoot = $sAppRoot;
+		return self::$_instance;
+	}
+
+	/**
+	 * Возвращает корень веб-приложения.
+	 * @return string.
+	 */
+	public function getAppRoot() {
+		return $this->_appRoot;
+	}
+
+	/**
+	 * Возвращает TRUE, если корень веб-приложения определен.
+	 * @return boolean.
+	 */
+	public function isAppRootSet() {
+		return !empty($this->_appRoot);
+	}
+
+	/**
 	 * Добавляет (регистрирует) корень директории для автоподгрузки, выполняя 
 	 * проверку на дублирование.
 	 * @param string $sRoot Корень директории относительно корня приложения.
 	 * @return self.
+	 * @throws Exception.
 	 */
 	public function add($sRoot) {
-		$sRoot = trim($sRoot);
-		if (substr($sRoot, -1) == DIRECTORY_SEPARATOR) {
-			$sRoot = substr($sRoot, 0, -1);
+		if ($this->isAppRootSet()) {
+			$sRoot = trim($sRoot);
+			if (substr($sRoot, -1) == DIRECTORY_SEPARATOR) {
+				$sRoot = substr($sRoot, 0, -1);
+			}
+			if (strpos($sRoot, $this->getAppRoot()) === FALSE) {
+				$sRoot = $this->getAppRoot() . $sRoot;
+			}
+			if (!$this->_isInRootSet($sRoot)) {
+				$this->_rootSet[] = array(
+					'root'		 => $sRoot,
+					'isLoaded'	 => FALSE
+				);
+			}
+			return self::$_instance;
+		} else {
+			throw new Exception("Application root isn't define.");
 		}
-		if (strpos($sRoot, self::APP_ROOT) === FALSE) {
-			$sRoot = self::APP_ROOT . $sRoot;
-		}
-		if (!$this->_isInRootSet($sRoot)) {
-			self::$_rootSet[] = array(
-				'root'		 => $sRoot,
-				'isLoaded'	 => FALSE
-			);
-		}
-		return self::$_instance;
 	}
 
 	/**
@@ -75,7 +109,7 @@ class Autoloader {
 	 * @return string[] Множество зарегистрированных корней.
 	 */
 	public function getRootSet() {
-		return self::$_rootSet;
+		return $this->_rootSet;
 	}
 
 	/**
@@ -84,7 +118,7 @@ class Autoloader {
 	 * @return void.
 	 */
 	public function run() {
-		foreach (self::$_rootSet as & $aSet) {
+		foreach ($this->_rootSet as & $aSet) {
 			if (!$aSet['isLoaded']) {
 				spl_autoload_register(self::_getFuncCall($aSet['root']), TRUE, TRUE);
 				$aSet['isLoaded'] = TRUE;
@@ -102,9 +136,11 @@ class Autoloader {
 		// Каррирование (currying)
 		return function ($sClassName) use ($sRoot) {
 					if (preg_match('/\\\\/', $sClassName)) {
-						$sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $sClassName);
+						$sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, 
+							$sClassName);
 					} elseif (preg_match('/_/', $sClassName)) {
-						$sRelativePath = str_replace('_', DIRECTORY_SEPARATOR, $sClassName);
+						$sRelativePath = str_replace('_', DIRECTORY_SEPARATOR, 
+							$sClassName);
 					} else {
 						$sRelativePath = $sClassName;
 					}

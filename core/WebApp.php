@@ -27,6 +27,7 @@ class WebApp implements IFrontController {
 	 * {@inheritdoc}
 	 */
 	public function init() {
+		$this->_initHelper();
 		$this->_initAutoload();
 		$this->_initUserProcess();
 		$this->handleRequest();
@@ -41,6 +42,16 @@ class WebApp implements IFrontController {
 		$oCtrlResolver	 = new ControllerResolver($oRequest);
 		$oCtrlResolver->run();
 	}
+	
+	/**
+	 * Инициализирует Помощник приложения.
+	 * @return void.
+	 */
+	private function _initHelper() {
+		AppHelper::getInstance()
+			->setAppRoot(\Autoloader::getInstance()->getAppRoot())
+			->run();		
+	}
 
 	/**
 	 * Инициализация автоподгрузки всех классов приложения. Объект 
@@ -49,8 +60,8 @@ class WebApp implements IFrontController {
 	 * @return void.
 	 */
 	private function _initAutoload() {
-		$aRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
-		foreach ($aRoot as $sRoot) {
+		$mRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
+		foreach ($mRoot ? : array() as $sRoot) {
 			\Autoloader::getInstance()->add($sRoot);
 		}
 		\Autoloader::getInstance()->run();

@@ -8,64 +8,25 @@
 
 namespace core;
 
-class AppHelper {
-	/**
-	 * @var string Константа, определяющая корень веб приложения.
-	 */
+class AppHelper implements IRunnable {
+	
+	/** @var string Путь к кореню веб-приложения. */
+	private $_appRoot = NULL;
 
-	const APP_ROOT = APP_ROOT;
-
-	/**
-	 * @var self Объект-singleton текущего класса.
-	 */
+	/** @var self Объект-singleton текущего класса. */
 	private static $_instance = NULL;
 
-	/**
-	 * @var mixed[] Множество конфигураций.
-	 */
+	/** @var mixed[] Множество конфигураций. */
 	private $_configSet = array();
 
-	/**
-	 * @var mixed[] Шаблон для валидации основной конфигурации.
-	 */
+	/** @var mixed[] Шаблон для валидации основной конфигурации. */
 	private $_mainConfigPattern = array();
 
-	/**
-	 * @var string Базовый URL сайта. 
-	 */
+	/** @var string Базовый URL сайта. */
 	private $_siteBaseUrl = '';
 
-	/**
-	 * Загружает основной конфигурационный файл и выполняет проверку валидности.
-	 * @todo В настоящее время валидация формально прописана, класс Validator 
-	 * не содержит функциональности. Возможно, следует использовать
-	 * сторонний валидатор.
-	 * @return self.
-	 * @throws Exception.
-	 */
 	private function __construct() {
-		$this->_siteBaseUrl	 = self::_getBaseUrl();
-		$sConfigDir = self::APP_ROOT . DIRECTORY_SEPARATOR . 'config';
-		$sConfigPath = $sConfigDir . DIRECTORY_SEPARATOR . 'main.php';
-		$sPatternPath = $sConfigDir	. DIRECTORY_SEPARATOR . 'pattern.php';
-		if (is_readable($sConfigPath) && is_readable($sPatternPath)) {
-			$mConfig = include $sConfigPath;
-			$mPattern = include $sPatternPath;
-			if (is_array($mConfig) && is_array($mPattern)) {
-				$oValidator = new Validator($mPattern);
-				if ($oValidator->isValid($mConfig)) {
-					$this->_configSet = $mConfig;
-					$this->_mainConfigPattern = $mPattern;
-				} else {
-					throw new Exception("Main config isn't valid.");
-				}
-			} else {
-				throw new Exception('Main config and its pattern shall be arrays.');
-			}
-		} else {
-			throw new Exception('Unable load ' . $sConfigPath 
-				. 'as main config file or' . $sPatternPath . 'as its pattern.');
-		}
+
 	}
 
 	/**
@@ -77,6 +38,67 @@ class AppHelper {
 			self::$_instance = new self();
 		}
 		return self::$_instance;
+	}
+	
+	/**
+	 * Устанавливает корень веб-приложения.
+	 * @param string $sAppRoot Путь к корню приложения.
+	 * @return self.
+	 */
+	public function setAppRoot($sAppRoot) {
+		$this->_appRoot = $sAppRoot;
+		return self::$_instance;
+	}
+
+	/**
+	 * Возвращает корень веб-приложения.
+	 * @return string.
+	 */
+	public function getAppRoot() {
+		return $this->_appRoot;
+	}
+
+	/**
+	 * Возвращает TRUE, если корень веб-приложения определен.
+	 * @return boolean.
+	 */
+	public function isAppRootSet() {
+		return !empty($this->_appRoot);
+	}
+
+	/**
+	 * Загружает основной конфигурационный файл и выполняет проверку валидности.
+	 * @todo В настоящее время валидация формально прописана, класс Validator 
+	 * не содержит функциональности. Возможно, следует использовать
+	 * сторонний валидатор.
+	 * @return self.
+	 * @throws Exception.
+	 */
+	public function run() {
+		if (!$this->isAppRootSet()) {
+			throw new Exception("Application root isn't define.");
+		}
+		$this->_siteBaseUrl	 = self::_getBaseUrl();
+		$sConfigDir			 = $this->_appRoot . DIRECTORY_SEPARATOR . 'config';
+		$sConfigPath		 = $sConfigDir . DIRECTORY_SEPARATOR . 'main.php';
+		$sPatternPath		 = $sConfigDir . DIRECTORY_SEPARATOR . 'pattern.php';
+		if (!is_readable($sConfigPath) || !is_readable($sPatternPath)) {
+			throw new Exception('Unable load ' . $sConfigPath
+				. 'as main config file or' . $sPatternPath . 'as its pattern.');
+		}
+		$mConfig	 = include $sConfigPath;
+		$mPattern	 = include $sPatternPath;
+		if (!is_array($mConfig) || !is_array($mPattern)) {
+			throw new Exception('Main config and its pattern shall be arrays.');
+		}
+		$oValidator = new Validator($mPattern);
+		if ($oValidator->isValid($mConfig)) {
+			$this->_configSet			 = $mConfig;
+			$this->_mainConfigPattern	 = $mPattern;
+			return self::$_instance;
+		} else {
+			throw new Exception("Main config isn't valid.");
+		}
 	}
 
 	/**
@@ -145,7 +167,7 @@ class AppHelper {
 	public function getComponentRoot($sName) {
 		$aRootMap = $this->getConfig('componentsRootMap');
 		return isset($aRootMap[$sName]) 
-			? self::APP_ROOT . $aRootMap[$sName] 
+			? $this->_appRoot . $aRootMap[$sName] 
 			: NULL;
 	}
 

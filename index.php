@@ -1,8 +1,5 @@
 <?php
 
-// Определение корня приложения как глобальной константы.
-defined('APP_ROOT') || define('APP_ROOT', __DIR__);
-
 // Вкл/выкл режима отладки.
 defined('DEBUG_MODE') || define('DEBUG_MODE', TRUE);
 if (DEBUG_MODE) {
@@ -12,8 +9,10 @@ if (DEBUG_MODE) {
 
 require_once 'Autoloader.php';
 Autoloader::getInstance()
-		// Добавление корня пакета core в map автоподгрузки.
-		// По умолчанию директория core находится в корне веб приложения.
+		// Установка пути к корню приложения.
+		->setAppRoot(__DIR__)
+		// Добавление корня пакета core в стек автоподгрузки.
+		// По умолчанию директория core находится в корне веб-приложения.
 		->add(DIRECTORY_SEPARATOR)
 		->run();
 
