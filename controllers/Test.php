@@ -7,12 +7,16 @@
 
 namespace controllers;
 
-class Test extends \core\AController {
+use core\AController;
+
+class Test extends AController {
 
     public function actionDefault() {
         $this->getLayout()->isUserOnline = FALSE;
-        $this->getView()->foo            = 'bar';
-        $this->getView()->bar            = array(42, 'baz');
+        $oModel                          = new \models\Test();
+        $aData                           = $oModel->readDefault();
+        $this->getView()->foo            = $aData['foo'];
+        $this->getView()->bar            = $aData['bar'];
         $this->render();
     }
 
