@@ -9,18 +9,62 @@
 
 namespace core;
 
-class WebApp implements IFrontController {
+class WebApp extends AAutoAccessors implements IFrontController, IRunnable {
 
+    /** @var string Путь к корню файла конфигурации. */
+    public $configFile = NULL;
+
+    /** @var string Путь к корню файла с шаблоном валидации. */
+    public $patternFile = NULL;
+
+    /** @var self Объект-singleton текущего класса. */
+    private static $_instance = NULL;
+
+    /**
+     * @ignore.
+     */
     private function __construct() {
         // nothing here...
     }
 
     /**
+     * Возвращает singleton-экземпляр текущего класса.
+     * @return self.
+     */
+    public static function getInstance() {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Устанавливает путь к файлу с основной конфигурацией приложения относительно
+     * его корня.
+     * @param string $sFilePath.
+     * @return self.
+     */
+    public function setConfigFile($sFilePath) {
+        $this->configFile = $sFilePath;
+        return self::$_instance;
+    }
+
+    /**
+     * Устанавливает путь к файлу шаблона валидации конфигурации приложения
+     * относительно корня приложения.
+     * @param string $sFilePath.
+     * @return self.
+     */
+    public function setPatternFile($sFilePath) {
+        $this->patternFile = $sFilePath;
+        return self::$_instance;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public static function run() {
-        $oInstance = new self();
-        $oInstance->init();
+    public function run() {
+        $this->init();
     }
 
     /**
@@ -48,8 +92,16 @@ class WebApp implements IFrontController {
      * @return void.
      */
     private function _initHelper() {
+        if (!$this->isConfigFileSet()) {
+            throw new Exception("Main config file isn't define.", 2);
+        }
+        if (!$this->isPatternFileSet()) {
+            throw new Exception("Pattern file for main config isn't define.", 3);
+        }
         AppHelper::getInstance()
                 ->setAppRoot(\Autoloader::getInstance()->getAppRoot())
+                ->setConfigFile($this->getConfigFile())
+                ->setPatternFile($this->getPatternFile())
                 ->run();
     }
 
