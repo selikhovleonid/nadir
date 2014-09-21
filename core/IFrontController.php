@@ -13,7 +13,7 @@ interface IFrontController {
      * Запускает веб приложение на исполнение.
      * @return void.
      */
-    public static function run();
+    public function run();
 
     /**
      * Метод инициализирует настройки при первоначальном запуске приложения.
