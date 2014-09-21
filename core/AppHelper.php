@@ -3,15 +3,21 @@
 /**
  * Класс-помощник-приложения, отвечающий за загрузку данных конфигурации и 
  * обеспечивающий общий доступ приложения к ним. Реализован как Singleton.
- * @author coon
+ * @author coon.
  */
 
 namespace core;
 
-class AppHelper implements IRunnable {
+class AppHelper extends AAutoAccessors implements IRunnable {
 
     /** @var string Путь к кореню веб-приложения. */
-    private $_appRoot = NULL;
+    public $appRoot = NULL;
+
+    /** @var string Путь к корню файла конфигурации. */
+    public $configFile = NULL;
+
+    /** @var string Путь к корню файла с шаблоном валидации. */
+    public $patternFile = NULL;
 
     /** @var self Объект-singleton текущего класса. */
     private static $_instance = NULL;
@@ -23,10 +29,15 @@ class AppHelper implements IRunnable {
     private $_mainConfigPattern = array();
 
     /** @var string Базовый URL сайта. */
-    private $_siteBaseUrl = '';
+    private $_siteBaseUrl = NULL;
 
+    /**
+     * Закрытый конструктор, определяет базовый URL сайта при создании 
+     * объекта-одиночки.
+     * @return self.
+     */
     private function __construct() {
-        
+        $this->_siteBaseUrl = self::_getBaseUrl();
     }
 
     /**
@@ -39,31 +50,37 @@ class AppHelper implements IRunnable {
         }
         return self::$_instance;
     }
-
+    
     /**
-     * Устанавливает корень веб-приложения.
-     * @param string $sAppRoot Путь к корню приложения.
+     * Метод-мутатор. Устанавливает путь к корню веб-приложения.
+     * @param string $sRoot.
      * @return self.
      */
-    public function setAppRoot($sAppRoot) {
-        $this->_appRoot = $sAppRoot;
+    public function setAppRoot($sRoot) {
+        $this->appRoot = $sRoot;
         return self::$_instance;
     }
 
     /**
-     * Возвращает корень веб-приложения.
-     * @return string.
+     * Устанавливает путь к файлу с основной конфигурацией приложения относительно
+     * его корня.
+     * @param string $sFilePath.
+     * @return self.
      */
-    public function getAppRoot() {
-        return $this->_appRoot;
+    public function setConfigFile($sFilePath) {
+        $this->configFile = $sFilePath;
+        return self::$_instance;
     }
 
     /**
-     * Возвращает TRUE, если корень веб-приложения определен.
-     * @return boolean.
+     * Устанавливает путь к файлу шаблона валидации конфигурации приложения
+     * относительно корня приложения.
+     * @param string $sFilePath.
+     * @return self.
      */
-    public function isAppRootSet() {
-        return !empty($this->_appRoot);
+    public function setPatternFile($sFilePath) {
+        $this->patternFile = $sFilePath;
+        return self::$_instance;
     }
 
     /**
@@ -76,20 +93,24 @@ class AppHelper implements IRunnable {
      */
     public function run() {
         if (!$this->isAppRootSet()) {
-            throw new Exception("Application root isn't define.");
+            throw new Exception("Application root isn't define.", 1);
         }
-        $this->_siteBaseUrl = self::_getBaseUrl();
-        $sConfigDir         = $this->_appRoot . DIRECTORY_SEPARATOR . 'config';
-        $sConfigPath        = $sConfigDir . DIRECTORY_SEPARATOR . 'main.php';
-        $sPatternPath       = $sConfigDir . DIRECTORY_SEPARATOR . 'pattern.php';
+        if (!$this->isConfigFileSet()) {
+            throw new Exception("Main config file isn't define.", 2);
+        }
+        if (!$this->isPatternFileSet()) {
+            throw new Exception("Pattern file for main config isn't define.", 3);
+        }
+        $sConfigPath  = $this->getAppRoot() . $this->getConfigFile();
+        $sPatternPath = $this->getAppRoot() . $this->getPatternFile();
         if (!is_readable($sConfigPath) || !is_readable($sPatternPath)) {
             throw new Exception('Unable load ' . $sConfigPath
-            . 'as main config file or' . $sPatternPath . 'as its pattern.');
+            . 'as main config file or' . $sPatternPath . 'as its pattern.', 4);
         }
         $mConfig  = include $sConfigPath;
         $mPattern = include $sPatternPath;
         if (!is_array($mConfig) || !is_array($mPattern)) {
-            throw new Exception('Main config and its pattern shall be arrays.');
+            throw new Exception('Main config and its pattern shall be arrays.', 5);
         }
         $oValidator = new Validator($mPattern);
         if ($oValidator->isValid($mConfig)) {
@@ -97,7 +118,7 @@ class AppHelper implements IRunnable {
             $this->_mainConfigPattern = $mPattern;
             return self::$_instance;
         } else {
-            throw new Exception("Main config isn't valid.");
+            throw new Exception("Main config isn't valid.", 6);
         }
     }
 
@@ -130,9 +151,7 @@ class AppHelper implements IRunnable {
      */
     private static function _getBaseUrl() {
         $sProtocol = !empty($_SERVER['HTTPS']) 
-            && strtolower($_SERVER['HTTPS']) == 'on' 
-            ? 'https' 
-            : 'http';
+            && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
         return $sProtocol . '://' . $_SERVER['SERVER_NAME'];
     }
 
@@ -149,7 +168,7 @@ class AppHelper implements IRunnable {
      * его имени. Полный URL обычно требуется для определения пути к медиа-файлам 
      * (директория assets).
      * @param string $sName.
-     * @param boolean $fAsAbsolute Флаг по умолчанию принимает значение TRUE. 
+     * @param boolean $fAsAbsolute Optional Флаг по умолчанию равен TRUE. 
      * @return string.
      */
     public function getComponentUrl($sName, $fAsAbsolute = TRUE) {
@@ -169,7 +188,7 @@ class AppHelper implements IRunnable {
     public function getComponentRoot($sName) {
         $aRootMap = $this->getConfig('componentsRootMap');
         return isset($aRootMap[$sName]) 
-            ? $this->_appRoot . $aRootMap[$sName] 
+            ? $this->getAppRoot() . $aRootMap[$sName] 
             : NULL;
     }
 
