@@ -17,4 +17,11 @@ Autoloader::getInstance()
         ->run();
 
 // Запуск веб приложения.
-\core\WebApp::run();
+\core\WebApp::getInstance()
+        // Определение относительного пути к файлу с основной конфигурацией 
+        // приложения.
+        ->setConfigFile('/config/main.php')
+        // Определение относительного пути к файлу с шаблоном валидации
+        // конфигурации.
+        ->setPatternFile('/config/pattern.php')
+        ->run();
