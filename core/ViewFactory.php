@@ -25,7 +25,7 @@ class ViewFactory {
      * @param string $sActionName Имя action.
      * @return \core\View|null
      */
-    public function createView($sCtrlName = NULL, $sActionName) {
+    public static function createView($sCtrlName = NULL, $sActionName) {
         $sViewsRoot = AppHelper::getInstance()->getComponentRoot('views');
         $sAddPath   = '';
         if (!empty($sCtrlName)) {
@@ -47,7 +47,7 @@ class ViewFactory {
      * @param \core\View $oView Объект представления.
      * @return \core\Layout|null
      */
-    public function createLayout($sLayoutName, View $oView) {
+    public static function createLayout($sLayoutName, View $oView) {
         $sLayoutsRoot = AppHelper::getInstance()->getComponentRoot('layouts');
         $sLayoutFile  = $sLayoutsRoot . DIRECTORY_SEPARATOR
                 . strtolower($sLayoutName) . '.php';
