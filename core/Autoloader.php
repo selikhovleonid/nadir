@@ -6,6 +6,9 @@
  * неймспейсах.
  * @author coon.
  */
+
+namespace core;
+
 class Autoloader {
 
     /** @var string Путь к корню веб-приложения. */
@@ -135,20 +138,18 @@ class Autoloader {
     private static function _getFuncCall($sRoot) {
         // Каррирование (currying)
         return function ($sClassName) use ($sRoot) {
-                    if (preg_match('/\\\\/', $sClassName)) {
-                        $sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, 
-                            $sClassName);
-                    } elseif (preg_match('/_/', $sClassName)) {
-                        $sRelativePath = str_replace('_', DIRECTORY_SEPARATOR, 
-                            $sClassName);
-                    } else {
-                        $sRelativePath = $sClassName;
-                    }
-                    $sPath = $sRoot . DIRECTORY_SEPARATOR . $sRelativePath . '.php';
-                    if (is_readable($sPath)) {
-                        require_once $sPath;
-                    }
-                };
+            if (preg_match('/\\\\/', $sClassName)) {
+                $sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $sClassName);
+            } elseif (preg_match('/_/', $sClassName)) {
+                $sRelativePath = str_replace('_', DIRECTORY_SEPARATOR, $sClassName);
+            } else {
+                $sRelativePath = $sClassName;
+            }
+            $sPath = $sRoot . DIRECTORY_SEPARATOR . $sRelativePath . '.php';
+            if (is_readable($sPath)) {
+                require_once $sPath;
+            }
+        };
     }
 
 }
