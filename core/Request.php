@@ -14,6 +14,9 @@ class Request {
 
     /** @var array Содержит суперглобальный массив $_REQUEST. */
     private $_requestMap = array();
+    
+    /** @var array Содержит необработанное тело запроса. */
+    private $_rawBody    = NULL;
 
     /**
      * Инициализация приватных свойств объекта.
@@ -22,6 +25,7 @@ class Request {
     public function __construct() {
         $this->_serverMap  = $_SERVER;
         $this->_requestMap = $_REQUEST;
+        $this->_rawBody    = @file_get_contents('php://input');
     }
 
     /**
@@ -32,6 +36,41 @@ class Request {
         return isset($this->_serverMap['REQUEST_METHOD']) 
             ? $this->_serverMap['REQUEST_METHOD'] 
             : NULL;
+    }
+
+    /**
+     * Возвращает массив заголовков запроса.
+     * @return string[]
+     */
+    public function getHeaders() {
+        // for apache2 only method
+        return getallheaders();
+    }
+
+    /**
+     * Метод возвращает ассоциативный массив куки (ключи - имена куки).
+     * @return array.
+     */
+    public function getCookies() {
+        $mRes     = NULL;
+        $aHeaders = $this->getHeaders();
+        if (isset($aHeaders['Cookie'])) {
+            $aCookies = explode(';', $aHeaders['Cookie']);
+            foreach ($aCookies as $sCookie) {
+                $aParts                 = explode('=', $sCookie);
+                $mRes[trim($aParts[0])] = trim($aParts[1]);
+            }
+        }
+        return $mRes;
+    }
+
+    /**
+     * Метод возвращает необработанное тело запроса, полученное с потока ввода,
+     * как строку.
+     * @return string.
+     */
+    public function getRawBody() {
+        return $this->_rawBody;
     }
 
     /**
@@ -53,7 +92,7 @@ class Request {
      * Метода возвращает значение параметра строки запроса по ключу либо всю 
      * строку запроса как массив.
      * @param string $sKey По умолчанию - пустая строка.
-     * @return array.
+     * @return mixed.
      */
     public function getParam($sKey = '') {
         if (empty($sKey)) {
@@ -61,6 +100,22 @@ class Request {
         } else {
             return isset($this->_requestMap[$sKey]) 
                 ? $this->_requestMap[$sKey] 
+                : NULL;
+        }
+    }
+
+    /**
+     * Метод возвращает значение серверного параметра по ключу (суперглобальный
+     * массив $_SERVER), либо весь массив.
+     * @param string $sKey По умолчанию - пустая строка.
+     * @return mixed.
+     */
+    public function getServerParam($sKey = '') {
+        if (empty($sKey)) {
+            return $this->_serverMap;
+        } else {
+            return isset($this->_serverMap[$sKey]) 
+                ? $this->_serverMap[$sKey] 
                 : NULL;
         }
     }
@@ -75,4 +130,3 @@ class Request {
     }
 
 }
-
