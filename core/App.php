@@ -9,7 +9,7 @@
 
 namespace core;
 
-class WebApp extends AAutoAccessors implements IFrontController, IRunnable {
+class App extends AAutoAccessors implements IFrontController, IRunnable {
 
     /** @var string Путь к корню файла конфигурации. */
     public $configFile = NULL;

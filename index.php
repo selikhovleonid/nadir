@@ -17,7 +17,7 @@ Autoloader::getInstance()
         ->run();
 
 // Запуск веб приложения.
-\core\WebApp::getInstance()
+\core\App::getInstance()
         // Определение относительного пути к файлу с основной конфигурацией 
         // приложения.
         ->setConfigFile('/config/main.php')
