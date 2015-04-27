@@ -43,6 +43,17 @@ abstract class AView extends AUserPropAccessor {
     }
 
     /**
+     * Метод осуществляет массовое присваивание пользовательских переменных
+     * класса.
+     * @param array $aData Массив пользовательских переменных класса.
+     */
+    public function setVariables(array $aData) {
+        foreach ($aData as $sKey => $mValue) {
+            $this->$sKey = $mValue;
+        }
+    }
+
+    /**
      * Абстрактный метод, отвечающий за рендеринг файла представления.
      * @return void.
      */
