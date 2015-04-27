@@ -83,7 +83,7 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
      */
     public function handleRequest() {
         $oRequest      = new Request();
-        $oCtrlResolver = new ControllerResolver($oRequest);
+        $oCtrlResolver = new CtrlResolver($oRequest);
         $oCtrlResolver->run();
     }
 

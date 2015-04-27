@@ -8,7 +8,7 @@
 
 namespace core;
 
-class ControllerResolver {
+class CtrlResolver {
 
     /** @var \core\Request Объект запроса. */
     private $_request = NULL;
