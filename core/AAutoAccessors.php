@@ -45,7 +45,7 @@ class AAutoAccessors {
     public function __call($sName, $aArgs) {
         // Lambda-function
         $funcGenException = function($sClassName, $sPropName) {
-                    throw new Exception('Undefined or non public property' 
+                    throw new Exception('Undefined or non public property ' 
                         . "{$sClassName}::\${$sPropName}");
                 };
                 
