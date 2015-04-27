@@ -27,7 +27,34 @@ return array(
 //        'dbname'   => ''
 //    ),
     'routeMap'           => array(
-        '/'  => array('Test', 'actionDefault'),
-        '.*' => array('System', 'actionPage404')
+        'get'    => array(
+            '/'  => array(
+                'ctrl' => array('Test', 'actionDefault'),
+                'auth' => TRUE,
+                'role' => 'all',
+            ),
+            '.*' => array(
+                'ctrl' => array('System', 'actionPage404'),
+                'auth' => FALSE,
+            ),
+        ),
+        'post'   => array(
+            '.*' => array(
+                'ctrl' => array('System', 'actionPage404'),
+                'auth' => FALSE,
+            ),
+        ),
+        'put'    => array(
+            '.*' => array(
+                'ctrl' => array('System', 'actionPage404'),
+                'auth' => FALSE,
+            ),
+        ),
+        'delete' => array(
+            '.*' => array(
+                'ctrl' => array('System', 'actionPage404'),
+                'auth' => FALSE,
+            ),
+        ),
     )
 );
