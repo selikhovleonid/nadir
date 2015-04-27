@@ -16,17 +16,14 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     /** @var string Путь к корню файла конфигурации. */
     public $configFile = NULL;
 
-    /** @var string Путь к корню файла с шаблоном валидации. */
-    public $patternFile = NULL;
+    /** @var string Конфигурации роута. */
+    public $routeConfig = NULL;
 
     /** @var self Объект-singleton текущего класса. */
     private static $_instance = NULL;
 
     /** @var mixed[] Множество конфигураций. */
     private $_configSet = array();
-
-    /** @var mixed[] Шаблон для валидации основной конфигурации. */
-    private $_mainConfigPattern = array();
 
     /** @var string Базовый URL сайта. */
     private $_siteBaseUrl = NULL;
@@ -50,7 +47,7 @@ class AppHelper extends AAutoAccessors implements IRunnable {
         }
         return self::$_instance;
     }
-    
+
     /**
      * Метод-мутатор. Устанавливает путь к корню веб-приложения.
      * @param string $sRoot.
@@ -73,17 +70,6 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Устанавливает путь к файлу шаблона валидации конфигурации приложения
-     * относительно корня приложения.
-     * @param string $sFilePath.
-     * @return self.
-     */
-    public function setPatternFile($sFilePath) {
-        $this->patternFile = $sFilePath;
-        return self::$_instance;
-    }
-
-    /**
      * Загружает основной конфигурационный файл и выполняет проверку валидности.
      * @todo В настоящее время валидация формально прописана, класс Validator 
      * не содержит функциональности. Возможно, следует использовать
@@ -98,28 +84,16 @@ class AppHelper extends AAutoAccessors implements IRunnable {
         if (!$this->isConfigFileSet()) {
             throw new Exception("Main config file isn't define.", 2);
         }
-        if (!$this->isPatternFileSet()) {
-            throw new Exception("Pattern file for main config isn't define.", 3);
-        }
-        $sConfigPath  = $this->getAppRoot() . $this->getConfigFile();
-        $sPatternPath = $this->getAppRoot() . $this->getPatternFile();
-        if (!is_readable($sConfigPath) || !is_readable($sPatternPath)) {
+        $sConfigPath = $this->getAppRoot() . $this->getConfigFile();
+        if (!is_readable($sConfigPath)) {
             throw new Exception('Unable load ' . $sConfigPath
-            . 'as main config file or' . $sPatternPath . 'as its pattern.', 4);
+            . 'as main config file.', 4);
         }
-        $mConfig  = include $sConfigPath;
-        $mPattern = include $sPatternPath;
-        if (!is_array($mConfig) || !is_array($mPattern)) {
-            throw new Exception('Main config and its pattern shall be arrays.', 5);
+        $mConfig = include $sConfigPath;
+        if (!is_array($mConfig)) {
+            throw new Exception('Main config shall be array.', 5);
         }
-        $oValidator = new Validator($mPattern);
-        if ($oValidator->isValid($mConfig)) {
-            $this->_configSet         = $mConfig;
-            $this->_mainConfigPattern = $mPattern;
-            return self::$_instance;
-        } else {
-            throw new Exception("Main config isn't valid.", 6);
-        }
+        $this->_configSet = $mConfig;
     }
 
     /**
@@ -138,20 +112,12 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Возвращает шаблон для валидации основной конфигурации приложения.
-     * @return array
-     */
-    public function getConfigPattern() {
-        return $this->_mainConfigPattern;
-    }
-
-    /**
      * Определят базовый URL сайта.
      * @return string.
      */
     private static function _getBaseUrl() {
         $sProtocol = !empty($_SERVER['HTTPS']) 
-            && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
+                && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
         return $sProtocol . '://' . $_SERVER['SERVER_NAME'];
     }
 
@@ -175,8 +141,8 @@ class AppHelper extends AAutoAccessors implements IRunnable {
         $aRootMap = $this->getConfig('componentsRootMap');
         $sSiteUrl = $fAsAbsolute ? $this->_siteBaseUrl : '';
         return isset($aRootMap[$sName]) 
-            ? $sSiteUrl . $aRootMap[$sName] 
-            : NULL;
+                ? $sSiteUrl . $aRootMap[$sName] 
+                : NULL;
     }
 
     /**
@@ -188,8 +154,8 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     public function getComponentRoot($sName) {
         $aRootMap = $this->getConfig('componentsRootMap');
         return isset($aRootMap[$sName]) 
-            ? $this->getAppRoot() . $aRootMap[$sName] 
-            : NULL;
+                ? $this->getAppRoot() . $aRootMap[$sName] 
+                : NULL;
     }
 
 }
