@@ -39,6 +39,14 @@ abstract class AController {
     }
 
     /**
+     * Возвращает объект связанного запроса.
+     * @return \core\Request|null.
+     */
+    public function getRequest() {
+        return $this->request;
+    }
+
+    /**
      * Возвращает объект ассоциированного представления.
      * @return \core\View|null.
      */
@@ -107,14 +115,15 @@ abstract class AController {
     }
 
     /**
-     * Рендерит страницу с ошибкой 404.
-     * @return void.
+     * Метод преобразует заэкранированные юникод-символы в неэкранированные.
+     * @param string $sData Входная строка.
+     * @return string.
      */
-    protected function render404() {
-        $sRawName   = AppHelper::getInstance()->getConfig('page404');
-        Headers::getInstance()->addByHttpCode(404)->run();
-        $this->view = ViewFactory::createView(NULL, $sRawName);
-        $this->view->render();
+    private static function _unescapeUnicode($sData) {
+        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', function ($aMatches) {
+            $sSym = mb_convert_encoding(pack('H*', $aMatches[1]), 'UTF-8', 'UTF-16');
+            return $sSym;
+        }, $sData);
     }
 
     /**
@@ -123,7 +132,24 @@ abstract class AController {
      * @return void.
      */
     protected function renderJson($mData) {
-        echo stripslashes(json_encode($mData));
+        echo self::_unescapeUnicode(json_encode($mData));
+    }
+
+    /**
+     * Метод осуществляет редирект (перенаправление) по URL, указанному в параметре.
+     * По умолчанию HTTP-код возвращаемой страницы - 302. Метод безусловно
+     * завершает выполнение скрипта, код указанный после него, выполнен не будет.
+     * @param string $sUrl
+     * @param bool $fIsPermanent Флаг признака постоянного (permanent) редиректа.
+     * @return void.
+     */
+    protected function redirect($sUrl, $fIsPermanent = FALSE) {
+        $nCode = $fIsPermanent ? 301 : 302;
+        Headers::getInstance()
+                ->addByHttpCode($nCode)
+                ->add('Location: ' . $sUrl)
+                ->run();
+        exit;
     }
 
 }
