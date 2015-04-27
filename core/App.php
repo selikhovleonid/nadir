@@ -1,21 +1,17 @@
 <?php
 
+namespace core;
+
 /**
  * Класс определяет центральную точку входа для всех запросов, создает 
  * конфигурированное веб приложение. 
  * Реализует шаблон Front Controller, является Singleton-ом.
  * @author coon
  */
-
-namespace core;
-
 class App extends AAutoAccessors implements IFrontController, IRunnable {
 
     /** @var string Путь к корню файла конфигурации. */
     public $configFile = NULL;
-
-    /** @var string Путь к корню файла с шаблоном валидации. */
-    public $patternFile = NULL;
 
     /** @var self Объект-singleton текущего класса. */
     private static $_instance = NULL;
@@ -46,17 +42,6 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
      */
     public function setConfigFile($sFilePath) {
         $this->configFile = $sFilePath;
-        return self::$_instance;
-    }
-
-    /**
-     * Устанавливает путь к файлу шаблона валидации конфигурации приложения
-     * относительно корня приложения.
-     * @param string $sFilePath.
-     * @return self.
-     */
-    public function setPatternFile($sFilePath) {
-        $this->patternFile = $sFilePath;
         return self::$_instance;
     }
 
@@ -95,13 +80,9 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
         if (!$this->isConfigFileSet()) {
             throw new Exception("Main config file isn't define.", 2);
         }
-        if (!$this->isPatternFileSet()) {
-            throw new Exception("Pattern file for main config isn't define.", 3);
-        }
         AppHelper::getInstance()
-                ->setAppRoot(\Autoloader::getInstance()->getAppRoot())
+                ->setAppRoot(Autoloader::getInstance()->getAppRoot())
                 ->setConfigFile($this->getConfigFile())
-                ->setPatternFile($this->getPatternFile())
                 ->run();
     }
 
@@ -114,9 +95,9 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
     private function _initAutoload() {
         $mRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
         foreach ($mRoot ? : array() as $sRoot) {
-            \Autoloader::getInstance()->add($sRoot);
+            Autoloader::getInstance()->add($sRoot);
         }
-        \Autoloader::getInstance()->run();
+        Autoloader::getInstance()->run();
     }
 
     /**
