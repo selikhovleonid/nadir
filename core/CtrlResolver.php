@@ -41,8 +41,7 @@ class CtrlResolver {
      */
     private function _createCtrl() {
         $oView         = ViewFactory::createView(
-            $this->_ctrlName, 
-            str_replace('action', '', $this->_actionName)
+                $this->_ctrlName, str_replace('action', '', $this->_actionName)
         );
         $sCtrlNameFull = '\\controllers\\' . $this->_ctrlName;
         if (!is_null($oView)) {
@@ -60,32 +59,22 @@ class CtrlResolver {
     }
 
     /**
-     * Рефлексивный вызов action контроллера с пердачей дополнительных параметров
-     * запроса.
-     * @param \core\AController $oCtrl
-     */
-    private function _callActionWithArgs(AController $oCtrl) {
-        $oMethod = new \ReflectionMethod($oCtrl, $this->_actionName);
-        $oMethod->invokeArgs($oCtrl, $this->_actionArgs);
-    }
-
-    /**
      * Метод осуществляет попытку связать маршрут запроса с конкретным контроллером
      * и action в нем по карте регулярных выражений маршрутов.
      * @return void.
      */
     private function _tryAssignController() {
-        foreach ($this->_routeMap as $sRoute => $aCtrlConf) {
-            if (preg_match(
-                    '#^' . $sRoute . '/?$#', 
-                    $this->_request->getUrlPath(), 
-                    $aParam
-            )) {
-                $this->_ctrlName   = $aCtrlConf[0];
-                $this->_actionName = $aCtrlConf[1];
-                unset($aParam[0]);
-                $this->_actionArgs = array_values($aParam);
-                break;
+        $sMethod = strtolower($this->_request->getMethod());
+        if (isset($this->_routeMap[$sMethod])) {
+            foreach ($this->_routeMap[$sMethod] as $sRoute => $aRouteConfig) {
+                if (preg_match('#^' . $sRoute . '/?$#', $this->_request->getUrlPath(), $aParam)) {
+                    AppHelper::getInstance()->setRouteConfig($aRouteConfig);
+                    $this->_ctrlName   = $aRouteConfig['ctrl'][0];
+                    $this->_actionName = $aRouteConfig['ctrl'][1];
+                    unset($aParam[0]);
+                    $this->_actionArgs = array_values($aParam);
+                    break;
+                }
             }
         }
     }
@@ -107,15 +96,11 @@ class CtrlResolver {
         $this->_tryAssignController();
         if ($this->_isControllerAssigned()) {
             $oCtrl = $this->_createCtrl();
-            if (empty($this->_actionArgs)) {
-                $oCtrl->{$this->_actionName}();
-            } else {
-                $this->_callActionWithArgs($oCtrl);
-            }
+            $oCtrlWrapper = new CtrlWrapper($oCtrl);
+            $oCtrlWrapper->{$this->_actionName}($this->_actionArgs);
         } else {
             throw new Exception('Unable assign controller with this route path.');
         }
     }
 
 }
-
