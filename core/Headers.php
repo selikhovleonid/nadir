@@ -39,7 +39,7 @@ class Headers {
      * @return string Описание.
      * @throws Exception
      */
-    private static function _getHTTPExplanationByCode($nCode) {
+    public static function getHTTPExplanationByCode($nCode) {
         switch ((int) $nCode) {
             case 100: return 'Continue';
             case 101: return 'Switching Protocols';
@@ -104,7 +104,7 @@ class Headers {
             ? $_SERVER['SERVER_PROTOCOL'] 
             : 'HTTP/1.1';
         $sHeader   = "{$sProtocol} {$nCode} " 
-            . self::_getHTTPExplanationByCode($nCode);
+            . self::getHTTPExplanationByCode($nCode);
         return $this->add($sHeader);
     }
 
