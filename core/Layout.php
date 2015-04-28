@@ -9,7 +9,7 @@
 
 namespace core;
 
-class Layout extends AView {
+class Layout extends ACompositeView {
 
     /** @var \core\View Объект представления. */
     public $view = NULL;
@@ -33,4 +33,3 @@ class Layout extends AView {
     }
 
 }
-

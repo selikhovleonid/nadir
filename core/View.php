@@ -9,7 +9,7 @@
 
 namespace core;
 
-class View extends AView {
+class View extends ACompositeView {
 
     /**
      * {@inheritdoc}
@@ -19,4 +19,3 @@ class View extends AView {
     }
 
 }
-
