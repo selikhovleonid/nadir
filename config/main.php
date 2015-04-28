@@ -3,8 +3,9 @@
 return array(
     'componentsRootMap'  => array(
         'controllers' => '/controllers',
-        'views'       => '/views',
-        'layouts'     => '/layouts',
+        'views'       => '/views/views',
+        'layouts'     => '/views/layouts',
+        'snippets'    => '/views/snippets',
         'models'      => '/models',
         'libs'        => '/libs',
         'vendor'      => '/vendor',
