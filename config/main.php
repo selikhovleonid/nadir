@@ -19,7 +19,6 @@ return array(
 //        '/vendor/some_framework_name/src', // for example
     ),
     'defaultLayout'      => 'main',
-    'page404'            => 'page404',
 //    'db'                 => array(// for example
 //        'host'     => '',
 //        'username' => '',
