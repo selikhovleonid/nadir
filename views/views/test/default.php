@@ -1,6 +1,6 @@
 <!-- ... -->
 <div>
-    <h1>User <?= $this->isUserOnline ? 'online' : 'offline'; ?></h1>
+    <?php $this->getSnippet('topbar')->render(); ?>
     <h1><?= $this->foo; ?></h1>
     <?php if (is_array($this->bar) && !empty($this->bar)): ?>
         <ul>
