@@ -58,4 +58,20 @@ class ViewFactory {
         }
     }
 
+    /**
+     * Метод создает сниппет-объект.
+     * @param type $sSnptName Имя сниппета.
+     * @return \core\Snippet|null.
+     */
+    public static function createSnippet($sSnptName) {
+        $sSnptRoot = AppHelper::getInstance()->getComponentRoot('snippets');
+        $SnptFile  = $sSnptRoot . DIRECTORY_SEPARATOR
+                . strtolower($sSnptName) . '.php';
+        if (is_readable($SnptFile)) {
+            return new Snippet($SnptFile);
+        } else {
+            return NULL;
+        }
+    }
+
 }
