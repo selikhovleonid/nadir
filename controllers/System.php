@@ -7,10 +7,28 @@
 
 namespace controllers;
 
-class System extends \core\AController {
+use core\AController;
+use extensions\core\ISystemCtrl;
+use core\Headers;
 
-    public function actionPage404() {
-        $this->render404();
+class System extends AController implements ISystemCtrl {
+
+    public function actionPage401(array $aErrors) {
+        Headers::getInstance()->addByHttpCode(401)->run();
+        // put your code here...
+        $this->render();
+    }
+
+    public function actionPage403(array $aErrors) {
+        Headers::getInstance()->addByHttpCode(403)->run();
+        // put your code here...
+        $this->render();
+    }
+
+    public function actionPage404(array $aErrors) {
+        Headers::getInstance()->addByHttpCode(404)->run();
+        // put your code here...
+        $this->render();
     }
 
 }
