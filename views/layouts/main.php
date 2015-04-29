@@ -6,6 +6,6 @@
         <title>Nadir Framework</title>
     </head>
     <body>
-        <?php $this->view->render(); ?>
+        <?php $this->getView()->render(); ?>
     </body>
 </html>
