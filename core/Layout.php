@@ -26,6 +26,14 @@ class Layout extends ACompositeView {
     }
 
     /**
+     * Метод возвращает ассоциированный с макетом объект представления.
+     * @return \core\View|null
+     */
+    public function getView() {
+        return $this->view;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function render() {
