@@ -14,7 +14,6 @@ Yet another MVC PHP microframework.
 - `autoloadingRootSet` - множество корей директорий, включенных в автоподгрузку 
 классов PHP.
 - `defaultLayout` - умалчиваемое имя макета.
-- `page404` - умалчиваемое представление страницы с "ошибкой 404".
 - `routeMap` - таблица роутинга, содержащая соответствие между URL запроса и парой 
 Controller-Action.
 
