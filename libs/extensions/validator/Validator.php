@@ -101,10 +101,11 @@ class Validator implements \core\IRunnable {
                             return FALSE;
                         }
                         if (isset($aOpt['notEmpty'])) {
-                            if ($aOpt['notEmpty'] && empty(trim($mValue))) {
+                            $mTmp = trim($mValue);
+                            if ($aOpt['notEmpty'] && empty($mTmp)) {
                                 return FALSE;
                             }
-                            if (!$aOpt['notEmpty'] && !empty(trim($mValue))) {
+                            if (!$aOpt['notEmpty'] && !empty($mTmp)) {
                                 return FALSE;
                             }
                         }
