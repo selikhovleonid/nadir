@@ -67,7 +67,11 @@ class CtrlResolver {
         $sMethod = strtolower($this->_request->getMethod());
         if (isset($this->_routeMap[$sMethod])) {
             foreach ($this->_routeMap[$sMethod] as $sRoute => $aRouteConfig) {
-                if (preg_match('#^' . $sRoute . '/?$#', $this->_request->getUrlPath(), $aParam)) {
+                if (preg_match(
+                    '#^' . $sRoute . '/?$#u',
+                    urldecode($this->_request->getUrlPath()),
+                    $aParam
+                )) {
                     AppHelper::getInstance()->setRouteConfig($aRouteConfig);
                     $this->_ctrlName   = $aRouteConfig['ctrl'][0];
                     $this->_actionName = $aRouteConfig['ctrl'][1];
