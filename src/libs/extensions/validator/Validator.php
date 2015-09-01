@@ -48,7 +48,7 @@ class Validator implements \core\IRunnable {
      * @return mixed.
      * @throws \extensions\validator\Exception.
      */
-    public static function getArrayItemByPointSeparatedKey(array $aData, $sKey) {
+    public static function getArrayItemByPointSeparatedKey(array & $aData, $sKey) {
         if (preg_match('/\./', $sKey)) {
             preg_match('/([a-zA-Z0-9_\-]+)\.([a-zA-Z0-9_\-\.]+)/', $sKey, $aKey);
             return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]], $aKey[2]);
@@ -67,7 +67,7 @@ class Validator implements \core\IRunnable {
      * ярусы которого разделены точкой.
      * @return boolean.
      */
-    public static function isIndexSet(array $aData, $sKey) {
+    public static function isIndexSet(array & $aData, $sKey) {
         try {
             self::getArrayItemByPointSeparatedKey($aData, $sKey);
             return TRUE;
@@ -86,7 +86,7 @@ class Validator implements \core\IRunnable {
         $this
                 // Required value rules
                 ->addRule('required', function($sFieldName) use ($aData) {
-                    if (Validator::isIndexSet($aData, $sFieldName)) {
+                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
                         return TRUE;
                     }
                     return FALSE;
@@ -137,7 +137,7 @@ class Validator implements \core\IRunnable {
                 })
                 // Number rules
                 ->addRule('number', function($sFieldName, array $aOpt = array()) use ($aData) {
-                    if (Validator::isIndexSet($aData, $sFieldName)) {
+                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
                         $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                         if (!is_numeric($mValue)) {
                             return FALSE;
@@ -179,6 +179,47 @@ class Validator implements \core\IRunnable {
                             }
                             if (isset($aOpt['value']['max'])) {
                                 if ($mValue > $aOpt['value']['max']) {
+                                    return FALSE;
+                                }
+                            }
+                        }
+                    }
+                    return TRUE;
+                })
+                // Array rules
+                ->addRule('array', function($sFieldName, array $aOpt = array()) use ($aData) {
+                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
+                        $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
+                        if (!is_array($mValue)) {
+                            return FALSE;
+                        }
+                        if (isset($aOpt['assoc'])) {
+                            $funcIsAssoc = function(array $aArray) {
+                                // return FALSE if array is empty
+                                return (bool) count(array_filter(array_keys($aArray), 'is_string'));
+                            };
+                            if ($aOpt['assoc'] && !$funcIsAssoc($mValue)) {
+                                return FALSE;
+                            }
+                            if (!$aOpt['assoc'] && $funcIsAssoc($mValue)) {
+                                return FALSE;
+                            }
+                            unset($funcIsAssoc);
+                        }
+                        if (isset($aOpt['length'])) {
+                            $nLength = count($mValue);
+                            if (isset($aOpt['length']['min'])) {
+                                if ($nLength < $aOpt['length']['min']) {
+                                    return FALSE;
+                                }
+                            }
+                            if (isset($aOpt['length']['max'])) {
+                                if ($nLength > $aOpt['length']['max']) {
+                                    return FALSE;
+                                }
+                            }
+                            if (isset($aOpt['length']['equal'])) {
+                                if ($nLength != $aOpt['length']['equal']) {
                                     return FALSE;
                                 }
                             }
