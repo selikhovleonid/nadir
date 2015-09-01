@@ -13,7 +13,10 @@ class Headers {
     private static $_instance = NULL;
 
     /** @var string[] Стек заголовков страницы. */
-    private $_headerList = array();
+    protected $headerList = array();
+
+    /** @var boolean Флаг равен TRUE, когда заголовки страницы установлены. */
+    protected $isRan = FALSE;
 
     /**
      * @ignore.
@@ -37,7 +40,7 @@ class Headers {
      * Возвращает человеко-читаемое описание HTTP-кода состояния.
      * @param integer $nCode Код состояния.
      * @return string Описание.
-     * @throws Exception
+     * @throws \core\Exception.
      */
     public static function getHTTPExplanationByCode($nCode) {
         switch ((int) $nCode) {
@@ -90,7 +93,7 @@ class Headers {
      * @return self.
      */
     public function add($sHeader) {
-        $this->_headerList[] = $sHeader;
+        $this->headerList[] = $sHeader;
         return self::$_instance;
     }
 
@@ -101,11 +104,27 @@ class Headers {
      */
     public function addByHttpCode($nCode) {
         $sProtocol = isset($_SERVER['SERVER_PROTOCOL']) 
-            ? $_SERVER['SERVER_PROTOCOL'] 
-            : 'HTTP/1.1';
-        $sHeader   = "{$sProtocol} {$nCode} " 
-            . self::getHTTPExplanationByCode($nCode);
+                ? $_SERVER['SERVER_PROTOCOL'] 
+                : 'HTTP/1.1';
+        $sHeader   = "{$sProtocol} {$nCode} "
+                . self::getHTTPExplanationByCode($nCode);
         return $this->add($sHeader);
+    }
+
+    /**
+     * Метода возвращает стек заголовков страницы.
+     * @return string[].
+     */
+    public function getAll() {
+        return $this->headerList;
+    }
+
+    /**
+     * Метод возвращает TRUE, если заголовки страницы были установлены.
+     * @return boolean.
+     */
+    public function isRan() {
+        return $this->isRan;
     }
 
     /**
@@ -113,7 +132,8 @@ class Headers {
      * @return void.
      */
     public function run() {
-        foreach ($this->_headerList as $sHeader) {
+        $this->isRan = TRUE;
+        foreach ($this->headerList as $sHeader) {
             header($sHeader);
         }
     }
