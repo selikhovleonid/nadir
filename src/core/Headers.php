@@ -91,8 +91,14 @@ class Headers {
      * Добавляет заголовок в стек.
      * @param string $sHeader Заголовок страницы.
      * @return self.
+     * @throws \core\Exception.
      */
     public function add($sHeader) {
+        foreach ($this->headerList as $sTmp) {
+            if ($sTmp == $sHeader) {
+                throw new Exception("'{$sHeader}' header already added.");
+            }
+        }
         $this->headerList[] = $sHeader;
         return self::$_instance;
     }
