@@ -49,7 +49,7 @@ class Validator implements \core\IRunnable {
      * @throws \extensions\validator\Exception.
      */
     public static function getArrayItemByPointSeparatedKey(array & $aData, $sKey) {
-        if (preg_match('/\./', $sKey)) {
+        if (strpos($sKey, '.') !== FALSE) {
             preg_match('/([a-zA-Z0-9_\-]+)\.([a-zA-Z0-9_\-\.]+)/', $sKey, $aKey);
             return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]], $aKey[2]);
         } else if (isset($aData[$sKey])) {
