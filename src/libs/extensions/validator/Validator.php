@@ -134,6 +134,13 @@ class Validator implements \core\IRunnable {
                         }
                     }
                     return TRUE;
+                }, function($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid string field '{$sFieldName}' value. Validation options: {$sKeys}";
+                    }
+                    return "Invalid string field '{$sFieldName}' value.";
                 })
                 // Number rules
                 ->addRule('number', function($sFieldName, array $aOpt = array()) use ($aData) {
@@ -185,6 +192,13 @@ class Validator implements \core\IRunnable {
                         }
                     }
                     return TRUE;
+                }, function($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid number field '{$sFieldName}' value. Validation options: {$sKeys}";
+                    }
+                    return "Invalid number field '{$sFieldName}' value.";
                 })
                 // Array rules
                 ->addRule('array', function($sFieldName, array $aOpt = array()) use ($aData) {
@@ -226,6 +240,13 @@ class Validator implements \core\IRunnable {
                         }
                     }
                     return TRUE;
+                }, function($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid array field '{$sFieldName}' value. Validation options: {$sKeys}";
+                    }
+                    return "Invalid array field '{$sFieldName}' value.";
                 });
     }
 
@@ -317,7 +338,7 @@ class Validator implements \core\IRunnable {
                 if (is_callable($this->rules[$sRuleName][1])) {
                     // If message entity is function
                     $funcMsg = $this->rules[$sRuleName][1];
-                    $this->addError($funcMsg($sFieldName));
+                    $this->addError($funcMsg($sFieldName, $aOpt));
                 } else {
                     // If message entity is string
                     $this->addError((string) $this->rules[$sRuleName][1]);
