@@ -3,35 +3,36 @@
 namespace core;
 
 /**
- * Класс определяет центральную точку входа для всех запросов, создает 
- * конфигурированное веб приложение. 
+ * Абстрактный класс приложения. Определяет центральную точку входа для всех запросов, 
+ * создает конфигурированное приложение. 
  * Реализует шаблон Front Controller, является Singleton-ом.
  * @author coon
  */
-class App extends AAutoAccessors implements IFrontController, IRunnable {
+abstract class AApplication extends AAutoAccessors implements IFrontController, IRunnable {
 
     /** @var string Путь к корню файла конфигурации. */
     public $configFile = NULL;
 
     /** @var self Объект-singleton текущего класса. */
-    private static $_instance = NULL;
+    protected static $_instance = NULL;
 
     /**
      * @ignore.
      */
-    private function __construct() {
+    protected function __construct() {
         // nothing here...
     }
 
     /**
-     * Возвращает singleton-экземпляр текущего класса.
+     * Возвращает singleton-экземпляр контекстно-вызываемого класса. Реализует
+     * позднее статическое связывание.
      * @return self.
      */
     public static function getInstance() {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new self();
+        if (is_null(static::$_instance)) {
+            static::$_instance = new static();
         }
-        return self::$_instance;
+        return static::$_instance;
     }
 
     /**
@@ -42,7 +43,7 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
      */
     public function setConfigFile($sFilePath) {
         $this->configFile = $sFilePath;
-        return self::$_instance;
+        return static::$_instance;
     }
 
     /**
@@ -66,11 +67,7 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
     /**
      * {@inheritdoc}
      */
-    public function handleRequest() {
-        $oRequest      = new Request();
-        $oCtrlResolver = new CtrlResolver($oRequest);
-        $oCtrlResolver->run();
-    }
+    abstract public function handleRequest();
 
     /**
      * Инициализирует Помощник приложения.
@@ -78,7 +75,7 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
      */
     private function _initHelper() {
         if (!$this->isConfigFileSet()) {
-            throw new Exception("Main config file isn't define.", 2);
+            throw new Exception("Main config file isn't define.");
         }
         AppHelper::getInstance()
                 ->setAppRoot(Autoloader::getInstance()->getAppRoot())
@@ -87,9 +84,9 @@ class App extends AAutoAccessors implements IFrontController, IRunnable {
     }
 
     /**
-     * Инициализация автоподгрузки всех классов приложения. Объект 
-     * Автоподгрузчика получает все корни директорий из объекта 
-     * Помощника приложения, после чего связывает их с автоподгрузкой. 
+     * Инициализация автоподгрузки всех классов приложения. Объект Автоподгрузчика 
+     * получает все корни директорий из объекта Помощника приложения, после чего 
+     * связывает их с автоподгрузкой. 
      * @return void.
      */
     private function _initAutoload() {
