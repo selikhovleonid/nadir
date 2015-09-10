@@ -120,7 +120,7 @@ abstract class AWebCtrl {
      * @return string.
      */
     private static function _unescapeUnicode($sData) {
-        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', function ($aMatches) {
+        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', function (array & $aMatches) {
             $sSym = mb_convert_encoding(pack('H*', $aMatches[1]), 'UTF-8', 'UTF-16');
             return $sSym;
         }, $sData);
