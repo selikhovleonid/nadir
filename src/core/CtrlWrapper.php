@@ -13,14 +13,14 @@ use \extensions\core\Auth;
 
 class CtrlWrapper {
 
-    /** @var \core\AController Объект целевого контроллера. */
+    /** @var \core\AWebCtrl Объект целевого контроллера. */
     protected $ctrl = NULL;
 
     /**
      * Связывает объект-обертку с объектом контроллера.
-     * @param \core\AController $oCtrl.
+     * @param \core\AWebCtrl $oCtrl.
      */
-    public function __construct(AController $oCtrl) {
+    public function __construct(AWebCtrl $oCtrl) {
         $this->ctrl = $oCtrl;
     }
 
