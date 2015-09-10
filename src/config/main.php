@@ -27,6 +27,11 @@ return array(
 //        'dbname'   => ''
 //    ),
     'routeMap'           => array(
+        'cli'    => array(
+            'test' => array(
+                'ctrl' => array('Cli', 'actionTest'),
+            ),
+        ),
         'get'    => array(
             '/'  => array(
                 'ctrl' => array('Test', 'actionDefault'),
