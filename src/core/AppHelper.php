@@ -116,9 +116,12 @@ class AppHelper extends AAutoAccessors implements IRunnable {
      * @return string.
      */
     private static function _getBaseUrl() {
-        $sProtocol = !empty($_SERVER['HTTPS']) 
-                && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
-        return $sProtocol . '://' . $_SERVER['SERVER_NAME'];
+        if (isset($_SERVER['SERVER_NAME'])) {
+            $sProtocol = !empty($_SERVER['HTTPS']) 
+                    && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
+            return $sProtocol . '://' . $_SERVER['SERVER_NAME'];
+        }
+        return NULL;
     }
 
     /**
