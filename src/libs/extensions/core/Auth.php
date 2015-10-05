@@ -28,7 +28,7 @@ class Auth extends AAuth {
 
     public function run() {
         if (!isset($this->routeConfig['auth'])) {
-            throw new Exception("Undefined option 'auth' for current route.");
+            throw new \Exception("Undefined option 'auth' for current route.");
         }
         $mCookies = $this->request->getCookies();
         $this->checkCookies(!is_null($mCookies) ? $mCookies : array());
