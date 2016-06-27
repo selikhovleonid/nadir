@@ -2,12 +2,14 @@
 
 namespace extensions\core;
 
+use \core\IProcess;
+
 /**
  * The class provides custom configuration loading during the application is starting.
  * It also kills user's processes if it needed. It realized as singleton.
  * @author coon.
  */
-class Process implements \core\IProcess {
+class Process implements IProcess {
 
     /** @var self This's singleton object of current class. */
     private static $_instance = NULL;
