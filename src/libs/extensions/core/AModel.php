@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Абстрактный класс модели. Демонстрационный вариант.
- * @todo Реализовать интерфейс и бизнес-логику.
+ * This's an abstract model class. For functionality demonstration only.
+ * @todo Realize the interface and business logic.
  * @author coon.
  */
 
 namespace extensions\core;
 
 abstract class AModel {
-    //put your code here
+    // Put your code here.
 }
