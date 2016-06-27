@@ -1,17 +1,15 @@
 <?php
 
-/**
- * Класс отвечает за реализацию функционала инициализации пользовательских 
- * конфигураций при загрузке приложения, а также уничтожение запущенных
- * пользователем процессов после, в случае необходимости. Реализован как Singleton.
- * @author coon.
- */
-
 namespace extensions\core;
 
+/**
+ * The class provides custom configuration loading during the application is starting.
+ * It also kills user's processes if it needed. It realized as singleton.
+ * @author coon.
+ */
 class Process implements \core\IProcess {
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self This's singleton object of current class. */
     private static $_instance = NULL;
 
     /**
@@ -22,7 +20,7 @@ class Process implements \core\IProcess {
     }
 
     /**
-     * Возвращает singleton-экземпляр текущего класса.
+     * It returns the singleton-instance of current class.
      * @return self.
      */
     public static function getInstance() {
@@ -33,8 +31,7 @@ class Process implements \core\IProcess {
     }
 
     /**
-     * Метод содержит реализацию функционала инициализации пользовательских 
-     * конфигураций.
+     * The method contains the realization of the custom configuration init.
      * @return void.
      */
     public function run() {
@@ -42,7 +39,7 @@ class Process implements \core\IProcess {
     }
 
     /**
-     * Метод реализует функционал уничтожения запущенных пользователем процессов.
+     * The method implements the killing of processes launched by the user.
      * @return void.
      */
     public function stop() {
@@ -50,4 +47,3 @@ class Process implements \core\IProcess {
     }
 
 }
-
