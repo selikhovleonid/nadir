@@ -3,21 +3,21 @@
 namespace extensions\core;
 
 /**
- * Singleton-экземпляр класса является Регистром (реестром) - глобальным
- * хранилищем пользовательских переменных, время жизни которых равно времени 
- * жизненного цикла работы скрипта.
+ * The singleton instance of current class is the Registry - the global storage 
+ * of custom variables, those lifetime is equal to the life cycle time of the
+ * scrypt.
  * @author coon
  */
 class Registry {
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self This's singleton object of current class. */
     private static $_instance = NULL;
 
-    /** @var mixed[] Хранилище переменных. */
+    /** @var mixed[] The user's variable storage. */
     protected $store = array();
 
     /**
-     * Возвращает singleton-экземпляр текущего класса.
+     * It returns the singleton-instance of current class.
      * @return self.
      */
     public static function getInstance() {
@@ -28,10 +28,10 @@ class Registry {
     }
 
     /**
-     * Добавляет пользовательскую переменную в хранилище.
-     * @param string $sKey Имя переменной.
-     * @param mixed $mValue Значение переменной.
-     * @return self
+     * It adds the user variable to the storage.
+     * @param string $sKey The variable name.
+     * @param mixed $mValue The variable value.
+     * @return self.
      */
     public function set($sKey, $mValue) {
         $this->store[$sKey] = $mValue;
@@ -39,15 +39,17 @@ class Registry {
     }
 
     /**
-     * Возвращает значение переменной из хранилища по ключу, либо все хранилище.
-     * @param string $sKey Имя переменной.
-     * @return mixed|null
+     * It returns the variable value getted by the name from the storage.
+     * @param string $sKey The variable name.
+     * @return mixed|null.
      */
     public function get($sKey = '') {
         if (empty($sKey)) {
             return $this->store;
         } else {
-            return isset($this->store[$sKey]) ? $this->store[$sKey] : NULL;
+            return isset($this->store[$sKey])
+                    ? $this->store[$sKey]
+                    : NULL;
         }
     }
 
