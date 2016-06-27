@@ -51,6 +51,9 @@ class Validator implements \core\IRunnable {
     public static function getArrayItemByPointSeparatedKey(array & $aData, $sKey) {
         if (strpos($sKey, '.') !== FALSE) {
             preg_match('/([a-zA-Z0-9_\-]+)\.([a-zA-Z0-9_\-\.]+)/', $sKey, $aKey);
+            if (!isset($aData[$aKey[1]])) {
+                throw new Exception('Undefined index: ' . $aKey[1]);
+            }
             return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]], $aKey[2]);
         } else if (isset($aData[$sKey])) {
             return $aData[$sKey];
@@ -247,6 +250,31 @@ class Validator implements \core\IRunnable {
                         return "Invalid array field '{$sFieldName}' value. Validation options: {$sKeys}";
                     }
                     return "Invalid array field '{$sFieldName}' value.";
+                })
+                // Boolean rules
+                ->addRule('boolean', function($sFieldName, array $aOpt = array()) use ($aData) {
+                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
+                        $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
+                        if (!is_bool($mValue)) {
+                            return FALSE;
+                        }
+                        if (isset($aOpt['isTrue'])) {
+                            if ($aOpt['isTrue'] && !$mValue) {
+                                return FALSE;
+                            }
+                            if (!$aOpt['isTrue'] && $mValue) {
+                                return FALSE;
+                            }
+                        }
+                    }
+                    return TRUE;
+                }, function($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid boolean field '{$sFieldName}' value. Validation options: {$sKeys}";
+                    }
+                    return "Invalid boolean field '{$sFieldName}' value.";
                 });
     }
 
