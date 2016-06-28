@@ -3,7 +3,7 @@
 namespace core;
 
 /**
- * This's composite class of the View (the view in a broad sense), those 
+ * This's composite class of the View (the view in a broad sense), which 
  * entities may contains the atomic view units - the snippets.
  * @author coon
  */

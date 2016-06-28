@@ -35,12 +35,9 @@ return array(
         'get'    => array(
             '/'  => array(
                 'ctrl' => array('Test', 'actionDefault'),
-                'auth' => TRUE,
-                'role' => 'all',
             ),
             '.*' => array(
                 'ctrl' => array('System', 'actionPage404'),
-                'auth' => FALSE,
             ),
         ),
         'post'   => array(

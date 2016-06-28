@@ -10,7 +10,7 @@ namespace core;
 class AAutoAccessors {
 
     /**
-     * It's a reflection method, those checks a availability and accessibility
+     * It's a reflection method, which checks a availability and accessibility
      * of the properties of the child-class.
      * @param type $sPropName The method name.
      * @return boolean
@@ -29,7 +29,7 @@ class AAutoAccessors {
     }
 
     /**
-     * This's interceptor method, those catchs the calls of undeclared methods of
+     * This's interceptor method, which catchs the calls of undeclared methods of
      * the class. If the name of the invoked method matchs the setProperty, getProperty
      * or isPropertySet pattern and the target class has corresponding public 
      * property, then it calls needed accessor as if it was declared directly in 

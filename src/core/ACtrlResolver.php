@@ -3,7 +3,7 @@
 namespace core;
 
 /**
- * This's the abstract class, those assign a controller with the request 
+ * This's the abstract class, which assign a controller with the request 
  * parameters.
  * @author coon
  */
@@ -18,7 +18,7 @@ abstract class ACtrlResolver implements IRunnable {
     /** @var string The action name. */
     protected $actionName = '';
 
-    /** @var mixed[] This's additional parameters, those were passed to the action. */
+    /** @var mixed[] This's additional parameters, which were passed to the action. */
     protected $actionArgs = array();
 
     /**

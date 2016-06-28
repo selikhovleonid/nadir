@@ -17,7 +17,7 @@ abstract class AAuth implements IRunnable {
     abstract public function isValid();
 
     /**
-     * The method contains the code those invokes if the auth was failed.
+     * The method contains the code which invokes if the auth was failed.
      */
     abstract public function onFail();
 }
