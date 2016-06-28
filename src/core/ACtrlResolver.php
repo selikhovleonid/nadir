@@ -3,26 +3,26 @@
 namespace core;
 
 /**
- * Абстрактный класс отвечает за связывание контроллера с параметрами вызова 
- * (запроса).
+ * This's the abstract class, those assign a controller with the request 
+ * parameters.
  * @author coon
  */
 abstract class ACtrlResolver implements IRunnable {
 
-    /** @var array[] Карта маршрутов. */
+    /** @var array[] The route map. */
     protected $routeMap = array();
 
-    /** @var string Имя контроллера. */
+    /** @var string The controller name. */
     protected $ctrlName = '';
 
-    /** @var string Имя action. */
+    /** @var string The action name. */
     protected $actionName = '';
 
-    /** @var mixed[] Дополнительные параметры, передаваемые в action. */
+    /** @var mixed[] This's additional parameters, those were passed to the action. */
     protected $actionArgs = array();
 
     /**
-     * Инициализация свойства карты маршрутов объекта.
+     * The constructor inits the properties of the route map object.
      * @return self.
      */
     public function __construct() {
@@ -30,20 +30,20 @@ abstract class ACtrlResolver implements IRunnable {
     }
 
     /**
-     * Метод содержит функционал создания объекта контроллера.
+     * The method contains a controller object creating functionality.
      */
     abstract protected function createCtrl();
 
     /**
-     * Метод осуществляет попытку связать маршрут запроса с конкретным контроллером
-     * и action в нем по карте регулярных выражений маршрутов.
+     * The method tries to assign the request rote with the concrete controller 
+     * action according the regexp map.
      * @return void.
      */
     abstract protected function tryAssignController();
 
     /**
-     * Метод проверяет, осуществлена ли связь маршрута запроса с конкретным 
-     * контроллером и action в нем.
+     * The method checks if the request route was assigned with the concrete 
+     * controller.
      * @return boolean
      */
     protected function isControllerAssigned() {
@@ -51,7 +51,7 @@ abstract class ACtrlResolver implements IRunnable {
     }
 
     /**
-     * Запуск action контроллера на исполнение.
+     * It starts the controller action on execution.
      */
     abstract public function run();
 }
