@@ -3,17 +3,17 @@
 namespace core;
 
 /**
- * Класс композитного представления (представления в широком смысле), экземпляры
- * которого могут содержать атомарные единицы представления - сниппеты.
+ * This's composite class of the View (the view in a broad sense), those 
+ * entities may contains the atomic view units - the snippets.
  * @author coon
  */
 abstract class ACompositeView extends AView {
 
-    /** @var \core\Snippet[] Карта сниппетов представления. */
+    /** @var \core\Snippet[] The snippet map. */
     protected $snippets = array();
 
     /**
-     * Добавляет сниппет в объект представления.
+     * It adds snippet to the view object.
      * @param string $sSnptName
      */
     public function addSnippet($sSnptName) {
@@ -22,8 +22,8 @@ abstract class ACompositeView extends AView {
     }
 
     /**
-     * Возвращает объект связанного сниппета по имени. Если имя не указано, то
-     * возвращается вся карта связанных со View сниппетов.
+     * It returns assigned snippet object by the name. If the name not presents, 
+     * then it returns the map with all View-assigned snippets.
      * @param string $sSnptName
      * @return \core\Snippet|\core\Snippet[]|null
      */
@@ -38,7 +38,7 @@ abstract class ACompositeView extends AView {
     }
 
     /**
-     * Метод возвращает карту связанных со View сниппетов.
+     * The method returns the View-assigned snippet map.
      * @return \core\Snippet[]
      */
     public function getAllSnippets() {
