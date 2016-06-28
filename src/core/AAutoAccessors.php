@@ -1,19 +1,18 @@
 <?php
 
-/**
- * Класс обеспечивает функционал генерации автоматических аксессоров (get-, set-
- * и isSet- методов) к публичным свойствам класса-наследника.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * The class provides auto method-accessors (get-, set- and isSet- methods) 
+ * generation to the public properties of the children classes.
+ * @author coon
+ */
 class AAutoAccessors {
 
     /**
-     * Рефлексивный метод, осуществляющий проверку на наличие и общедоступность
-     * свойства класса-наследника.
-     * @param type $sPropName Имя метода.
+     * It's a reflection method, those checks a availability and accessibility
+     * of the properties of the child-class.
+     * @param type $sPropName The method name.
      * @return boolean
      */
     private function _isPropChecked($sPropName) {
@@ -21,7 +20,7 @@ class AAutoAccessors {
         $sClassName  = get_class($this);
         $oReflection = new \ReflectionClass($sClassName);
         if ($oReflection->hasProperty($sPropName) 
-            && $oReflection->getProperty($sPropName)->isPublic()
+                && $oReflection->getProperty($sPropName)->isPublic()
         ) {
             $fRes = TRUE;
         }
@@ -30,25 +29,24 @@ class AAutoAccessors {
     }
 
     /**
-     * Метод-перехватчик вызовов необъявленных методов класса. В случае вызова
-     * метода, имя которого попадает под шаблоны setProperty, getProperty или
-     * isPropertySet и наличия у вызывающего класса соответствующего публичного
-     * свойства property, осуществляется вызов нужного аксессора, как
-     * если бы он был описан в самом классе-наследнике. В противном случае 
-     * генерируются исключения.
-     * @param string $sName Имя метода.
-     * @param mixed[] $aArgs Массив переданных методу аргументов.
-     * @return mixed|boolean Результат действия аксессора - mixed для геттеров и
-     * сеттеров, boolean для isSet. 
+     * This's interceptor method, those catchs the calls of undeclared methods of
+     * the class. If the name of the invoked method matchs the setProperty, getProperty
+     * or isPropertySet pattern and the target class has corresponding public 
+     * property, then it calls needed accessor as if it was declared directly in 
+     * the child-class. In another case it throws exception.
+     * @param string $sName The name of the method.
+     * @param mixed[] $aArgs The array of passed args.
+     * @return mixed|boolean The result is mixed for the getters and setters, is 
+     * boolean for isSets.
      * @throws Exception.
      */
     public function __call($sName, $aArgs) {
         // Lambda-function
         $funcGenException = function($sClassName, $sPropName) {
-                    throw new Exception('Undefined or non public property ' 
-                        . "{$sClassName}::\${$sPropName}");
-                };
-                
+            throw new Exception('Undefined or non public property '
+            . "{$sClassName}::\${$sPropName}");
+        };
+
         if (preg_match('#^get(\w+)$#', $sName, $aMatches)) {
             $sPropName = lcfirst($aMatches[1]);
             if ($this->_isPropChecked($sPropName)) {
