@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Абстрактный класс, содержащий функционал записи (set), чтения (get) и проверки
- * на существование пользовательских переменных для наследующего класса.
- * Модификатор abstract указан немеренно, несмотря на отсутствие абстрактных
- * методов.
+ * This's an abstract class, which contains functionality of setting, reading and
+ * exist checking of the user's variable for a child class. The abstract modifier
+ * was set a specially.
  * @author coon
  */
 
@@ -12,30 +11,28 @@ namespace core;
 
 abstract class AUserPropAccessor {
 
-    /** @var array Карта пользовательских пар ключ-значение. */
+    /** @var array The user's variable pairs map. */
     private $_dataMap = array();
 
     /**
      * @ignore.
      */
     public function __construct() {
-        // nothing here...
+        // Nothing here...
     }
 
     /**
-     * Определяет пользовательскую переменную. (Используется переопределение 
-     * "магического" метода).
-     * @param string $sKey Переменная.
-     * @param mixed $sValue Значение.
+     * It sets the custom variable (It overrides the magic method).
+     * @param string $sKey The variable name.
+     * @param mixed $sValue The variable value.
      */
     public function __set($sKey, $sValue) {
         $this->_dataMap[$sKey] = $sValue;
     }
 
     /**
-     * Возвращает значение пользовательской переменной, если таковая установлена.
-     * (Используется переопределение "магического" метода).
-     * @param string $sKey Переменная.
+     * It returns the custom variable if it exists (It overrides the magic method).
+     * @param string $sKey The variable name.
      * @return mixed|null
      */
     public function __get($sKey) {
@@ -47,8 +44,8 @@ abstract class AUserPropAccessor {
     }
 
     /**
-     * Переопределяет "магический" метод.
-     * @param string $sKey.
+     * It overrides the magic method __isset.
+     * @param string $sKey The variable name.
      * @return boolean.
      */
     public function __isset($sKey) {
