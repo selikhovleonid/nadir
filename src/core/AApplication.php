@@ -3,29 +3,29 @@
 namespace core;
 
 /**
- * Абстрактный класс приложения. Определяет центральную точку входа для всех запросов, 
- * создает конфигурированное приложение. 
- * Реализует шаблон Front Controller, является Singleton-ом.
+ * This's an abstract application class. It determines the central entry point for
+ * the all requests, creates the configured application. It implements Front 
+ * Controller pattern, it's Singleton-instance.
  * @author coon
  */
 abstract class AApplication extends AAutoAccessors implements IFrontController, IRunnable {
 
-    /** @var string Путь к корню файла конфигурации. */
+    /** @var string This's path to the config file root. */
     public $configFile = NULL;
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self This's singleton object of the current class. */
     protected static $_instance = NULL;
 
     /**
      * @ignore.
      */
     protected function __construct() {
-        // nothing here...
+        // Nothing here...
     }
 
     /**
-     * Возвращает singleton-экземпляр контекстно-вызываемого класса. Реализует
-     * позднее статическое связывание.
+     * It returns the context called singleton-instance. It implements late static
+     * binding.
      * @return self.
      */
     public static function getInstance() {
@@ -36,8 +36,7 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
     }
 
     /**
-     * Устанавливает путь к файлу с основной конфигурацией приложения относительно
-     * его корня.
+     * It sets the path to the main application config file referenced to its root.
      * @param string $sFilePath.
      * @return self.
      */
@@ -70,7 +69,7 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
     abstract public function handleRequest();
 
     /**
-     * Инициализирует Помощник приложения.
+     * It inits the application helper.
      * @return void.
      */
     private function _initHelper() {
@@ -84,21 +83,22 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
     }
 
     /**
-     * Инициализация автоподгрузки всех классов приложения. Объект Автоподгрузчика 
-     * получает все корни директорий из объекта Помощника приложения, после чего 
-     * связывает их с автоподгрузкой. 
+     * It inits class autoloading. The Autoloader object gets all directory roots 
+     * from the Application Helper, after that it assignes them with autoloading 
+     * process. 
      * @return void.
      */
     private function _initAutoload() {
         $mRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
-        foreach ($mRoot ? : array() as $sRoot) {
+        foreach ($mRoot ?
+                : array() as $sRoot) {
             Autoloader::getInstance()->add($sRoot);
         }
         Autoloader::getInstance()->run();
     }
 
     /**
-     * Метод выполняет запуск пользовательских процессов.
+     * The method runs custom processes.
      * @return void.
      */
     private function _initUserProcess() {
@@ -106,7 +106,7 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
     }
 
     /**
-     * Метод останавливает пользовательские процессы.
+     * The method kills user's processes.
      * @return void.
      */
     private function _stopUserProcess() {
