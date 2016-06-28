@@ -44,7 +44,7 @@ abstract class AUserPropAccessor {
     }
 
     /**
-     * It overrides the magic method __isset.
+     * It overrides the magic method __isset().
      * @param string $sKey The variable name.
      * @return boolean.
      */
