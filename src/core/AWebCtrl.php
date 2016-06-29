@@ -1,30 +1,29 @@
 <?php
 
-/**
- * Абстрактный класс веб-контроллера. Несмотря на то, что ни один метод не объявлен
- * как абстрактный, модификатор abstract указан намеренно, чтобы исключить
- * возможность создания экземпляра этого класса.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This's the class of abstract web-controller. Despite the fact that no one method 
+ * declared as abstract, the 'abstract' modifier is set a specially to exclude the 
+ * possibility of creating an instance of the class. 
+ * @author coon
+ */
 abstract class AWebCtrl {
 
-    /** @var \core\Request Объект запроса. */
+    /** @var \core\Request The request object. */
     protected $request = NULL;
 
-    /** @var \core\View Объект представления. */
+    /** @var \core\View The view object. */
     protected $view = NULL;
 
-    /** @var \core\Layout Объект макета. */
+    /** @var \core\Layout The layout object. */
     protected $layout = NULL;
 
     /**
-     * Связывает объект с объектом запроса и, возможно, объектом представления 
-     * (полного или частичного).
-     * @param \core\Request $oRequest.
-     * @param \core\AView|null $oView.
+     * The constructor assigns object with request object and possibly with
+     * the view object (full or partial).
+     * @param \core\Request $oRequest The request object.
+     * @param \core\AView|null $oView The view object.
      */
     public function __construct(Request $oRequest, AView $oView = NULL) {
         $this->request = $oRequest;
@@ -39,7 +38,7 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Возвращает объект связанного запроса.
+     * It returns the object of assigned request.
      * @return \core\Request|null.
      */
     public function getRequest() {
@@ -47,7 +46,7 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Возвращает объект ассоциированного представления.
+     * It returns the object of associated view.
      * @return \core\View|null.
      */
     protected function getView() {
@@ -55,10 +54,10 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Служит для связывания контроллера с представлением (как с умалчиваемым,
-     * так и с соответствующим другому контроллеру).
-     * @param string $sCtrlName Имя контроллера.
-     * @param string $sActionName Имя действия (без префикса action).
+     * It used for binding the controller with a view (as well with the default
+     * as with corresponding another controller).
+     * @param string $sCtrlName The controller name.
+     * @param string $sActionName The action name (without prefix action).
      * @return void.
      */
     protected function setView($sCtrlName, $sActionName) {
@@ -69,7 +68,7 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Возвращает объект ассоциированного макета.
+     * It returns the object of associated layout.
      * @return \core\Layout|null.
      */
     protected function getLayout() {
@@ -77,8 +76,8 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Связывает контроллер с макетом.
-     * @param string $sLayoutName Имя макета.
+     * It assigns the controller with layout.
+     * @param string $sLayoutName The layout name.
      * @return void.
      * @throws Exception.
      */
@@ -91,8 +90,7 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Осуществляе рендеринг страницы, как полный (макет и представление), так и
-     * частичный (представление).
+     * It renders the page as well full (layout with view) as partial (view only).
      * @return void.
      * @throws Exception.
      */
@@ -107,7 +105,7 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Метод осуществляет частичный рендеринг (одного представления, без макета).
+     * The method provides partial rendering (view without layout).
      * @return void.
      */
     protected function partialRender() {
@@ -115,20 +113,22 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Метод преобразует заэкранированные юникод-символы в неэкранированные.
-     * @param string $sData Входная строка.
+     * The method converts escaped Unicode chars to unescaped.
+     * @param string $sData The input string.
      * @return string.
      */
     private static function _unescapeUnicode($sData) {
-        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i', function (array & $aMatches) {
-            $sSym = mb_convert_encoding(pack('H*', $aMatches[1]), 'UTF-8', 'UTF-16');
+        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
+                function (array & $aMatches) {
+            $sSym = mb_convert_encoding(pack('H*', $aMatches[1]), 'UTF-8',
+                    'UTF-16');
             return $sSym;
         }, $sData);
     }
 
     /**
-     * Рендерит страницу с данными в JSON-формате.
-     * @param mixed $mData Входные данные.
+     * It renders the page with JSON-formatted data.
+     * @param mixed $mData The input data.
      * @return void.
      */
     protected function renderJson($mData) {
@@ -136,15 +136,17 @@ abstract class AWebCtrl {
     }
 
     /**
-     * Метод осуществляет редирект (перенаправление) по URL, указанному в параметре.
-     * По умолчанию HTTP-код возвращаемой страницы - 302. Метод безусловно
-     * завершает выполнение скрипта, код указанный после него, выполнен не будет.
+     * The method redirects to the URL, which passed as param. The HTTP-code is
+     * 302 as default. The method unconditional completes the script execution, 
+     * the code after it will not be executed.
      * @param string $sUrl
-     * @param bool $fIsPermanent Флаг признака постоянного (permanent) редиректа.
+     * @param bool $fIsPermanent The flag of permanent redirect.
      * @return void.
      */
     protected function redirect($sUrl, $fIsPermanent = FALSE) {
-        $nCode = $fIsPermanent ? 301 : 302;
+        $nCode = $fIsPermanent
+                ? 301
+                : 302;
         Headers::getInstance()
                 ->addByHttpCode($nCode)
                 ->add('Location: ' . $sUrl)
