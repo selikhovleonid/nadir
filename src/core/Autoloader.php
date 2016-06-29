@@ -1,23 +1,21 @@
 <?php
 
-/**
- * Автоподгрузчик классов PHP, реализован как Singleton. Распознает как систему 
- * имен, принятую в пакетах PEAR, так и систему именований классов, основанную на 
- * неймспейсах.
- * @author coon.
- */
-
 namespace core;
 
+/**
+ * This's autoloader of the PHP classes, realized as Singleton. It recognized both
+ * the naming system adopted in the PEAR packages and the namespace-based system.
+ * @author coon.
+ */
 class Autoloader {
 
-    /** @var string Путь к корню веб-приложения. */
+    /** @var string The path to the root of application. */
     private $_appRoot = NULL;
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self The singleton object of current class. */
     private static $_instance = NULL;
 
-    /** @var array[]. */
+    /** @var array[] The root set. */
     private $_rootSet = array();
 
     /**
@@ -28,7 +26,7 @@ class Autoloader {
     }
 
     /**
-     * Возвращает singleton-экземпляр класса Autoloder.
+     * It returns the singleton instance of Autoloader class.
      * @return self.
      */
     public static function getInstance() {
@@ -39,9 +37,9 @@ class Autoloader {
     }
 
     /**
-     * Проверка на вхождение во множество уже зарегестрированных корней для 
-     * автоподгрузки.
-     * @param string $sRoot Корень директории относительно корня приложения.
+     * It checks if the passed root path already enters into root set of 
+     * autoloading.
+     * @param string $sRoot The directory root relative to the application root.
      * @return boolean.
      */
     private function _isInRootSet($sRoot) {
@@ -54,8 +52,8 @@ class Autoloader {
     }
 
     /**
-     * Устанавливает корень веб-приложения.
-     * @param string $sAppRoot Путь к корню приложения.
+     * It sets the root of application.
+     * @param string $sAppRoot The path to the application root.
      * @return self.
      */
     public function setAppRoot($sAppRoot) {
@@ -64,7 +62,7 @@ class Autoloader {
     }
 
     /**
-     * Возвращает корень веб-приложения.
+     * It returns the root of application.
      * @return string.
      */
     public function getAppRoot() {
@@ -72,7 +70,7 @@ class Autoloader {
     }
 
     /**
-     * Возвращает TRUE, если корень веб-приложения определен.
+     * It returns TRUE if the application root already defined. 
      * @return boolean.
      */
     public function isAppRootSet() {
@@ -80,11 +78,10 @@ class Autoloader {
     }
 
     /**
-     * Добавляет (регистрирует) корень директории для автоподгрузки, выполняя 
-     * проверку на дублирование.
-     * @param string $sRoot Корень директории относительно корня приложения.
+     * It adds the directory root for autoloading and checks for duplication.  
+     * @param string $sRoot The directory root relative to the application root.
      * @return self.
-     * @throws Exception.
+     * @throws Exception It throws if the application root wasn't define.
      */
     public function add($sRoot) {
         if ($this->isAppRootSet()) {
@@ -108,7 +105,7 @@ class Autoloader {
     }
 
     /**
-     * Аксессор, возвращающий множество корней директорий для автоподгрузки.
+     * This's the accessor for returning the set of directories root for autoloading.
      * @return string[] Множество зарегистрированных корней.
      */
     public function getRootSet() {
@@ -116,32 +113,36 @@ class Autoloader {
     }
 
     /**
-     * Запускает автоподгрузчик классов (становятся доступными для загрузки 
-     * все зарегистрированные и ранее неподгруженные корни директорий).
+     * It executes class autoloader functionality. All earlier registered directory 
+     * roots become enabled for loading.
      * @return void.
      */
     public function run() {
         foreach ($this->_rootSet as & $aSet) {
             if (!$aSet['isLoaded']) {
-                spl_autoload_register(self::_getFuncCall($aSet['root']), TRUE, TRUE);
+                spl_autoload_register(self::_getFuncCall($aSet['root']), TRUE,
+                        TRUE);
                 $aSet['isLoaded'] = TRUE;
             }
         }
     }
 
     /**
-     * Возвращает безымянную замкнутую функцию автоподгрузки классов PHP
-     * (как в стиле PEAR, так и основанную на неймспейсах).
-     * @param string $sRoot Корень директории относительно корня приложения.
-     * @return callable Замыкание (closure).
+     * It returns the anonimus closure function for PHP class autoloading (both
+     * the naming system adopted in the PEAR packages and the namespace-based 
+     * system).
+     * @param string $sRoot The directory root relative to the application root.
+     * @return callable The closure function.
      */
     private static function _getFuncCall($sRoot) {
-        // Каррирование (currying)
+        // Currying
         return function ($sClassName) use ($sRoot) {
             if (preg_match('/\\\\/', $sClassName)) {
-                $sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $sClassName);
+                $sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR,
+                        $sClassName);
             } elseif (preg_match('/_/', $sClassName)) {
-                $sRelativePath = str_replace('_', DIRECTORY_SEPARATOR, $sClassName);
+                $sRelativePath = str_replace('_', DIRECTORY_SEPARATOR,
+                        $sClassName);
             } else {
                 $sRelativePath = $sClassName;
             }
