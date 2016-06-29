@@ -54,8 +54,8 @@ abstract class AWebCtrl {
     }
 
     /**
-     * It used for binding the controller with a view (as well with the default
-     * as with corresponding another controller).
+     * It used for binding the controller with a view (both with the default
+     * and with corresponding another controller).
      * @param string $sCtrlName The controller name.
      * @param string $sActionName The action name (without prefix action).
      * @return void.
@@ -90,7 +90,7 @@ abstract class AWebCtrl {
     }
 
     /**
-     * It renders the page as well full (layout with view) as partial (view only).
+     * It renders the page both full (layout with view) and partial (view only).
      * @return void.
      * @throws Exception.
      */
