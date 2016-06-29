@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Класс-помощник-приложения, отвечающий за загрузку данных конфигурации и 
- * обеспечивающий общий доступ приложения к ним. Реализован как Singleton.
+ * The application helper class, which provides config data loading and general 
+ * access to them. It realized as Singleton.
  * @author coon.
  */
 
@@ -10,27 +10,26 @@ namespace core;
 
 class AppHelper extends AAutoAccessors implements IRunnable {
 
-    /** @var string Путь к кореню веб-приложения. */
+    /** @var string The path to the application root. */
     public $appRoot = NULL;
 
-    /** @var string Путь к корню файла конфигурации. */
+    /** @var string The path to the configuration file. */
     public $configFile = NULL;
 
-    /** @var string Конфигурации роута. */
+    /** @var string The route configuration. */
     public $routeConfig = NULL;
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self The singleton-object of current class. */
     private static $_instance = NULL;
 
-    /** @var mixed[] Множество конфигураций. */
+    /** @var mixed[] The configuration data set. */
     private $_configSet = array();
 
-    /** @var string Базовый URL сайта. */
+    /** @var string The site basic URL. */
     private $_siteBaseUrl = NULL;
 
     /**
-     * Закрытый конструктор, определяет базовый URL сайта при создании 
-     * объекта-одиночки.
+     * The closed class constructor. It determines  the site basic URL.
      * @return self.
      */
     private function __construct() {
@@ -38,7 +37,7 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Возвращает singleton-экземпляр текущего класса.
+     * It retrurns the current class instance.
      * @return self.
      */
     public static function getInstance() {
@@ -49,8 +48,8 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Метод-мутатор. Устанавливает путь к корню веб-приложения.
-     * @param string $sRoot.
+     * This's mutator-method. It sets the path to the root of application.
+     * @param string $sRoot The path to the application root.
      * @return self.
      */
     public function setAppRoot($sRoot) {
@@ -59,8 +58,8 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Устанавливает путь к файлу с основной конфигурацией приложения относительно
-     * его корня.
+     * It sets the path to the main configuration of application file relative
+     * to its root.
      * @param string $sFilePath.
      * @return self.
      */
@@ -70,35 +69,33 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Загружает основной конфигурационный файл и выполняет проверку валидности.
-     * @todo В настоящее время валидация формально прописана, класс Validator 
-     * не содержит функциональности. Возможно, следует использовать
-     * сторонний валидатор.
+     * It loads main file of configuration and checks for validity. 
      * @return self.
      * @throws Exception.
      */
     public function run() {
         if (!$this->isAppRootSet()) {
-            throw new Exception("Application root isn't define.", 1);
+            throw new Exception("The application root isn't define.", 1);
         }
         if (!$this->isConfigFileSet()) {
             throw new Exception("Main config file isn't define.", 2);
         }
         $sConfigPath = $this->getAppRoot() . $this->getConfigFile();
         if (!is_readable($sConfigPath)) {
-            throw new Exception('Unable load ' . $sConfigPath
+            throw new Exception("It's unable to load " . $sConfigPath
             . 'as main config file.', 4);
         }
         $mConfig = include $sConfigPath;
         if (!is_array($mConfig)) {
-            throw new Exception('Main config shall be array.', 5);
+            throw new Exception('Main config must be array.', 5);
         }
         $this->_configSet = $mConfig;
     }
 
     /**
-     * Возвращает конкретную конфигурацию по имени либо всю конфигурацию как массив.
-     * @param string $sName Имя конфигурации.
+     * It returns the config value by passed name or all config set if it wasn't
+     * specified.
+     * @param string $sName The config name.
      * @return array|null.
      */
     public function getConfig($sName = '') {
@@ -112,20 +109,21 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Определят базовый URL сайта.
+     * It determines the basic site URL.
      * @return string.
      */
     private static function _getBaseUrl() {
         if (isset($_SERVER['SERVER_NAME'])) {
-            $sProtocol = !empty($_SERVER['HTTPS']) 
-                    && strtolower($_SERVER['HTTPS']) == 'on' ? 'https' : 'http';
+            $sProtocol = !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on'
+                    ? 'https'
+                    : 'http';
             return $sProtocol . '://' . $_SERVER['SERVER_NAME'];
         }
         return NULL;
     }
 
     /**
-     * Метод-аксессор, возвращающий базовый URL сайта.
+     * This's method-accessor to basic site URL.
      * @return string.
      */
     public function getSiteBaseUrl() {
@@ -133,31 +131,33 @@ class AppHelper extends AAutoAccessors implements IRunnable {
     }
 
     /**
-     * Метод возвращает абсолютный или относительный путь (URL) к компоненту по
-     * его имени. Полный URL обычно требуется для определения пути к медиа-файлам 
-     * (директория assets).
-     * @param string $sName.
-     * @param boolean $fAsAbsolute Optional Флаг по умолчанию равен TRUE. 
+     * The method returns absolute or relative path (URL) to the component by 
+     * passed name. The absolute URL used to determs path to assets (media-data) 
+     * as usual.
+     * @param string $sName The component name.
+     * @param boolean $fAsAbsolute The optional flag is equal TRUE by default. 
      * @return string.
      */
     public function getComponentUrl($sName, $fAsAbsolute = TRUE) {
         $aRootMap = $this->getConfig('componentsRootMap');
-        $sSiteUrl = $fAsAbsolute ? $this->_siteBaseUrl : '';
-        return isset($aRootMap[$sName]) 
-                ? $sSiteUrl . $aRootMap[$sName] 
+        $sSiteUrl = $fAsAbsolute
+                ? $this->_siteBaseUrl
+                : '';
+        return isset($aRootMap[$sName])
+                ? $sSiteUrl . $aRootMap[$sName]
                 : NULL;
     }
 
     /**
-     * Метод возвращает полный путь к родительской директории компонента по его 
-     * имени.
-     * @param string $sName Имя компонента.
+     * The method returns full path to the parent directory of component by its
+     * name.
+     * @param string $sName The component name.
      * @return string|null.
      */
     public function getComponentRoot($sName) {
         $aRootMap = $this->getConfig('componentsRootMap');
-        return isset($aRootMap[$sName]) 
-                ? $this->getAppRoot() . $aRootMap[$sName] 
+        return isset($aRootMap[$sName])
+                ? $this->getAppRoot() . $aRootMap[$sName]
                 : NULL;
     }
 
