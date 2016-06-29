@@ -3,26 +3,27 @@
 namespace core;
 
 /**
- * Класс cli-приложения (приложения интерфейса командной строки).
+ * This's a class of cli-application (command line interface application).
  * @author coon
  */
 class CliApp extends AApplication {
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self The singleton object of current class. */
     protected static $_instance = NULL;
 
     /**
      * @ignore.
      */
     protected function __construct() {
-        // nothing here...
+        // Nothing here...
     }
 
     /**
-     * Обрабатывает параметры вызова cli-скрипта, передавая их объекту CliCtrlResolver. 
-     * @global string[] $argv Массив переданных cli-скрипту аргументов.
-     * @throws \core\Exception Генерируется в случае попытки вызова cli-скрипта
-     * вне интерфейса командной строки.
+     * It processes the call parameters of cli-script and passed them to the 
+     * CliCtrlResolver object.
+     * @global string[] $argv The array of passed to cli-scrypt args.
+     * @throws \core\Exception It throws if it was attempting to call cli-scprit 
+     * out the command line interface. 
      */
     public function handleRequest() {
         global $argv;
