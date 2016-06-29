@@ -1,20 +1,19 @@
 <?php
 
-/**
- * Абстрактный класс представления.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This's a view abstract class.
+ * @author coon
+ */
 abstract class AView extends AUserPropAccessor {
 
-    /** @var string Путь к файлу с разметкой представления. */
+    /** @var string The path to the file with view markup. */
     protected $filePath = '';
 
     /**
-     * Инициализация приватных свойств объекта.
-     * @param string $sViewFilePath Путь к файлу с разметкой представления.
+     * The constructor inits private object properties.
+     * @param string $sViewFilePath The path to the file with view markup.
      * @return self.
      */
     public function __construct($sViewFilePath) {
@@ -22,7 +21,8 @@ abstract class AView extends AUserPropAccessor {
     }
 
     /**
-     * Метод-акссесор к переменной, содержащей путь к файлу представления.
+     * This's method-accessor to the variable which contains the path to the file 
+     * with view markup.
      * @return string.
      */
     public function getFilePath() {
@@ -30,9 +30,9 @@ abstract class AView extends AUserPropAccessor {
     }
 
     /**
-     * Связывает объект с файлом представления.
-     * @param string $sViewFilePath Путь к файлу с разметкой представления.
-     * @throws Exception.
+     * It assigns the object with view file.
+     * @param string $sViewFilePath The path to the file with view markup.
+     * @throws Exception It throws if file isn't readable.
      */
     public function setFilePath($sViewFilePath) {
         if (is_readable($sViewFilePath)) {
@@ -43,9 +43,8 @@ abstract class AView extends AUserPropAccessor {
     }
 
     /**
-     * Метод осуществляет массовое присваивание пользовательских переменных
-     * класса.
-     * @param array $aData Массив пользовательских переменных класса.
+     * The method provides massive assignment user's variables of the class.
+     * @param array $aData The users's variables of the class.
      */
     public function setVariables(array $aData) {
         foreach ($aData as $sKey => $mValue) {
@@ -54,7 +53,7 @@ abstract class AView extends AUserPropAccessor {
     }
 
     /**
-     * Абстрактный метод, отвечающий за рендеринг файла представления.
+     * It's an abstract method which renders the file of view.
      * @return void.
      */
     abstract public function render();
