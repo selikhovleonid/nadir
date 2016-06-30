@@ -14,7 +14,7 @@ class Headers {
     /** @var string[] The headers of the page stack. */
     protected $headerList = array();
 
-    /** @var boolean The flag is equal TRUE when the page headers are seted. */
+    /** @var boolean The flag is equal TRUE when the page headers are set. */
     protected $isRan = FALSE;
 
     /**
