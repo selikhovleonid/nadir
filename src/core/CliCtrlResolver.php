@@ -3,20 +3,20 @@
 namespace core;
 
 /**
- * Класс отвечает за связывание параметров вызова cli-скрипта с определенным 
- * контроллером и action в нем.
+ * The class provides the binding of call parameters of cli-script  with determinated
+ * controller and action in it.
  * @author coon
  */
 class CliCtrlResolver extends ACtrlResolver {
 
-    /** @var string Роут вызова cli-скрипта (первый переданный параметр). */
+    /** @var string The route of cli-script calling (the first passed param). */
     protected $requestRoute = NULL;
 
     /**
-     * Инициализация свойств объекта.
-     * @param string[] $aArgs Массив переданных скрипту аргументов.
-     * @throws \core\Exception Генерируется в случае, если не был передан роут как
-     * первый параметр вызова.
+     * The oject properties initialization.
+     * @param string[] $aArgs The array of passed to script arguments.
+     * @throws \core\Exception It throws if it wasn't passed the route as the first 
+     * call param.
      */
     public function __construct(array $aArgs) {
         parent::__construct();
@@ -55,7 +55,7 @@ class CliCtrlResolver extends ACtrlResolver {
     }
 
     /**
-     * Запуск action контроллера на исполнение.
+     * It executes the action of controller.
      * @throws Exception.
      */
     public function run() {
@@ -64,7 +64,7 @@ class CliCtrlResolver extends ACtrlResolver {
             $oCtrl = $this->createCtrl();
             $oCtrl->{$this->actionName}($this->actionArgs);
         } else {
-            throw new Exception('Unable assign controller with this route path.');
+            throw new Exception("It's unable assign controller with this route path.");
         }
     }
 
