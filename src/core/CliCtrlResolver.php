@@ -56,7 +56,8 @@ class CliCtrlResolver extends ACtrlResolver {
 
     /**
      * It executes the action of controller.
-     * @throws Exception.
+     * @throws Exception It throws if it was unable to assign controller with 
+     * route path.
      */
     public function run() {
         $this->tryAssignController();
@@ -64,7 +65,7 @@ class CliCtrlResolver extends ACtrlResolver {
             $oCtrl = $this->createCtrl();
             $oCtrl->{$this->actionName}($this->actionArgs);
         } else {
-            throw new Exception("It's unable assign controller with this route path.");
+            throw new Exception("It's unable to assign controller with this route path.");
         }
     }
 
