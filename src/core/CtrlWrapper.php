@@ -27,8 +27,8 @@ class CtrlWrapper {
      * The method calls user's auth checking, on successful complition of which
      * it invokes the target controller and the onFail method of Auth class in 
      * other case.
-     * @param type $sName Имя action целевого контроллера.
-     * @param type $aArgs Параметры action.
+     * @param type $sName The action name of target controller.
+     * @param type $aArgs The action parameters.
      */
     protected function processAuth($sName, & $aArgs) {
         $oAuth = new Auth($this->ctrl->getRequest());
