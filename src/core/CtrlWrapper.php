@@ -1,33 +1,32 @@
 <?php
 
-/**
- * Класс контроллера-обертки, экземпляр которого выполняет делегирующую функцию - 
- * вызов метода целевого контроллера после успешного прохождения авторизации, либо 
- * вызов функционала onFail класса авторизации.
- * @author coon
- */
-
 namespace core;
 
 use \extensions\core\Auth;
 
+/**
+ * This's a class of controller wrapper, an instance of which perfoms delegated 
+ * function - it calls target controller after the succesful auth or calls onFail 
+ * auth class functionality in other case.
+ * @author coon
+ */
 class CtrlWrapper {
 
-    /** @var \core\AWebCtrl Объект целевого контроллера. */
+    /** @var \core\AWebCtrl The target controller object. */
     protected $ctrl = NULL;
 
     /**
-     * Связывает объект-обертку с объектом контроллера.
-     * @param \core\AWebCtrl $oCtrl.
+     * The constructor assigns the object-wrapper with controller object.
+     * @param \core\AWebCtrl $oCtrl The controller object.
      */
     public function __construct(AWebCtrl $oCtrl) {
         $this->ctrl = $oCtrl;
     }
 
     /**
-     * Метод осуществляет вызов проверки авторизации пользователя, при успешном 
-     * прохождении которой, осуществляется вызов целевого action, при неуспешном - 
-     * вызов метода onFail класса авторизации.
+     * The method calls user's auth checking, on successful complition of which
+     * it invokes the target controller and the onFail method of Auth class in 
+     * other case.
      * @param type $sName Имя action целевого контроллера.
      * @param type $aArgs Параметры action.
      */
@@ -47,9 +46,9 @@ class CtrlWrapper {
     }
 
     /**
-     * Метод-перехватчик вызовов методов целевого контроллера.
-     * @param string $sName Имя action целевого контроллера.
-     * @param mixed[] $aArgs Параметры action.
+     * This's the method-interseptor of method calling of the target controller.
+     * @param string $sName The action name of target controller.
+     * @param mixed[] $aArgs The action parameters.
      */
     public function __call($sName, $aArgs) {
         $this->processAuth($sName, $aArgs);
