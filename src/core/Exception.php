@@ -1,13 +1,11 @@
 <?php
 
-/**
- * Класс определяет объекты исключений, генерируемых при загрузке ядра фреймворка.
- * Реализует шаблон Wrapper.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This's class of core exceptions. It realizes the Wrapper pattern.
+ * @author coon
+ */
 class Exception extends \Exception {
-    //put your code here
+    // Nothing here...
 }
