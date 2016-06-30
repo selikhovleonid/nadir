@@ -1,32 +1,31 @@
 <?php
 
-/**
- * Класс отвечает за генерацию заголовков страницы.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * The class provides the processing of page headers.
+ * @author coon
+ */
 class Headers {
 
-    /** @var self Объект-singleton текущего класса. */
+    /** @var self The singleton object of current class. */
     private static $_instance = NULL;
 
-    /** @var string[] Стек заголовков страницы. */
+    /** @var string[] The headers of the page stack. */
     protected $headerList = array();
 
-    /** @var boolean Флаг равен TRUE, когда заголовки страницы установлены. */
+    /** @var boolean The flag is equal TRUE when the page headers are seted. */
     protected $isRan = FALSE;
 
     /**
      * @ignore.
      */
     private function __construct() {
-        // nothing here
+        // Nothing here
     }
 
     /**
-     * Возвращает singleton-экземпляр текущего класса.
+     * It returns the singleton instance of current class.
      * @return self.
      */
     public static function getInstance() {
@@ -37,10 +36,10 @@ class Headers {
     }
 
     /**
-     * Возвращает человеко-читаемое описание HTTP-кода состояния.
-     * @param integer $nCode Код состояния.
-     * @return string Описание.
-     * @throws \core\Exception.
+     * It returns the human readable explanation of HTTP status code.
+     * @param integer $nCode The status code.
+     * @return string The description.
+     * @throws \core\Exception It throws if unknown HTTP code was passed.
      */
     public static function getHTTPExplanationByCode($nCode) {
         switch ((int) $nCode) {
@@ -88,10 +87,10 @@ class Headers {
     }
 
     /**
-     * Добавляет заголовок в стек.
-     * @param string $sHeader Заголовок страницы.
+     * It adds the header to the stack.
+     * @param string $sHeader The page header.
      * @return self.
-     * @throws \core\Exception.
+     * @throws \core\Exception It throws if passed header was already added earlier.
      */
     public function add($sHeader) {
         foreach ($this->headerList as $sTmp) {
@@ -104,13 +103,13 @@ class Headers {
     }
 
     /**
-     * Добавить заголовок страницы в стек по коду состояния.
-     * @param integer $nCode Код.
+     * It adds the header to the stack by HTTP code.
+     * @param integer $nCode The code.
      * @return self.
      */
     public function addByHttpCode($nCode) {
-        $sProtocol = isset($_SERVER['SERVER_PROTOCOL']) 
-                ? $_SERVER['SERVER_PROTOCOL'] 
+        $sProtocol = isset($_SERVER['SERVER_PROTOCOL'])
+                ? $_SERVER['SERVER_PROTOCOL']
                 : 'HTTP/1.1';
         $sHeader   = "{$sProtocol} {$nCode} "
                 . self::getHTTPExplanationByCode($nCode);
@@ -118,7 +117,7 @@ class Headers {
     }
 
     /**
-     * Метода возвращает стек заголовков страницы.
+     * The method returns the stack of page headers.
      * @return string[].
      */
     public function getAll() {
@@ -126,7 +125,7 @@ class Headers {
     }
 
     /**
-     * Метод возвращает TRUE, если заголовки страницы были установлены.
+     * The method returns TRUE if the the page headers were set.
      * @return boolean.
      */
     public function isRan() {
@@ -134,7 +133,7 @@ class Headers {
     }
 
     /**
-     * Устанавливает все сохраненные в стеке заголовки в страницу.
+     * The main execution method. It sets all added headers into the page.
      * @return void.
      */
     public function run() {
