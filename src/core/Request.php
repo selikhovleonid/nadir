@@ -46,18 +46,36 @@ class Request {
         return getallheaders();
     }
 
+    /** 
+     * It returns the header by passed name. The search is case-insensitive.
+     * @param string $sName
+     * @return string|null
+     */
+    public function getHeaderByName($sName) {
+        $mRes = NULL;
+        foreach ($this->getHeaders() as $sKey => $sValue) {
+            if (strtolower($sKey) === strtolower($sName)) {
+                $mRes = $sValue;
+                break;
+            }
+        }
+        return $mRes;
+    }
+
     /**
      * The method returns the associated array of cookies.
      * @return array.
      */
     public function getCookies() {
-        $mRes     = NULL;
-        $aHeaders = $this->getHeaders();
-        if (isset($aHeaders['Cookie'])) {
-            $aCookies = explode(';', $aHeaders['Cookie']);
+        $mRes       = NULL;
+        $mRawCookie = $this->getHeaderByName('Cookie');
+        if (!is_null($mRawCookie)) {
+            $aCookies = explode(';', $mRawCookie);
             foreach ($aCookies as $sCookie) {
-                $aParts                 = explode('=', $sCookie);
-                $mRes[trim($aParts[0])] = trim($aParts[1]);
+                $aParts = explode('=', $sCookie);
+                if (count($aParts) > 1) {
+                    $mRes[trim($aParts[0])] = trim($aParts[1]);
+                }
             }
         }
         return $mRes;
