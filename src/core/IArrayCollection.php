@@ -1,67 +1,66 @@
 <?php
 
-/**
- * Интерфейс коллекций массивов.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This's the array collection interface.
+ * @author coon
+ */
 interface IArrayCollection {
 
     /**
-     * Добавляет элемент в коллекцию.
-     * @param string $sKey.
-     * @param mixed $mValue.
+     * It adds an item to the collection.
+     * @param string $sKey The item name.
+     * @param mixed $mValue The item value.
      */
     public function add($sKey, $mValue);
 
     /**
-     * Добавляет массив элементов в коллекцию.
-     * @param array $aPairs.
+     * It adds the array of items to the collection. 
+     * @param array $aPairs The name-value pairs array.
      */
     public function addAll(array $aPairs);
 
     /**
-     * Возвращает ключи коллекции (аналог итератора).
+     * It returns the keys of the collection (the iterator analog). 
      */
     public function getKeys();
 
     /**
-     * Возвращает элемент коллекции по ключу.
+     * It returns the item of the collection by key.
      * @param string $sKey
      */
     public function get($sKey);
 
     /**
-     * Возвращает все элементы коллекции.
+     * It returns all elements of the collection.
      */
     public function getAll();
 
     /**
-     * Удаляет элемент коллекции по ключу.
+     * It removes the collection item by key.
      * @param string $sKey
      */
     public function remove($sKey);
 
     /**
-     * Удаляет все элементы коллекции.
+     * It removes all items of the collection.
      */
     public function removeAll();
 
     /**
-     * Определяет, содержится ли в коллекции элемент с данным ключом.
-     * @param string $sKey.
+     * It checks if the collection contains the element with passed key.
+     * @param string $sKey The item name.
      */
     public function contains($sKey);
 
     /**
-     * Определяет, является ли коллекция пустой.
+     * It checks if the collection is empty.
      */
     public function isEmpty();
 
     /**
-     * Возвращает количество элементов в коллекции.
+     * It returns the size of the collection.
      */
     public function size();
 }
