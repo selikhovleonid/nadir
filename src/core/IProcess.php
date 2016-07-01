@@ -1,19 +1,16 @@
 <?php
 
-/**
- * Интерфейс описывает функциональность запускаемого и останавливаемого 
- * процесса.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This interface describes a started and stopped process functionality.
+ * @author coon
+ */
 interface IProcess extends IRunnable {
 
     /**
-     * Останавливает и/или уничтожает процесс.
+     * It stops and/or kills the process.
      * @return void.
      */
     public function stop();
 }
-
