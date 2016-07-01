@@ -1,30 +1,28 @@
 <?php
 
-/**
- * Интерфейс описывает функциональность шаблона Front Controller.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * The interface describes the Front Controller pattern functionality.
+ * @author coon
+ */
 interface IFrontController {
 
     /**
-     * Запускает веб приложение на исполнение.
+     * It's the main executable method. It runs the application.
      * @return void.
      */
     public function run();
 
     /**
-     * Метод инициализирует настройки при первоначальном запуске приложения.
+     * The method inits settings at initial appliction startup.
      * @return void.
      */
     public function init();
 
     /**
-     * Обрабатывает объект Request, передавая его объекту ControllerResolver. 
+     * It handles the Request object passing it to the ControllerResolver object.
      * @return void.
      */
     public function handleRequest();
 }
-
