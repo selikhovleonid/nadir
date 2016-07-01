@@ -1,18 +1,16 @@
 <?php
 
-/**
- * Интерфейс, описывающий функциональность запускаемого процесса.
- * @author coon.
- */
-
 namespace core;
 
+/**
+ * This class describes the running process functionality.
+ * @author coon.
+ */
 interface IRunnable {
 
     /**
-     * Запускает процесс на исполнение.
+     * It executes the process.
      * @return void.
      */
     public function run();
 }
-
