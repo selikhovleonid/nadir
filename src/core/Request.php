@@ -1,25 +1,24 @@
 <?php
 
-/**
- * Класс отвечает за централизованный доступ к параметрам входящего запроса.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * The class provides the centralized access to the parameters of input request.
+ * @author coon
+ */
 class Request {
 
-    /** @var array Содержит суперглобальный массив $_SERVER. */
+    /** @var array It contains the superglobal array $_SERVER */
     private $_serverMap = array();
 
-    /** @var array Содержит суперглобальный массив $_REQUEST. */
+    /** @var array It contains the superglobal array $_REQUEST. */
     private $_requestMap = array();
-    
-    /** @var array Содержит необработанное тело запроса. */
-    private $_rawBody    = NULL;
+
+    /** @var array It contains the raw request body. */
+    private $_rawBody = NULL;
 
     /**
-     * Инициализация приватных свойств объекта.
+     * The constructor inits the private properties of the object.
      * @return self.
      */
     public function __construct() {
@@ -29,17 +28,17 @@ class Request {
     }
 
     /**
-     * Возвращает HTTP-метод запроса.
+     * It returns the request HTTP-method.
      * @return string|null
      */
     public function getMethod() {
-        return isset($this->_serverMap['REQUEST_METHOD']) 
-            ? $this->_serverMap['REQUEST_METHOD'] 
-            : NULL;
+        return isset($this->_serverMap['REQUEST_METHOD'])
+                ? $this->_serverMap['REQUEST_METHOD']
+                : NULL;
     }
 
     /**
-     * Возвращает массив заголовков запроса.
+     * It returns the array of request headers.
      * @return string[]
      */
     public function getHeaders() {
@@ -48,7 +47,7 @@ class Request {
     }
 
     /**
-     * Метод возвращает ассоциативный массив куки (ключи - имена куки).
+     * The method returns the associated array of cookies.
      * @return array.
      */
     public function getCookies() {
@@ -65,8 +64,8 @@ class Request {
     }
 
     /**
-     * Метод возвращает необработанное тело запроса, полученное с потока ввода,
-     * как строку.
+     * The method returns the raw body of the request as string, which was gotten 
+     * from the input stream.
      * @return string.
      */
     public function getRawBody() {
@@ -74,7 +73,7 @@ class Request {
     }
 
     /**
-     * Возвращает URL-путь запроса.
+     * It returns trhe URL path of the request.
      * @return string|null 
      */
     public function getUrlPath() {
@@ -89,39 +88,39 @@ class Request {
     }
 
     /**
-     * Метода возвращает значение параметра строки запроса по ключу либо всю 
-     * строку запроса как массив.
-     * @param string $sKey По умолчанию - пустая строка.
+     * The method returns the string values of request by key or whole request 
+     * string as array.
+     * @param string $sKey It's empty string by default.
      * @return mixed.
      */
     public function getParam($sKey = '') {
         if (empty($sKey)) {
             return $this->_requestMap;
         } else {
-            return isset($this->_requestMap[$sKey]) 
-                ? $this->_requestMap[$sKey] 
-                : NULL;
+            return isset($this->_requestMap[$sKey])
+                    ? $this->_requestMap[$sKey]
+                    : NULL;
         }
     }
 
     /**
-     * Метод возвращает значение серверного параметра по ключу (суперглобальный
-     * массив $_SERVER), либо весь массив.
-     * @param string $sKey По умолчанию - пустая строка.
+     * The method returns the server parameter value by the key (from superglobal
+     * array $_SERVER) or the full array.
+     * @param string $sKey It's empty string by default.
      * @return mixed.
      */
     public function getServerParam($sKey = '') {
         if (empty($sKey)) {
             return $this->_serverMap;
         } else {
-            return isset($this->_serverMap[$sKey]) 
-                ? $this->_serverMap[$sKey] 
-                : NULL;
+            return isset($this->_serverMap[$sKey])
+                    ? $this->_serverMap[$sKey]
+                    : NULL;
         }
     }
 
     /**
-     * Определяет является ли запрос ajax-запросом.
+     * It checks if the request is an ajax request.
      * @return boolean.
      */
     public function isAjax() {
