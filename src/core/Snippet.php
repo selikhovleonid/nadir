@@ -3,7 +3,7 @@
 namespace core;
 
 /**
- * Экземпляром класса является сниппет - атомарный элемент представления.
+ * The instance of the class is Snippet - an atomic element of the view.
  * @author coon
  */
 class Snippet extends AView {
