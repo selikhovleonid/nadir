@@ -1,23 +1,22 @@
 <?php
 
-/**
- * Класс-фасад для работы с сессией.
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This's facade class for working with session.
+ * @author coon
+ */
 class Session implements IArrayCollection {
 
     /**
      * @ignore.
      */
     public function __construct() {
-        // nothing here...
+        // Nothing here...
     }
 
     /**
-     * Возвращает текущий идентификатор сессии.
+     * It returns the current ident of session.
      * @return string Id сессии.
      */
     public function getId() {
@@ -25,7 +24,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Определяет, запущена ли сессия или нет.
+     * It checks if the session was started.
      * @return boolean.
      */
     public function isStarted() {
@@ -33,8 +32,8 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Устанавливает идентификатор для текущей сессии.
-     * @param string $iSess.
+     * It sets the ident of current session.
+     * @param string $iSess The swssion id.
      * @return void.
      */
     public function setId($iSess) {
@@ -42,7 +41,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Возвращает имя текущей сессии.
+     * It returns the name of current session.
      * @return string.
      */
     public function getName() {
@@ -50,9 +49,9 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Метод устанавливает имя текущей сессии.
-     * @param string $sName By default PHPSESSID.
-     * @throws Exception.
+     * The method sets the name of current session.
+     * @param string $sName By default it's PHPSESSID.
+     * @throws Exception It throws if passed name consists digits only or is empty.
      */
     public function setName($sName) {
         if (!empty($sName)) {
@@ -60,7 +59,7 @@ class Session implements IArrayCollection {
                 @session_name($sName);
             } else {
                 throw new Exception('The session name can\'t consist of digits only, '
-                    . 'at least one letter must be present.');
+                . 'at least one letter must be present.');
             }
         } else {
             throw new Exception('Empty the session name value.');
@@ -68,12 +67,12 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Инициализирует данные новой сессии или продолжает текущую.
-     * @param string $sSessName Optional имя сессии, имеет более высокий приоритет,
-     * чем  параметр $iSess.
-     * @param string $iSess Optional идентификатор сессии. Значение игнорируется,
-     * если установлен параметр $sSessName.
-     * @return string Идентификатор текущей сессии.
+     * It inits the data of new session or continues the current session.
+     * @param string $sSessName The optional name of session, it has higher priority 
+     * than the $iSess parameter.
+     * @param string $iSess The optional session ident. It ignored if the $sSessName 
+     * parameter was passed.
+     * @return string The id of current session.
      */
     public function start($sSessName = NULL, $iSess = NULL) {
         if (!$this->isStarted()) {
@@ -86,7 +85,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Фиксирует данные сессии и закрывает ее.
+     * It commits the data of session and closes it.
      * @return void|null.
      */
     public function commit() {
@@ -96,8 +95,8 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Уничтожает данные сессии.
-     * @return boolean|null Результат разрушения данных сессии.
+     * It destroys the session data.
+     * @return boolean|null The result of destruction.
      */
     public function destroy() {
         $mRes = NULL;
@@ -109,8 +108,8 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Полностью уничтожает сессию вместе с куки.
-     * @return boolean|null Результат.
+     * It complitly destroys session with cookie.
+     * @return boolean|null The result.
      */
     public function destroyWithCookie() {
         $mRes = NULL;
@@ -122,9 +121,9 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Добавляет переменную в сессию.
-     * @param string $sKey Имя переменной.
-     * @param mixed $mValue Значение переменной.
+     * It adds the variable to the session.
+     * @param string $sKey The name of variable.
+     * @param mixed $mValue The value of it.
      * @return void.
      */
     public function add($sKey, $mValue) {
@@ -132,7 +131,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Добавляет массив переменных (пар ключ-значение) в сессию.
+     * It adds the array of variables (the key-value pairs) to the session.
      * @param array $aData
      * @return void.
      */
@@ -143,7 +142,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Возвращает TRUE, если переменная с указанным ключом есть в сессии.
+     * It returns TRUE if the variable with passed key contains into the session.
      * @param string $sKey.
      * @return boolean.
      */
@@ -152,7 +151,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Возвращает TRUE, если сессия пуста.
+     * It returns TRUE if the session is empty.
      * @return boolean.
      */
     public function isEmpty() {
@@ -160,16 +159,18 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Возвращает значение переменной в сессии по ее имени.
+     * It returns the variable of session value by passed key.
      * @param string $sKey.
      * @return mixed|null.
      */
     public function get($sKey) {
-        return $this->contains($sKey) ? $_SESSION[$sKey] : NULL;
+        return $this->contains($sKey)
+                ? $_SESSION[$sKey]
+                : NULL;
     }
 
     /**
-     * Возвращаетс список имен переменных сессии.
+     * It returns the list of session variables.
      * @return string [].
      */
     public function getKeys() {
@@ -177,7 +178,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Возвращает все переменные сессии как ассоциативный массив.
+     * It returns all session variables as associative array.
      * @return mixed[].
      */
     public function getAll() {
@@ -189,9 +190,9 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Удаляет переменную в сессии по ее имени.
+     * It removes the variable of session by passed key.
      * @param string $sKey.
-     * @return mixed|null Значение удаленной переменной.
+     * @return mixed|null The removed variable value.
      */
     public function remove($sKey) {
         if ($this->contains($sKey)) {
@@ -204,8 +205,8 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Очищает сессию, удаляя все сохраненные переменные.
-     * @return mixed[] Массив удаленных переменных сессии.
+     * It clears the session by removing all stored variables.
+     * @return mixed[] The array of removed vars.
      */
     public function removeAll() {
         $aRes = array();
@@ -216,7 +217,7 @@ class Session implements IArrayCollection {
     }
 
     /**
-     * Возвращает количество переменных в текущей сессии.
+     * It returns the count of variables containing into the session.
      * @return integer.
      */
     public function size() {
