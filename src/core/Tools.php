@@ -1,34 +1,33 @@
 <?php
 
-/**
- * Класс инструментов разработчика.
- * @author coon.
- */
-
 namespace core;
 
+/**
+ * This's the class of developer's tools.
+ * @author coon.
+ */
 class Tools {
-    /** @var integer Константа, определяющая количество пробелов на отступ. */
 
+    /** @var integer The constant determines the count of spaces to indent. */
     const SPACES_PER_TAB = 4;
 
     /**
      * @ignore.
      */
     public function __construct() {
-        // nothing here
+        // Nothing here...
     }
 
     /**
-     * Возвращает строковое представление массива на текущем ярусе дерева.
-     * Рекурсивный метод.
-     * @param type $mVar Переменная.
-     * @param type $nDepth Optional максимальная глубина печати дерева.
-     * @param type $nLevel Optional текущий уровень дерева (ярус).
-     * @param mixed[] $aObjects Optional массив объектов переменной.
+     * It returns of string representation of array at the current level of the 
+     * tree. It's recursive method.
+     * @param type $mVar The variable.
+     * @param type $nDepth Optional The max depth of tree print.
+     * @param type $nLevel Optional The current level of the tree.
+     * @param mixed[] $aObjects Optional The array of variable ojects.
      * @return string.
      */
-    private static function _getDumpArrayIteration(&$mVar, $nDepth = 10, 
+    private static function _getDumpArrayIteration(&$mVar, $nDepth = 10,
             $nLevel = 0, array& $aObjects = array()
     ) {
         $sOut       = '';
@@ -44,8 +43,8 @@ class Tools {
                 $sOut .= "\n{$sSpacesIn}"
                         . self::_getDumpIteration($sKey, $nDepth, 0, $aObjects)
                         . ' => '
-                        . self::_getDumpIteration($mValue, $nDepth, $nLevel + 1, 
-                            $aObjects);
+                        . self::_getDumpIteration($mValue, $nDepth, $nLevel + 1,
+                                $aObjects);
             }
             $sOut .= "\n{$sSpacesOut})";
         }
@@ -53,16 +52,16 @@ class Tools {
     }
 
     /**
-     * Возвращает строковое представление объекта на текущем уровне дерева.
-     * Рекурсивный метод.
-     * @param type $mVar Переменная.
-     * @param type $nDepth Optional максимальная глубина печати дерева.
-     * @param type $nLevel Optional текущий уровень дерева (ярус).
-     * @param mixed[] $aObjects Optional массив объектов переменной.
+     * It returns the string representation of object at the current level of the 
+     * tree. It's recursive method.
+     * @param type $mVar The variable.
+     * @param type $nDepth Optional The max depth of tree print.
+     * @param type $nLevel Optional The current level of the tree.
+     * @param mixed[] $aObjects Optional The array of variable ojects.
      * @return string.
      */
-    private static function _getDumpObjIteration(&$mVar, $nDepth = 10, 
-        $nLevel = 0, array& $aObjects = array()
+    private static function _getDumpObjIteration(&$mVar, $nDepth = 10,
+            $nLevel = 0, array& $aObjects = array()
     ) {
         $sOut       = '';
         $sClassName = get_class($mVar);
@@ -77,18 +76,18 @@ class Tools {
         } else {
             // Возвращает модификаторы свойств объекта.
             $funcGetPropMod = function(\ReflectionProperty $oProp) {
-                        if ($oProp->isPublic()) {
-                            $sOut = 'public';
-                        } elseif ($oProp->isProtected()) {
-                            $sOut = 'protected';
-                        } else {
-                            $sOut = 'private';
-                        }
-                        if ($oProp->isStatic()) {
-                            $sOut .= ' static';
-                        }
-                        return $sOut;
-                    };
+                if ($oProp->isPublic()) {
+                    $sOut = 'public';
+                } elseif ($oProp->isProtected()) {
+                    $sOut = 'protected';
+                } else {
+                    $sOut = 'private';
+                }
+                if ($oProp->isStatic()) {
+                    $sOut .= ' static';
+                }
+                return $sOut;
+            };
 
             $iObj        = array_push($aObjects, $mVar);
             $sSpacesIn   = $sSpacesOut . str_repeat(' ', self::SPACES_PER_TAB);
@@ -99,12 +98,12 @@ class Tools {
                 $oProp->setAccessible(TRUE);
                 $sOut .= "\n{$sSpacesIn}"
                         . '['
-                        . self::_getDumpIteration($oProp->getName(), $nDepth, 0, 
-                            $aObjects)
+                        . self::_getDumpIteration($oProp->getName(), $nDepth, 0,
+                                $aObjects)
                         . ':' . $funcGetPropMod($oProp)
                         . '] => '
-                        . self::_getDumpIteration($oProp->getValue($mVar), 
-                            $nDepth, $nLevel + 1, $aObjects);
+                        . self::_getDumpIteration($oProp->getValue($mVar),
+                                $nDepth, $nLevel + 1, $aObjects);
                 if (!$oProp->isPublic()) {
                     $oProp->setAccessible(FALSE);
                 }
@@ -117,16 +116,16 @@ class Tools {
     }
 
     /**
-     * Метод возвращает строковое представление текущего уровня дерева переменной.
-     * Является рекурсивным.
+     * The method returns the string representation of current level of the tree.
+     * It's recursive.
      * @param type $mVar Переменная.
-     * @param type $nDepth Optional максимальная глубина печати дерева.
-     * @param type $nLevel Optional текущий уровень дерева (ярус).
-     * @param mixed[] $aObjects Optional массив объектов переменной.
+     * @param type $nDepth Optional The max depth of tree print.
+     * @param type $nLevel Optional The current level of the tree.
+     * @param mixed[] $aObjects Optional The array of variable ojects.
      * @return string.
      */
-    private static function _getDumpIteration(&$mVar, $nDepth = 10, $nLevel = 0, 
-        array& $aObjects = array()
+    private static function _getDumpIteration(&$mVar, $nDepth = 10, $nLevel = 0,
+            array& $aObjects = array()
     ) {
         $sOut = '';
         switch (gettype($mVar)) {
@@ -134,7 +133,9 @@ class Tools {
                 $sOut .= 'NULL';
                 break;
             case 'boolean':
-                $sOut .= $mVar ? 'TRUE' : 'FALSE';
+                $sOut .= $mVar
+                        ? 'TRUE'
+                        : 'FALSE';
                 break;
             case 'integer':
             case 'double':
@@ -150,12 +151,12 @@ class Tools {
                 $sOut .= '{resource}';
                 break;
             case 'array':
-                $sOut .= self::_getDumpArrayIteration($mVar, $nDepth, $nLevel, 
-                    $aObjects);
+                $sOut .= self::_getDumpArrayIteration($mVar, $nDepth, $nLevel,
+                                $aObjects);
                 break;
             case 'object':
-                $sOut .= self::_getDumpObjIteration($mVar, $nDepth, $nLevel, 
-                    $aObjects);
+                $sOut .= self::_getDumpObjIteration($mVar, $nDepth, $nLevel,
+                                $aObjects);
                 break;
             default:
                 break;
@@ -164,9 +165,9 @@ class Tools {
     }
 
     /**
-     * Возвращает читабельную информацию о переменной (дамп).
-     * @param type $mVar Переменная.
-     * @param integer $nDepth Optional максимальная глубина печати дерева.
+     * It returns the human-readable data of the variable (the variable dump).
+     * @param type $mVar The variable.
+     * @param integer $nDepth Optional The max depth of tree print.
      * @return string.
      */
     public static function getDumpVar(&$mVar, $nDepth = 10) {
@@ -174,10 +175,10 @@ class Tools {
     }
 
     /**
-     * Печатает читабельную информацию о переменной (дамп) с подсвеченным 
-     * синтаксисом.
-     * @param mixed $mVar Переменная.
-     * @param integer $nDepth Optional максимальная глубина печати дерева.
+     * It prints the human-readable data of the variable (the variable dump) with 
+     * highlighted syntax.
+     * @param mixed $mVar The variable.
+     * @param integer $nDepth Optional The max depth of tree print.
      */
     public static function dumpVar(&$mVar, $nDepth = 10) {
         $sOut = self::getDumpVar($mVar, $nDepth);
@@ -186,4 +187,3 @@ class Tools {
     }
 
 }
-
