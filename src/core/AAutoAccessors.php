@@ -30,7 +30,7 @@ class AAutoAccessors {
 
     /**
      * This's interceptor method, which catches the calls of undeclared methods of
-     * the class. If the name of the invoked method matchs the setProperty, getProperty
+     * the class. If the name of the invoked method matches the setProperty, getProperty
      * or isPropertySet pattern and the target class has corresponding public 
      * property, then it calls needed accessor as if it was declared directly in 
      * the child-class. In another case it throws exception.
