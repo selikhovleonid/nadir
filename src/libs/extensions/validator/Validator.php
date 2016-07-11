@@ -54,7 +54,11 @@ class Validator implements \core\IRunnable {
             if (!isset($aData[$aKey[1]])) {
                 throw new Exception('Undefined index: ' . $aKey[1]);
             }
-            return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]], $aKey[2]);
+            if (!is_array($aData[$aKey[1]])) {
+                throw new Exception("The element indexed {$aKey[1]} isn't an array.");
+            }
+            return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]],
+                            $aKey[2]);
         } else if (isset($aData[$sKey])) {
             return $aData[$sKey];
         } else {
