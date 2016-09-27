@@ -1,19 +1,19 @@
 <?php
-# Добавьте следующую директиву в файл .htaccess для того, чтобы не позволить
-# httpd отдавать cli файл
+
+# Add follow line to the  .htaccess to give ability to return cli file with httpd.
 # RedirectMatch 403 /cli.php$
 
 require_once './core/Autoloader.php';
 
 \core\Autoloader::getInstance()
-        // Установка пути к корню приложения.
+        // Setting the path to the root of application.
         ->setAppRoot(__DIR__)
-        // Добавление корня пакета core в стек автоподгрузки.
-        // По умолчанию директория core находится в корне приложения.
+        // Adding the root of core package to the autoloading stack.
+        // By default the core directory is in the application root.
         ->add(DIRECTORY_SEPARATOR)
         ->run();
 
-// Запуск cli приложения.
+// Running cli application.
 \core\CliApp::getInstance()
         ->setConfigFile('/config/main.php')
         ->run();
