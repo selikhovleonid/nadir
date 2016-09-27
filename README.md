@@ -2,7 +2,7 @@
 
 Yet another MVC PHP microframework.
 
-[![License](https://poser.pugx.org/leaphly/cart-bundle/license.svg)](https://packagist.org/packages/leaphly/cart-bundle)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
 
 ##Манифест
 
