@@ -28,7 +28,7 @@ return array(
 //    ),
     'routeMap'           => array(
         'cli'    => array(
-            'test' => array(
+            '--test' => array(
                 'ctrl' => array('Cli', 'actionTest'),
             ),
         ),
