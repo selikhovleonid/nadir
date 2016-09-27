@@ -36,9 +36,8 @@ class ViewFactory {
                 . DIRECTORY_SEPARATOR . strtolower($sActionName) . '.php';
         if (is_readable($sViewFile)) {
             return new View($sViewFile);
-        } else {
-            return NULL;
         }
+        return NULL;
     }
 
     /**
@@ -53,9 +52,8 @@ class ViewFactory {
                 . strtolower($sLayoutName) . '.php';
         if (is_readable($sLayoutFile)) {
             return new Layout($sLayoutFile, $oView);
-        } else {
-            return NULL;
         }
+        return NULL;
     }
 
     /**
@@ -69,9 +67,8 @@ class ViewFactory {
                 . strtolower($sSnptName) . '.php';
         if (is_readable($SnptFile)) {
             return new Snippet($SnptFile);
-        } else {
-            return NULL;
         }
+        return NULL;
     }
 
 }
