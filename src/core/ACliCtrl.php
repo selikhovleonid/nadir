@@ -3,10 +3,20 @@
 namespace core;
 
 /**
- * Абстрактный класс cli-контроллера.
- * @author lapotchkin.
+ * This is an abstract class of cli-controller.
+ * @author lapotchkin, coon.
  */
 class ACliCtrl {
+    
+    /**
+     * The method returns options from command line argument list.
+     * @param array $aOpt An array of short options (for ex.  -f)
+     * @param array $aLongOpt An array of long options (for ex.  --foo)
+     * @return array|false It returns FALSE if an error occures.
+     */
+    protected function getCmdOpt(array $aOpt, array $aLongOpt = array()) {
+        return getopt(implode('', $aOpt), $aLongOpt);
+    }
 
     /**
      * Print message to console
