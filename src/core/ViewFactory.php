@@ -1,12 +1,11 @@
 <?php
 
-/**
- * Класс-фабрика для генрации объектов представления (View, Layout).
- * @author coon
- */
-
 namespace core;
 
+/**
+ * This's a factory class for generating of View-objects (View, Layout).
+ * @author coon
+ */
 class ViewFactory {
 
     /**
@@ -17,13 +16,13 @@ class ViewFactory {
     }
 
     /**
-     * Метод создает объект представления, связанный с определенным контроллером
-     * и action. При пустом имени контроллера считается, что файл разметки
-     * определяется только именем action, т.е. физически расположен не в 
-     * директории с именем контроллера, а в корне директории с представлениями.
-     * @param string $sCtrlName|null Имя контроллера.
-     * @param string $sActionName Имя action.
-     * @return \core\View|null
+     * The method creates a view object assigned with the specific controller and 
+     * action in it. If controller name is empty it means a markup file determined 
+     * only with action name. It doesn't physically consist into the direcory named 
+     * as controller, it's in the root of the view directory.
+     * @param string $sCtrlName|null The controller name (as optional)
+     * @param string $sActionName The action name.
+     * @return \core\View|null It returns null if view file isn't readable.
      */
     public static function createView($sCtrlName = NULL, $sActionName) {
         $sViewsRoot = AppHelper::getInstance()->getComponentRoot('views');
@@ -41,9 +40,9 @@ class ViewFactory {
     }
 
     /**
-     * Создает объект макета.
-     * @param type $sLayoutName Имя макета.
-     * @param \core\View $oView Объект представления.
+     * It creates a layout object.
+     * @param type $sLayoutName The layout name.
+     * @param \core\View $oView The object of view.
      * @return \core\Layout|null
      */
     public static function createLayout($sLayoutName, View $oView) {
@@ -57,8 +56,8 @@ class ViewFactory {
     }
 
     /**
-     * Метод создает сниппет-объект.
-     * @param type $sSnptName Имя сниппета.
+     * The method creates a snippet-object.
+     * @param type $sSnptName The snippet name.
      * @return \core\Snippet|null.
      */
     public static function createSnippet($sSnptName) {
