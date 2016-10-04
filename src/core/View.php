@@ -1,14 +1,13 @@
 <?php
 
-/**
- * Класс представления.
- * @property mixed $name Переменная для передачи пользовательских данных из 
- * контроллера в файл представления.
- * @author coon.
- */
-
 namespace core;
 
+/**
+ * This's а class of the View (the view in a strictly).
+ * @property mixed $name The variable for a passing custom data from a controller 
+ * to the view file.
+ * @author coon.
+ */
 class View extends ACompositeView {
 
     /**
