@@ -3,8 +3,8 @@
 namespace core;
 
 /**
- * Класс отвечает за выбор контроллера, передачу в него параметров запроса, 
- * связывание с соответствующими макетом и представлением.
+ * This class provides the choosing of controller, passing the request parameters 
+ * in it and binding with corresponding layout and view.
  * @author coon
  */
 class WebCtrlResolver extends ACtrlResolver {
@@ -13,7 +13,7 @@ class WebCtrlResolver extends ACtrlResolver {
     protected $request = NULL;
 
     /**
-     * Инициализация свойства Объекта запроса.
+     * It inits the request property.
      * @param \core\Request $oRequest.
      */
     public function __construct(Request $oRequest) {
@@ -22,13 +22,14 @@ class WebCtrlResolver extends ACtrlResolver {
     }
 
     /**
-     * Создает объект контроллера, связывая его с умалчиваемыми объектами 
-     * представления и макета.
+     * It creates the controller object, assignes it with default view and layout
+     * objects.
      * @return \core\AWebController.
      */
     protected function createCtrl() {
         $oView         = ViewFactory::createView(
-                        $this->ctrlName, str_replace('action', '', $this->actionName)
+                        $this->ctrlName,
+                        str_replace('action', '', $this->actionName)
         );
         $sCtrlNameFull = '\\controllers\\' . $this->ctrlName;
         if (!is_null($oView)) {
@@ -52,8 +53,8 @@ class WebCtrlResolver extends ACtrlResolver {
         $sMethod = strtolower($this->request->getMethod());
         if (isset($this->routeMap[$sMethod])) {
             foreach ($this->routeMap[$sMethod] as $sRoute => $aRouteConfig) {
-                if (preg_match('#^' . $sRoute . '/?$#u', 
-                        urldecode($this->request->getUrlPath()), $aParam)
+                if (preg_match('#^' . $sRoute . '/?$#u',
+                                urldecode($this->request->getUrlPath()), $aParam)
                 ) {
                     AppHelper::getInstance()->setRouteConfig($aRouteConfig);
                     $this->ctrlName   = $aRouteConfig['ctrl'][0];
@@ -67,7 +68,7 @@ class WebCtrlResolver extends ACtrlResolver {
     }
 
     /**
-     * Запуск action контроллера на исполнение.
+     * It runs the controller action on execution.
      * @throws \core\Exception.
      */
     public function run() {
@@ -77,7 +78,7 @@ class WebCtrlResolver extends ACtrlResolver {
             $oCtrlWrapper = new CtrlWrapper($oCtrl);
             $oCtrlWrapper->{$this->actionName}($this->actionArgs);
         } else {
-            throw new Exception('Unable assign controller with this route path.');
+            throw new Exception("It's unable to assign controller with this route path.");
         }
     }
 
