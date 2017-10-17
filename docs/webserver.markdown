@@ -1,10 +1,10 @@
-#Nadir Framework
+# Nadir Framework
 
 Yet another MVC PHP microframework.
 
-##Конфигурирование веб-сервера
+## Конфигурирование веб-сервера
 
-###Конфигурирование Apache2 (.htaccess или директива VirtualHost)
+### Конфигурирование Apache2 (.htaccess или директива VirtualHost)
 
 Инструкции для модуля mod_rewrite.
 
@@ -17,7 +17,7 @@ RewriteRule ^(.*)$ index.php
 #...
 ````
 
-###Конфигурирование Nginx
+### Конфигурирование Nginx
 
 Инструкции для модуля ngx_http_rewrite_module.
 
