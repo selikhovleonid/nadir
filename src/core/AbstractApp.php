@@ -10,7 +10,7 @@ use extensions\core\Process;
  * Controller pattern, it's Singleton-instance.
  * @author coon
  */
-abstract class AbstractApp extends AAutoAccessors implements IFrontController,
+abstract class AbstractApp extends AbstractAutoAccessors implements IFrontController,
     IRunnable
 {
     /** @var string This's path to the config file root. */
