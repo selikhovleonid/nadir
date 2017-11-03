@@ -6,7 +6,7 @@ namespace core;
  * This's a class of cli-application (command line interface application).
  * @author coon
  */
-class CliApp extends AbstractApplication {
+class CliApp extends AbstractApp {
 
     /** @var self The singleton object of current class. */
     protected static $_instance = NULL;

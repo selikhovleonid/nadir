@@ -6,7 +6,7 @@ namespace core;
  * It's the web-application class. It specifies an abstract application.
  * @author coon
  */
-class WebApp extends AbstractApplication {
+class WebApp extends AbstractApp {
 
     /** @var self The singleton object of the current class. */
     protected static $_instance = NULL;
