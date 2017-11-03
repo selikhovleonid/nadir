@@ -44,7 +44,7 @@ class Autoloader
      * @param string $sRoot The directory root relative to the application root.
      * @return boolean.
      */
-    private function _isInRootSet($sRoot)
+    private function inRootSet($sRoot)
     {
         foreach ($this->rootSet as $aSet) {
             if ($aSet['root'] == $sRoot) {
@@ -102,7 +102,7 @@ class Autoloader
             if (strpos($sRoot, $this->getAppRoot()) === false) {
                 $sRoot = $this->getAppRoot().$sRoot;
             }
-            if (!$this->_isInRootSet($sRoot)) {
+            if (!$this->inRootSet($sRoot)) {
                 $this->rootSet[] = array(
                     'root' => $sRoot,
                     'isLoaded' => false
@@ -130,7 +130,7 @@ class Autoloader
     {
         foreach ($this->rootSet as & $aSet) {
             if (!$aSet['isLoaded']) {
-                spl_autoload_register(self::_getFuncCall($aSet['root']), true,
+                spl_autoload_register(self::getFuncCall($aSet['root']), true,
                     true);
                 $aSet['isLoaded'] = true;
             }
@@ -144,7 +144,7 @@ class Autoloader
      * @param string $sRoot The directory root relative to the application root.
      * @return callable The closure function.
      */
-    private static function _getFuncCall($sRoot)
+    private static function getFuncCall($sRoot)
     {
         // Currying
         return function ($sClassName) use ($sRoot) {
