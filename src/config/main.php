@@ -1,16 +1,16 @@
 <?php
 return array(
-    'componentsRootMap' => array(
+    'componentsRootMap'  => array(
         'controllers' => '/controllers',
-        'views' => '/views/views',
-        'layouts' => '/views/layouts',
-        'snippets' => '/views/snippets',
-        'models' => '/models',
-        'libs' => '/libs',
-        'vendor' => '/vendor',
-        'images' => '/assets/imgs',
-        'js' => '/js',
-        'css' => '/css'
+        'views'       => '/views/views',
+        'layouts'     => '/views/layouts',
+        'snippets'    => '/views/snippets',
+        'models'      => '/models',
+        'libs'        => '/libs',
+        'vendor'      => '/vendor',
+        'images'      => '/assets/imgs',
+        'js'          => '/js',
+        'css'         => '/css'
     ),
     'autoloadingRootSet' => array(
         '/', // controllers & models autoload
@@ -18,21 +18,21 @@ return array(
 //        '/libs/some_dbms_name', // for example
 //        '/vendor/some_framework_name/src', // for example
     ),
-    'defaultLayout' => 'main',
+    'defaultLayout'      => 'main',
 //    'db'                 => array(// for example
 //        'host'     => '',
 //        'username' => '',
 //        'password' => '',
 //        'dbname'   => ''
 //    ),
-    'routeMap' => array(
-        'cli' => array(
+    'routeMap'           => array(
+        'cli'    => array(
             '--test' => array(
                 'ctrl' => array('Cli', 'actionTest'),
             ),
         ),
-        'get' => array(
-            '/' => array(
+        'get'    => array(
+            '/'  => array(
                 'ctrl' => array('Test', 'actionDefault'),
                 'auth' => false,
             ),
@@ -41,13 +41,13 @@ return array(
                 'auth' => false,
             ),
         ),
-        'post' => array(
+        'post'   => array(
             '.*' => array(
                 'ctrl' => array('System', 'actionPage404'),
                 'auth' => false,
             ),
         ),
-        'put' => array(
+        'put'    => array(
             '.*' => array(
                 'ctrl' => array('System', 'actionPage404'),
                 'auth' => false,

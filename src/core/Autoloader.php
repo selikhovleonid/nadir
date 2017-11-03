@@ -104,7 +104,7 @@ class Autoloader
             }
             if (!$this->inRootSet($sRoot)) {
                 $this->rootSet[] = array(
-                    'root' => $sRoot,
+                    'root'     => $sRoot,
                     'isLoaded' => false
                 );
             }
