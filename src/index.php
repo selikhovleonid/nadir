@@ -1,18 +1,17 @@
 <?php
-
 require_once './core/Autoloader.php';
 
 \core\Autoloader::getInstance()
-        // Установка пути к корню приложения.
-        ->setAppRoot(__DIR__)
-        // Добавление корня пакета core в стек автоподгрузки.
-        // По умолчанию директория core находится в корне веб-приложения.
-        ->add(DIRECTORY_SEPARATOR)
-        ->run();
+    // The Application root setting.
+    ->setAppRoot(__DIR__)
+    // Adding the Core package to the autoload stack.
+    // The Core directory is at the root of Web App by default.
+    ->add(DIRECTORY_SEPARATOR)
+    ->run();
 
-// Запуск веб-приложения.
+// Running the Web Application.
 \core\WebApp::getInstance()
-        // Определение относительного пути к файлу с основной конфигурацией 
-        // приложения.
-        ->setConfigFile('/config/main.php')
-        ->run();
+    // Setting the relative path to the main configuration file of the
+    // Application.
+    ->setConfigFile('/config/main.php')
+    ->run();
