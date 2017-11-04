@@ -7,10 +7,10 @@ namespace core;
  * controller and action in it.
  * @author coon
  */
-class CliCtrlResolver extends AbstractCtrlResolver {
-
+class CliCtrlResolver extends AbstractCtrlResolver
+{
     /** @var string The route of cli-script calling (the first passed param). */
-    protected $requestRoute = NULL;
+    protected $requestRoute = null;
 
     /**
      * The oject properties initialization.
@@ -18,11 +18,12 @@ class CliCtrlResolver extends AbstractCtrlResolver {
      * @throws \core\Exception It throws if it wasn't passed the route as the first 
      * call param.
      */
-    public function __construct(array $aArgs) {
+    public function __construct(array $aArgs)
+    {
         parent::__construct();
         if (!isset($aArgs[1])) {
             throw new Exception('Undefined route for cli request. '
-            . "The route wasn't passed as first param when cli script was called.");
+            ."The route wasn't passed as first param when cli script was called.");
         }
         $this->requestRoute = $aArgs[1];
         unset($aArgs[0]);
@@ -33,15 +34,17 @@ class CliCtrlResolver extends AbstractCtrlResolver {
     /**
      *  {@inheritdoc}
      */
-    protected function createCtrl() {
-        $sCtrlNameFull = '\\controllers\\' . $this->ctrlName;
+    protected function createCtrl()
+    {
+        $sCtrlNameFull = '\\controllers\\'.$this->ctrlName;
         return new $sCtrlNameFull();
     }
 
     /**
      *  {@inheritdoc}
      */
-    protected function tryAssignController() {
+    protected function tryAssignController()
+    {
         if (isset($this->routeMap['cli'])) {
             foreach ($this->routeMap['cli'] as $sRoute => $aRouteConfig) {
                 if ($sRoute == $this->requestRoute) {
@@ -59,14 +62,13 @@ class CliCtrlResolver extends AbstractCtrlResolver {
      * @throws Exception It throws if it was unable to assign controller with 
      * route path.
      */
-    public function run() {
+    public function run()
+    {
         $this->tryAssignController();
-        if ($this->isControllerAssigned()) {
-            $oCtrl = $this->createCtrl();
-            $oCtrl->{$this->actionName}($this->actionArgs);
-        } else {
-            throw new Exception("It's unable to assign controller with this route path.");
+        if (!$this->isControllerAssigned()) {
+            throw new Exception("It's unable to assign controller to this route path.");
         }
+        $oCtrl = $this->createCtrl();
+        $oCtrl->{$this->actionName}($this->actionArgs);
     }
-
 }
