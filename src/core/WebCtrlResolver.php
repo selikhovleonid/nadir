@@ -7,7 +7,7 @@ namespace core;
  * in it and binding with corresponding layout and view.
  * @author coon
  */
-class WebCtrlResolver extends ACtrlResolver {
+class WebCtrlResolver extends AbstractCtrlResolver {
 
     /** @var \core\Request Объект запроса. */
     protected $request = NULL;

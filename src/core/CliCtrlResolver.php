@@ -7,7 +7,7 @@ namespace core;
  * controller and action in it.
  * @author coon
  */
-class CliCtrlResolver extends ACtrlResolver {
+class CliCtrlResolver extends AbstractCtrlResolver {
 
     /** @var string The route of cli-script calling (the first passed param). */
     protected $requestRoute = NULL;
