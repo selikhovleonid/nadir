@@ -6,7 +6,7 @@ namespace core;
  * This's facade class for working with session.
  * @author coon
  */
-class Session implements IArrayCollection {
+class Session implements ArrayCollectionInterface {
 
     /**
      * @ignore.
