@@ -23,9 +23,9 @@ abstract class AWebCtrl {
      * The constructor assigns object with request object and possibly with
      * the view object (full or partial).
      * @param \core\Request $oRequest The request object.
-     * @param \core\AView|null $oView The view object.
+     * @param \core\AbstractView|null $oView The view object.
      */
-    public function __construct(Request $oRequest, AView $oView = NULL) {
+    public function __construct(Request $oRequest, AbstractView $oView = NULL) {
         $this->request = $oRequest;
         if (!is_null($oView)) {
             if ($oView instanceof View) {

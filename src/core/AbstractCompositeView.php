@@ -7,7 +7,7 @@ namespace core;
  * entities may contains the atomic view units - the snippets.
  * @author coon
  */
-abstract class AbstractCompositeView extends AView
+abstract class AbstractCompositeView extends AbstractView
 {
     /** @var \core\Snippet[] The snippet map. */
     protected $snippets = array();
