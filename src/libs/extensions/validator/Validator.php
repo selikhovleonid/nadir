@@ -41,10 +41,10 @@ class Validator implements \core\RunnableInterface
 
     /**
      * The method returns a tree element by a key, which is formed as a string
-     * separated by dots and reflecting the nesting hierarchy.
+     * separated by points and reflecting the nesting hierarchy.
      * @param mixed[] $aData Input tree.
      * @param string $sKey The field name. The name of the nested field is formed by
-     * the path of the tree the tiers of which are separated by the dot.
+     * the path of the tree the tiers of which are separated by the point.
      * @return mixed.
      * @throws \extensions\validator\Exception.
      */
@@ -60,7 +60,7 @@ class Validator implements \core\RunnableInterface
             }
             return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]],
                     $aKey[2]);
-        } else if (isset($aData[$sKey])) {
+        } elseif (isset($aData[$sKey])) {
             return $aData[$sKey];
         } else {
             throw new Exception('Undefined index: '.$sKey);
@@ -68,11 +68,11 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод определяет, содержит ли входное дерево элемент с указанным индексом
-     * (индекс содержит точку-разделитель ярусов).
-     * @param mixed[] $aData Данные - дерево.
-     * @param string $sKey Имя поля. Имя вложенного поля формируется по пути дерева, 
-     * ярусы которого разделены точкой.
+     * The method checks if the input tree contains an element with the specified
+     * index (the index contains a point-separator of tiers)
+     * @param mixed[] $aData Input tree.
+     * @param string $sKey The field name. The name of the nested field is formed by
+     * the path of the tree the tiers of which are separated by the point.
      * @return boolean.
      */
     public static function isIndexSet(array & $aData, $sKey)
@@ -86,8 +86,8 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод инициализирует валидатор умалчиваемым набором правил (правила для 
-     * валидации обязательных полей, строк, чисел) и опций правил.
+     * This method fills the validator with default set of rules (and options of rules)
+     * such as rules for validating required fields, strings, numbers, arrays etc.
      */
     private function init()
     {
@@ -306,28 +306,27 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод добавляет набор полей и соответствующие им правила и опции валидации
-     * входных данных.
-     * @param array $aItem Набор представляет собой массив, первый элемент которого
-     * это строка с именем поля (или массив имен полей), второй элемент - имя
-     * правила валидации (всегда строка), третий - опциональный элемент - массив 
-     * опций валидации.
+     * The method adds a set of fields and their corresponding rules and parameters
+     * for validating the input data
+     * @param array $aItem This set is an array whose first element is a string
+     * with a field name (or an array of field names), the second element is the
+     * name of the validation rule (always a string), the third element is an
+     * optional array of validation options.
      * @return self.
      * @throws \extensions\validator\Exception.
      */
     public function addItem(array $aItem)
     {
         if (count($aItem) < 2) {
-            throw new Exception('Invalid count of item elems.');
+            throw new Exception('Invalid count of item elements.');
         }
         $this->items[] = $aItem;
         return $this;
     }
 
     /**
-     * Метод для массовой установки наборов полей и соответствующих им правил и 
-     * опций валидации.
-     * @param array $aItems Массив наборов.
+     * This is mass analog for addItem() method.
+     * @param array $aItems The input array of sets.
      * @return self.
      */
     public function setItems(array $aItems)
@@ -339,14 +338,14 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод добавляет правило валидации в стек набора правил валидатора.
-     * @param type $sName Имя правила.
-     * @param callable $funcCall Функция обратного вызова, определяющая функционал
-     * правила валидации данных. Первым параметром в нее передается имя 
-     * валидируемого поля, вторым - опциональным - параметром - набор опций валидации,
-     * контекстом (замыканием) - входные данные.
-     * @param string|callable|null $mErrorMsg Текст сообщения об ошибке валидации,
-     * либо функция, вычисляющая текст (параметр опционален).
+     * The method adds a validation rule to the stack of validator rulesets.
+     * @param type $sName The name of rule.
+     * @param callable $funcCall The callback function that defines the functional
+     * of the data validation rule. The first parameter is the name of the validated
+     * field, the second optional parameter is the set of validation options,
+     * and the context (closure) is the input data.
+     * @param string|callable|null $mErrorMsg The error message or callable function
+     * which generates this message. This parameter is optional.
      * @return self.
      * @throws \extensions\validator\Exception.
      */
@@ -361,7 +360,8 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Добавляет текст ошибки в стек ошибок, возникших при валидации.
+     * The method adds the error message to the error stack which occurred during
+     * validation.
      * @param string $sMsg.
      */
     protected function addError($sMsg)
@@ -370,9 +370,9 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод добавляет умалчиваемый текст для формирования описания ошибок
-     * валидации.
-     * @param string $sFieldName Имя поля.
+     * The method adds default message to form a description of the validation
+     * errors.
+     * @param string $sFieldName The field name.
      * @return string[].
      */
     protected function addDefaultError($sFieldName)
@@ -413,7 +413,7 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Запускает валидацию данных на исполнение.
+     * The main executable method.
      * @return self.
      */
     public function run()
@@ -432,27 +432,28 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод определяет, прошли ли входные данные валидацию или нет.
+     * It checks if processed input data is valid or not.
      * @return boolean.
      * @throws \extensions\validator\Exception.
      */
     public function isValid()
     {
         if (!$this->isRan) {
-            throw new Exception('Validator not ran.');
+            throw new Exception("The validation wasn't ran.");
         }
         return empty($this->errors);
     }
 
     /**
-     * Метод возвращает содержимое стека ошибок валидации входных данных.
-     * @return string[] Массив ошибок валидации.
+     * The method returns the contents of the stack of validation errors of
+     * input data.
+     * @return string[] The array of validation errors.
      * @throws \extensions\validator\Exception.
      */
     public function getErrors()
     {
         if (!$this->isRan) {
-            throw new Exception('Validator not ran.');
+            throw new Exception("The validation wasn't ran.");
         }
         return $this->errors;
     }
