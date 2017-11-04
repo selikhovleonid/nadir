@@ -7,7 +7,7 @@ namespace core;
  * parameters.
  * @author coon
  */
-abstract class ACtrlResolver implements IRunnable {
+abstract class ACtrlResolver implements RunnableInterface {
 
     /** @var array[] The route map. */
     protected $routeMap = array();

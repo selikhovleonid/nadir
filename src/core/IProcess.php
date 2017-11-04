@@ -6,7 +6,7 @@ namespace core;
  * This interface describes a started and stopped process functionality.
  * @author coon
  */
-interface IProcess extends IRunnable {
+interface IProcess extends RunnableInterface {
 
     /**
      * It stops and/or kills the process.

@@ -11,7 +11,7 @@ use extensions\core\Process;
  * @author coon
  */
 abstract class AbstractApp extends AbstractAutoAccessors implements FrontControllerInterface,
-    IRunnable
+    RunnableInterface
 {
     /** @var string This's path to the config file root. */
     public $configFile = null;

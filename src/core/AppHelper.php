@@ -8,7 +8,7 @@
 
 namespace core;
 
-class AppHelper extends AbstractAutoAccessors implements IRunnable {
+class AppHelper extends AbstractAutoAccessors implements RunnableInterface {
 
     /** @var string The path to the application root. */
     public $appRoot = NULL;
