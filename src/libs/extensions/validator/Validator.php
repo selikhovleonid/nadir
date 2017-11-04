@@ -3,30 +3,30 @@
 namespace extensions\validator;
 
 /**
- * Класс-валидатор входных данных.
+ * This is class for input data validation.
  * @author coon
  */
 class Validator implements \core\RunnableInterface
 {
-    /** @var mixed[] Входные данные для валидации. */
+    /** @var mixed[] Input data for validation. */
     protected $data = null;
 
-    /** @var array Набор полей и соответствующих им правил для валидации. */
+    /** @var array Set of fields and their corresponding rules for validation. */
     protected $items = array();
 
-    /** @var array Набор правил валидатора. */
+    /** @var array Set of validation rules. */
     protected $rules = array();
 
-    /** @var array Стек ошибок данных, возникших в ходе валидации. */
+    /** @var array Stack of data errors which occured during the validation. */
     protected $errors = array();
 
-    /** @var boolean Флаг равен true, когда валидация данных проведена. */
+    /** @var boolean Flag is equal true when the data is validated. */
     protected $isRan = false;
 
     /**
-     * Конструктор инициализирует валидатор а также устанавливает входные данные
-     * для валидации.
-     * @param mixed[] $aData Валидируемые данные.
+     * The constructor initializes the validator and also sets the input data for
+     * validation.
+     * @param mixed[] $aData Input data.
      */
     public function __construct($aData)
     {
@@ -35,16 +35,16 @@ class Validator implements \core\RunnableInterface
             $this->init();
         } else {
             $this->isRan = true;
-            $this->addError('Invalid data set format. It must be an array.');
+            $this->addError('Invalid data set format.');
         }
     }
 
     /**
-     * Метод возвращает элемент дерева по ключу, который формируется как строка,
-     * разделенная точками и отражающая иерархию вложенности.
-     * @param mixed[] $aData Данные - дерево.
-     * @param string $sKey Имя поля. Имя вложенного поля формируется по пути дерева, 
-     * ярусы которого разделены точкой.
+     * The method returns a tree element by a key, which is formed as a string
+     * separated by dots and reflecting the nesting hierarchy.
+     * @param mixed[] $aData Input tree.
+     * @param string $sKey The field name. The name of the nested field is formed by
+     * the path of the tree the tiers of which are separated by the dot.
      * @return mixed.
      * @throws \extensions\validator\Exception.
      */
