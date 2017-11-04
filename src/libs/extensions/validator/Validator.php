@@ -388,8 +388,8 @@ class Validator implements \core\RunnableInterface
      * @param array $aOpt The validation options.
      * @throws \extensions\validator\Exception.
      */
-    private function _applyRuleToField($sFieldName, $sRuleName,
-                                       array $aOpt = array())
+    private function applyRuleToField($sFieldName, $sRuleName,
+                                      array $aOpt = array())
     {
         if (!isset($this->rules[$sRuleName])) {
             throw new Exception('Undefined rule name.');
@@ -424,7 +424,7 @@ class Validator implements \core\RunnableInterface
                 $mOpt      = isset($aItem[2]) ? $aItem[2] : array();
                 $sRuleName = $aItem[1];
                 foreach (is_array($aItem[0]) ? $aItem[0] : array($aItem[0]) as $sFieldName) {
-                    self::_applyRuleToField($sFieldName, $sRuleName, $mOpt);
+                    self::applyRuleToField($sFieldName, $sRuleName, $mOpt);
                 }
             }
         }
