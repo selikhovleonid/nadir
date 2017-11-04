@@ -1,16 +1,15 @@
 <?php
 
+namespace extensions\validator;
+
 /**
  * Класс-валидатор входных данных.
  * @author coon
  */
-
-namespace extensions\validator;
-
-class Validator implements \core\RunnableInterface {
-
+class Validator implements \core\RunnableInterface
+{
     /** @var mixed[] Входные данные для валидации. */
-    protected $data = NULL;
+    protected $data = null;
 
     /** @var array Набор полей и соответствующих им правил для валидации. */
     protected $items = array();
@@ -21,21 +20,22 @@ class Validator implements \core\RunnableInterface {
     /** @var array Стек ошибок данных, возникших в ходе валидации. */
     protected $errors = array();
 
-    /** @var boolean Флаг равен TRUE, когда валидация данных проведена. */
-    protected $isRan = FALSE;
+    /** @var boolean Флаг равен true, когда валидация данных проведена. */
+    protected $isRan = false;
 
     /**
      * Конструктор инициализирует валидатор а также устанавливает входные данные
      * для валидации.
-     * @param mied[] $aData Валидируемые данные.
+     * @param mixed[] $aData Валидируемые данные.
      */
-    public function __construct($aData) {
+    public function __construct($aData)
+    {
         if (is_array($aData)) {
             $this->data = $aData;
-            $this->_init();
+            $this->init();
         } else {
-            $this->isRan = TRUE;
-            $this->addError('Invalid data set format.');
+            $this->isRan = true;
+            $this->addError('Invalid data set format. It must be an array.');
         }
     }
 
@@ -48,21 +48,22 @@ class Validator implements \core\RunnableInterface {
      * @return mixed.
      * @throws \extensions\validator\Exception.
      */
-    public static function getArrayItemByPointSeparatedKey(array & $aData, $sKey) {
-        if (strpos($sKey, '.') !== FALSE) {
+    public static function getArrayItemByPointSeparatedKey(array & $aData, $sKey)
+    {
+        if (strpos($sKey, '.') !== false) {
             preg_match('/([a-zA-Z0-9_\-]+)\.([a-zA-Z0-9_\-\.]+)/', $sKey, $aKey);
             if (!isset($aData[$aKey[1]])) {
-                throw new Exception('Undefined index: ' . $aKey[1]);
+                throw new Exception('Undefined index: '.$aKey[1]);
             }
             if (!is_array($aData[$aKey[1]])) {
                 throw new Exception("The element indexed {$aKey[1]} isn't an array.");
             }
             return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]],
-                            $aKey[2]);
+                    $aKey[2]);
         } else if (isset($aData[$sKey])) {
             return $aData[$sKey];
         } else {
-            throw new Exception('Undefined index: ' . $sKey);
+            throw new Exception('Undefined index: '.$sKey);
         }
     }
 
@@ -74,12 +75,13 @@ class Validator implements \core\RunnableInterface {
      * ярусы которого разделены точкой.
      * @return boolean.
      */
-    public static function isIndexSet(array & $aData, $sKey) {
+    public static function isIndexSet(array & $aData, $sKey)
+    {
         try {
             self::getArrayItemByPointSeparatedKey($aData, $sKey);
-            return TRUE;
+            return true;
         } catch (Exception $e) {
-            return FALSE;
+            return false;
         }
     }
 
@@ -87,199 +89,220 @@ class Validator implements \core\RunnableInterface {
      * Метод инициализирует валидатор умалчиваемым набором правил (правила для 
      * валидации обязательных полей, строк, чисел) и опций правил.
      */
-    private function _init() {
+    private function init()
+    {
         $aData = $this->data;
 
         $this
-                // Required value rules
-                ->addRule('required', function($sFieldName) use ($aData) {
-                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
-                        return TRUE;
+            // Required value rules
+            ->addRule('required',
+                function($sFieldName) use ($aData) {
+                if (\extensions\validator\Validator::isIndexSet($aData,
+                        $sFieldName)) {
+                    return true;
+                }
+                return false;
+            },
+                function($sFieldName) {
+                return "Field '{$sFieldName}' is required.";
+            })
+            // String rules
+            ->addRule('string',
+                function($sFieldName, array $aOpt = array()) use ($aData) {
+                if (\extensions\validator\Validator::isIndexSet($aData,
+                        $sFieldName)) {
+                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
+                            $sFieldName);
+                    if (!is_string($mValue)) {
+                        return false;
                     }
-                    return FALSE;
-                }, function($sFieldName) {
-                    return "Field '{$sFieldName}' is required.";
-                })
-                // String rules
-                ->addRule('string', function($sFieldName, array $aOpt = array()) use ($aData) {
-                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
-                        $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                        if (!is_string($mValue)) {
-                            return FALSE;
+                    if (isset($aOpt['notEmpty'])) {
+                        $mTmp = trim($mValue);
+                        if ($aOpt['notEmpty'] && empty($mTmp)) {
+                            return false;
                         }
-                        if (isset($aOpt['notEmpty'])) {
-                            $mTmp = trim($mValue);
-                            if ($aOpt['notEmpty'] && empty($mTmp)) {
-                                return FALSE;
-                            }
-                            if (!$aOpt['notEmpty'] && !empty($mTmp)) {
-                                return FALSE;
-                            }
-                        }
-                        if (isset($aOpt['pattern'])) {
-                            if (!preg_match($aOpt['pattern'], $mValue)) {
-                                return FALSE;
-                            }
-                        }
-                        if (isset($aOpt['length'])) {
-                            $nLength = mb_strlen($mValue, 'UTF-8');
-                            if (isset($aOpt['length']['min'])) {
-                                if ($nLength < $aOpt['length']['min']) {
-                                    return FALSE;
-                                }
-                            }
-                            if (isset($aOpt['length']['max'])) {
-                                if ($nLength > $aOpt['length']['max']) {
-                                    return FALSE;
-                                }
-                            }
-                            if (isset($aOpt['length']['equal'])) {
-                                if ($nLength != $aOpt['length']['equal']) {
-                                    return FALSE;
-                                }
-                            }
+                        if (!$aOpt['notEmpty'] && !empty($mTmp)) {
+                            return false;
                         }
                     }
-                    return TRUE;
-                }, function($sFieldName, array $aOpt = array()) {
-                    if (!empty($aOpt)) {
-                        $aKeys = array_keys($aOpt);
-                        $sKeys = implode(', ', $aKeys);
-                        return "Invalid string field '{$sFieldName}' value. Validation options: {$sKeys}";
+                    if (isset($aOpt['pattern'])) {
+                        if (!preg_match($aOpt['pattern'], $mValue)) {
+                            return false;
+                        }
                     }
-                    return "Invalid string field '{$sFieldName}' value.";
-                })
-                // Number rules
-                ->addRule('number', function($sFieldName, array $aOpt = array()) use ($aData) {
-                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
-                        $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                        if (!is_numeric($mValue)) {
-                            return FALSE;
-                        }
-                        if (isset($aOpt['float'])) {
-                            if ($aOpt['float'] && !is_float($mValue)) {
-                                return FALSE;
-                            }
-                            if (!$aOpt['float'] && is_float($mValue)) {
-                                return FALSE;
+                    if (isset($aOpt['length'])) {
+                        $nLength = mb_strlen($mValue, 'UTF-8');
+                        if (isset($aOpt['length']['min'])) {
+                            if ($nLength < $aOpt['length']['min']) {
+                                return false;
                             }
                         }
-                        if (isset($aOpt['integer'])) {
-                            if ($aOpt['integer'] && !is_int($mValue)) {
-                                return FALSE;
-                            }
-                            if (!$aOpt['integer'] && is_int($mValue)) {
-                                return FALSE;
+                        if (isset($aOpt['length']['max'])) {
+                            if ($nLength > $aOpt['length']['max']) {
+                                return false;
                             }
                         }
-                        if (isset($aOpt['positive'])) {
-                            if ($aOpt['positive'] && $mValue <= 0) {
-                                return FALSE;
-                            }
-                            if (!$aOpt['positive'] && $mValue >= 0) {
-                                return FALSE;
-                            }
-                        }
-                        if (isset($aOpt['value'])) {
-                            if (isset($aOpt['value']['equal'])) {
-                                if ($mValue != $aOpt['value']['equal']) {
-                                    return FALSE;
-                                }
-                            }
-                            if (isset($aOpt['value']['min'])) {
-                                if ($mValue < $aOpt['value']['min']) {
-                                    return FALSE;
-                                }
-                            }
-                            if (isset($aOpt['value']['max'])) {
-                                if ($mValue > $aOpt['value']['max']) {
-                                    return FALSE;
-                                }
+                        if (isset($aOpt['length']['equal'])) {
+                            if ($nLength != $aOpt['length']['equal']) {
+                                return false;
                             }
                         }
                     }
-                    return TRUE;
-                }, function($sFieldName, array $aOpt = array()) {
-                    if (!empty($aOpt)) {
-                        $aKeys = array_keys($aOpt);
-                        $sKeys = implode(', ', $aKeys);
-                        return "Invalid number field '{$sFieldName}' value. Validation options: {$sKeys}";
+                }
+                return true;
+            },
+                function($sFieldName, array $aOpt = array()) {
+                if (!empty($aOpt)) {
+                    $aKeys = array_keys($aOpt);
+                    $sKeys = implode(', ', $aKeys);
+                    return "Invalid string field '{$sFieldName}' value. Validation options: {$sKeys}";
+                }
+                return "Invalid string field '{$sFieldName}' value.";
+            })
+            // Number rules
+            ->addRule('number',
+                function($sFieldName, array $aOpt = array()) use ($aData) {
+                if (\extensions\validator\Validator::isIndexSet($aData,
+                        $sFieldName)) {
+                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
+                            $sFieldName);
+                    if (!is_numeric($mValue)) {
+                        return false;
                     }
-                    return "Invalid number field '{$sFieldName}' value.";
-                })
-                // Array rules
-                ->addRule('array', function($sFieldName, array $aOpt = array()) use ($aData) {
-                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
-                        $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                        if (!is_array($mValue)) {
-                            return FALSE;
+                    if (isset($aOpt['float'])) {
+                        if ($aOpt['float'] && !is_float($mValue)) {
+                            return false;
                         }
-                        if (isset($aOpt['assoc'])) {
-                            $funcIsAssoc = function(array $aArray) {
-                                // return FALSE if array is empty
-                                return (bool) count(array_filter(array_keys($aArray), 'is_string'));
-                            };
-                            if ($aOpt['assoc'] && !$funcIsAssoc($mValue)) {
-                                return FALSE;
-                            }
-                            if (!$aOpt['assoc'] && $funcIsAssoc($mValue)) {
-                                return FALSE;
-                            }
-                            unset($funcIsAssoc);
-                        }
-                        if (isset($aOpt['length'])) {
-                            $nLength = count($mValue);
-                            if (isset($aOpt['length']['min'])) {
-                                if ($nLength < $aOpt['length']['min']) {
-                                    return FALSE;
-                                }
-                            }
-                            if (isset($aOpt['length']['max'])) {
-                                if ($nLength > $aOpt['length']['max']) {
-                                    return FALSE;
-                                }
-                            }
-                            if (isset($aOpt['length']['equal'])) {
-                                if ($nLength != $aOpt['length']['equal']) {
-                                    return FALSE;
-                                }
-                            }
+                        if (!$aOpt['float'] && is_float($mValue)) {
+                            return false;
                         }
                     }
-                    return TRUE;
-                }, function($sFieldName, array $aOpt = array()) {
-                    if (!empty($aOpt)) {
-                        $aKeys = array_keys($aOpt);
-                        $sKeys = implode(', ', $aKeys);
-                        return "Invalid array field '{$sFieldName}' value. Validation options: {$sKeys}";
-                    }
-                    return "Invalid array field '{$sFieldName}' value.";
-                })
-                // Boolean rules
-                ->addRule('boolean', function($sFieldName, array $aOpt = array()) use ($aData) {
-                    if (\extensions\validator\Validator::isIndexSet($aData, $sFieldName)) {
-                        $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                        if (!is_bool($mValue)) {
-                            return FALSE;
+                    if (isset($aOpt['integer'])) {
+                        if ($aOpt['integer'] && !is_int($mValue)) {
+                            return false;
                         }
-                        if (isset($aOpt['isTrue'])) {
-                            if ($aOpt['isTrue'] && !$mValue) {
-                                return FALSE;
+                        if (!$aOpt['integer'] && is_int($mValue)) {
+                            return false;
+                        }
+                    }
+                    if (isset($aOpt['positive'])) {
+                        if ($aOpt['positive'] && $mValue <= 0) {
+                            return false;
+                        }
+                        if (!$aOpt['positive'] && $mValue >= 0) {
+                            return false;
+                        }
+                    }
+                    if (isset($aOpt['value'])) {
+                        if (isset($aOpt['value']['equal'])) {
+                            if ($mValue != $aOpt['value']['equal']) {
+                                return false;
                             }
-                            if (!$aOpt['isTrue'] && $mValue) {
-                                return FALSE;
+                        }
+                        if (isset($aOpt['value']['min'])) {
+                            if ($mValue < $aOpt['value']['min']) {
+                                return false;
+                            }
+                        }
+                        if (isset($aOpt['value']['max'])) {
+                            if ($mValue > $aOpt['value']['max']) {
+                                return false;
                             }
                         }
                     }
-                    return TRUE;
-                }, function($sFieldName, array $aOpt = array()) {
-                    if (!empty($aOpt)) {
-                        $aKeys = array_keys($aOpt);
-                        $sKeys = implode(', ', $aKeys);
-                        return "Invalid boolean field '{$sFieldName}' value. Validation options: {$sKeys}";
+                }
+                return true;
+            },
+                function($sFieldName, array $aOpt = array()) {
+                if (!empty($aOpt)) {
+                    $aKeys = array_keys($aOpt);
+                    $sKeys = implode(', ', $aKeys);
+                    return "Invalid number field '{$sFieldName}' value. Validation options: {$sKeys}";
+                }
+                return "Invalid number field '{$sFieldName}' value.";
+            })
+            // Array rules
+            ->addRule('array',
+                function($sFieldName, array $aOpt = array()) use ($aData) {
+                if (\extensions\validator\Validator::isIndexSet($aData,
+                        $sFieldName)) {
+                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
+                            $sFieldName);
+                    if (!is_array($mValue)) {
+                        return false;
                     }
-                    return "Invalid boolean field '{$sFieldName}' value.";
-                });
+                    if (isset($aOpt['assoc'])) {
+                        $funcIsAssoc = function(array $aArray) {
+                            // return false if array is empty
+                            return (bool) count(array_filter(array_keys($aArray),
+                                        'is_string'));
+                        };
+                        if ($aOpt['assoc'] && !$funcIsAssoc($mValue)) {
+                            return false;
+                        }
+                        if (!$aOpt['assoc'] && $funcIsAssoc($mValue)) {
+                            return false;
+                        }
+                        unset($funcIsAssoc);
+                    }
+                    if (isset($aOpt['length'])) {
+                        $nLength = count($mValue);
+                        if (isset($aOpt['length']['min'])) {
+                            if ($nLength < $aOpt['length']['min']) {
+                                return false;
+                            }
+                        }
+                        if (isset($aOpt['length']['max'])) {
+                            if ($nLength > $aOpt['length']['max']) {
+                                return false;
+                            }
+                        }
+                        if (isset($aOpt['length']['equal'])) {
+                            if ($nLength != $aOpt['length']['equal']) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return true;
+            },
+                function($sFieldName, array $aOpt = array()) {
+                if (!empty($aOpt)) {
+                    $aKeys = array_keys($aOpt);
+                    $sKeys = implode(', ', $aKeys);
+                    return "Invalid array field '{$sFieldName}' value. Validation options: {$sKeys}";
+                }
+                return "Invalid array field '{$sFieldName}' value.";
+            })
+            // Boolean rules
+            ->addRule('boolean',
+                function($sFieldName, array $aOpt = array()) use ($aData) {
+                if (\extensions\validator\Validator::isIndexSet($aData,
+                        $sFieldName)) {
+                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
+                            $sFieldName);
+                    if (!is_bool($mValue)) {
+                        return false;
+                    }
+                    if (isset($aOpt['isTrue'])) {
+                        if ($aOpt['isTrue'] && !$mValue) {
+                            return false;
+                        }
+                        if (!$aOpt['isTrue'] && $mValue) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            },
+                function($sFieldName, array $aOpt = array()) {
+                if (!empty($aOpt)) {
+                    $aKeys = array_keys($aOpt);
+                    $sKeys = implode(', ', $aKeys);
+                    return "Invalid boolean field '{$sFieldName}' value. Validation options: {$sKeys}";
+                }
+                return "Invalid boolean field '{$sFieldName}' value.";
+            });
     }
 
     /**
@@ -292,7 +315,8 @@ class Validator implements \core\RunnableInterface {
      * @return self.
      * @throws \extensions\validator\Exception.
      */
-    public function addItem(array $aItem) {
+    public function addItem(array $aItem)
+    {
         if (count($aItem) < 2) {
             throw new Exception('Invalid count of item elems.');
         }
@@ -306,7 +330,8 @@ class Validator implements \core\RunnableInterface {
      * @param array $aItems Массив наборов.
      * @return self.
      */
-    public function setItems(array $aItems) {
+    public function setItems(array $aItems)
+    {
         foreach ($aItems as $aItem) {
             $this->addItem($aItem);
         }
@@ -325,7 +350,8 @@ class Validator implements \core\RunnableInterface {
      * @return self.
      * @throws \extensions\validator\Exception.
      */
-    public function addRule($sName, $funcCall, $mErrorMsg = NULL) {
+    public function addRule($sName, $funcCall, $mErrorMsg = null)
+    {
         if (is_callable($funcCall)) {
             $this->rules[$sName] = array($funcCall, $mErrorMsg);
         } else {
@@ -338,7 +364,8 @@ class Validator implements \core\RunnableInterface {
      * Добавляет текст ошибки в стек ошибок, возникших при валидации.
      * @param string $sMsg.
      */
-    protected function addError($sMsg) {
+    protected function addError($sMsg)
+    {
         $this->errors[] = $sMsg;
     }
 
@@ -348,7 +375,8 @@ class Validator implements \core\RunnableInterface {
      * @param string $sFieldName Имя поля.
      * @return string[].
      */
-    protected function addDefaultError($sFieldName) {
+    protected function addDefaultError($sFieldName)
+    {
         return $this->addError("Invalid field '{$sFieldName}' value.");
     }
 
@@ -360,7 +388,9 @@ class Validator implements \core\RunnableInterface {
      * @param array $aOpt Опции валидации.
      * @throws \extensions\validator\Exception.
      */
-    private function _applyRuleToField($sFieldName, $sRuleName, array $aOpt = array()) {
+    private function _applyRuleToField($sFieldName, $sRuleName,
+                                       array $aOpt = array())
+    {
         if (!isset($this->rules[$sRuleName])) {
             throw new Exception('Undefined rule name.');
         }
@@ -386,9 +416,10 @@ class Validator implements \core\RunnableInterface {
      * Запускает валидацию данных на исполнение.
      * @return self.
      */
-    public function run() {
+    public function run()
+    {
         if (!$this->isRan) {
-            $this->isRan = TRUE;
+            $this->isRan = true;
             foreach ($this->items as $aItem) {
                 $mOpt      = isset($aItem[2]) ? $aItem[2] : array();
                 $sRuleName = $aItem[1];
@@ -405,7 +436,8 @@ class Validator implements \core\RunnableInterface {
      * @return boolean.
      * @throws \extensions\validator\Exception.
      */
-    public function isValid() {
+    public function isValid()
+    {
         if (!$this->isRan) {
             throw new Exception('Validator not ran.');
         }
@@ -417,11 +449,11 @@ class Validator implements \core\RunnableInterface {
      * @return string[] Массив ошибок валидации.
      * @throws \extensions\validator\Exception.
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         if (!$this->isRan) {
             throw new Exception('Validator not ran.');
         }
         return $this->errors;
     }
-
 }
