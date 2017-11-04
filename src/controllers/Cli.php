@@ -2,21 +2,22 @@
 
 namespace controllers;
 
-/**
- * Контроллер интерфейса командной строки.
- * @author coon
- */
 use core\AbstractCliCtrl;
 
-class Cli extends AbstractCliCtrl {
+/**
+ * This is command line interface controller.
+ * @author coon
+ */
+class Cli extends AbstractCliCtrl
+{
 
-    public function actionTest(array $aArgs) {
+    public function actionTest(array $aArgs)
+    {
         if (!empty($aArgs)) {
             $this->printInfo('The test cli action was called with args: '
-                    . implode(', ', $aArgs) . '.');
+                .implode(', ', $aArgs).'.');
         } else {
             $this->printError(new \Exception('The test cli action was called without args.'));
         }
     }
-
 }
