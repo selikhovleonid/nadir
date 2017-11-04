@@ -7,6 +7,7 @@ namespace extensions\core;
  * @todo Realize the interface and business logic.
  * @author coon.
  */
-abstract class AModel {
+abstract class AbstractModel
+{
     // Put your code here.
 }
