@@ -83,7 +83,7 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     private function initHelper()
     {
         if (!$this->isConfigFileSet()) {
-            throw new Exception("Main config file isn't define.");
+            throw new Exception("Main config file wasn't defined.");
         }
         AppHelper::getInstance()
             ->setAppRoot(Autoloader::getInstance()->getAppRoot())
