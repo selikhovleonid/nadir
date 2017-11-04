@@ -10,16 +10,17 @@ use \extensions\core\Auth;
  * auth class functionality in other case.
  * @author coon
  */
-class CtrlWrapper {
-
+class CtrlWrapper
+{
     /** @var \core\AbstractWebCtrl The target controller object. */
-    protected $ctrl = NULL;
+    protected $ctrl = null;
 
     /**
      * The constructor assigns the object-wrapper with controller object.
      * @param \core\AbstractWebCtrl $oCtrl The controller object.
      */
-    public function __construct(AbstractWebCtrl $oCtrl) {
+    public function __construct(AbstractWebCtrl $oCtrl)
+    {
         $this->ctrl = $oCtrl;
     }
 
@@ -30,7 +31,8 @@ class CtrlWrapper {
      * @param type $sName The action name of target controller.
      * @param type $aArgs The action parameters.
      */
-    protected function processAuth($sName, & $aArgs) {
+    protected function processAuth($sName, & $aArgs)
+    {
         $oAuth = new Auth($this->ctrl->getRequest());
         $oAuth->run();
         if ($oAuth->isValid()) {
@@ -50,8 +52,8 @@ class CtrlWrapper {
      * @param string $sName The action name of target controller.
      * @param mixed[] $aArgs The action parameters.
      */
-    public function __call($sName, $aArgs) {
+    public function __call($sName, $aArgs)
+    {
         $this->processAuth($sName, $aArgs);
     }
-
 }
