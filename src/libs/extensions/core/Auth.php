@@ -11,7 +11,7 @@ namespace extensions\core;
 use core\Request;
 use core\AppHelper;
 
-class Auth extends AAuth {
+class Auth extends AbstractAuth {
 
     protected $request     = NULL;
     protected $routeConfig = NULL;
