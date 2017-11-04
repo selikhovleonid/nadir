@@ -8,10 +8,10 @@
 namespace controllers;
 
 use core\AbstractWebCtrl;
-use extensions\core\ISystemCtrl;
+use extensions\core\SystemCtrlInterface;
 use core\Headers;
 
-class System extends AbstractWebCtrl implements ISystemCtrl {
+class System extends AbstractWebCtrl implements SystemCtrlInterface {
 
     public function actionPage401(array $aErrors) {
         Headers::getInstance()->addByHttpCode(401)->run();
