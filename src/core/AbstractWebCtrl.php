@@ -8,24 +8,25 @@ namespace core;
  * possibility of creating an instance of the class. 
  * @author coon
  */
-abstract class AWebCtrl {
-
+abstract class AbstractWebCtrl
+{
     /** @var \core\Request The request object. */
-    protected $request = NULL;
+    protected $request = null;
 
     /** @var \core\View The view object. */
-    protected $view = NULL;
+    protected $view = null;
 
     /** @var \core\Layout The layout object. */
-    protected $layout = NULL;
+    protected $layout = null;
 
     /**
      * The constructor assigns object with request object and possibly with
      * the view object (full or partial).
      * @param \core\Request $oRequest The request object.
-     * @param \core\AView|null $oView The view object.
+     * @param \core\AbstractView|null $oView The view object.
      */
-    public function __construct(Request $oRequest, AView $oView = NULL) {
+    public function __construct(Request $oRequest, AbstractView $oView = null)
+    {
         $this->request = $oRequest;
         if (!is_null($oView)) {
             if ($oView instanceof View) {
@@ -41,7 +42,8 @@ abstract class AWebCtrl {
      * It returns the object of assigned request.
      * @return \core\Request|null.
      */
-    public function getRequest() {
+    public function getRequest()
+    {
         return $this->request;
     }
 
@@ -49,7 +51,8 @@ abstract class AWebCtrl {
      * It returns the object of associated view.
      * @return \core\View|null.
      */
-    protected function getView() {
+    protected function getView()
+    {
         return $this->view;
     }
 
@@ -60,7 +63,8 @@ abstract class AWebCtrl {
      * @param string $sActionName The action name (without prefix action).
      * @return void.
      */
-    protected function setView($sCtrlName, $sActionName) {
+    protected function setView($sCtrlName, $sActionName)
+    {
         $this->view = ViewFactory::createView($sCtrlName, $sActionName);
         if (!is_null($this->layout)) {
             $this->layout->view = $this->view;
@@ -71,7 +75,8 @@ abstract class AWebCtrl {
      * It returns the object of associated layout.
      * @return \core\Layout|null.
      */
-    protected function getLayout() {
+    protected function getLayout()
+    {
         return $this->layout;
     }
 
@@ -81,12 +86,12 @@ abstract class AWebCtrl {
      * @return void.
      * @throws Exception.
      */
-    protected function setLayout($sLayoutName) {
-        if (!is_null($this->view)) {
-            $this->layout = ViewFactory::createLayout($sLayoutName, $this->view);
-        } else {
-            throw new Exception('Unable set Layout without View.');
+    protected function setLayout($sLayoutName)
+    {
+        if (is_null($this->view)) {
+            throw new Exception("It's unable to set Layout without View.");
         }
+        $this->layout = ViewFactory::createLayout($sLayoutName, $this->view);
     }
 
     /**
@@ -94,13 +99,14 @@ abstract class AWebCtrl {
      * @return void.
      * @throws Exception.
      */
-    protected function render() {
+    protected function render()
+    {
         if (!is_null($this->layout)) {
             $this->layout->render();
         } elseif (!is_null($this->view)) {
             $this->partialRender();
         } else {
-            throw new Exception('Unable render with empty View.');
+            throw new Exception("It's unable to render with empty View.");
         }
     }
 
@@ -108,7 +114,8 @@ abstract class AWebCtrl {
      * The method provides partial rendering (view without layout).
      * @return void.
      */
-    protected function partialRender() {
+    protected function partialRender()
+    {
         $this->view->render();
     }
 
@@ -117,11 +124,12 @@ abstract class AWebCtrl {
      * @param string $sData The input string.
      * @return string.
      */
-    private static function _unescapeUnicode($sData) {
+    private static function unescapeUnicode($sData)
+    {
         return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
-                function (array & $aMatches) {
+            function (array & $aMatches) {
             $sSym = mb_convert_encoding(pack('H*', $aMatches[1]), 'UTF-8',
-                    'UTF-16');
+                'UTF-16');
             return $sSym;
         }, $sData);
     }
@@ -131,8 +139,9 @@ abstract class AWebCtrl {
      * @param mixed $mData The input data.
      * @return void.
      */
-    protected function renderJson($mData) {
-        echo self::_unescapeUnicode(json_encode($mData));
+    protected function renderJson($mData)
+    {
+        echo self::unescapeUnicode(json_encode($mData));
     }
 
     /**
@@ -143,15 +152,13 @@ abstract class AWebCtrl {
      * @param bool $fIsPermanent The flag of permanent redirect.
      * @return void.
      */
-    protected function redirect($sUrl, $fIsPermanent = FALSE) {
-        $nCode = $fIsPermanent
-                ? 301
-                : 302;
+    protected function redirect($sUrl, $fIsPermanent = false)
+    {
+        $nCode = $fIsPermanent ? 301 : 302;
         Headers::getInstance()
-                ->addByHttpCode($nCode)
-                ->add('Location: ' . $sUrl)
-                ->run();
+            ->addByHttpCode($nCode)
+            ->add('Location: '.$sUrl)
+            ->run();
         exit;
     }
-
 }

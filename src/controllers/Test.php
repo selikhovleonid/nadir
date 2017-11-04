@@ -1,25 +1,25 @@
 <?php
 
-/**
- * Тестовый контроллер.
- * @author coon
- */
-
 namespace controllers;
 
-use core\AWebCtrl;
+use core\AbstractWebCtrl;
 
-class Test extends AWebCtrl {
+/**
+ * This is demo test controller class.
+ * @author coon
+ */
+class Test extends AbstractWebCtrl
+{
 
-    public function actionDefault() {
+    public function actionDefault()
+    {
         $this->getView()->addSnippet('topbar');
         $oTopBar               = $this->getView()->getSnippet('topbar');
-        $oTopBar->isUserOnline = FALSE;
+        $oTopBar->isUserOnline = false;
         $oModel                = new \models\Test();
         $aData                 = $oModel->readDefault();
         $this->getView()->foo  = $aData['foo'];
         $this->getView()->bar  = $aData['bar'];
         $this->render();
     }
-
 }

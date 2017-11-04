@@ -2,24 +2,28 @@
 
 namespace core;
 
+use extensions\core\Process;
+
 /**
  * This's an abstract application class. It determines the central entry point for
  * the all requests, creates the configured application. It implements Front 
  * Controller pattern, it's Singleton-instance.
  * @author coon
  */
-abstract class AApplication extends AAutoAccessors implements IFrontController, IRunnable {
-
+abstract class AbstractApp extends AbstractAutoAccessors implements FrontControllerInterface,
+    RunnableInterface
+{
     /** @var string This's path to the config file root. */
-    public $configFile = NULL;
+    public $configFile = null;
 
     /** @var self This's singleton object of the current class. */
-    protected static $_instance = NULL;
+    protected static $instance = null;
 
     /**
      * @ignore.
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         // Nothing here...
     }
 
@@ -28,11 +32,12 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
      * binding.
      * @return self.
      */
-    public static function getInstance() {
-        if (is_null(static::$_instance)) {
-            static::$_instance = new static();
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
         }
-        return static::$_instance;
+        return static::$instance;
     }
 
     /**
@@ -40,27 +45,30 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
      * @param string $sFilePath.
      * @return self.
      */
-    public function setConfigFile($sFilePath) {
+    public function setConfigFile($sFilePath)
+    {
         $this->configFile = $sFilePath;
-        return static::$_instance;
+        return static::$instance;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function run() {
+    public function run()
+    {
         $this->init();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function init() {
-        $this->_initHelper();
-        $this->_initAutoload();
-        $this->_initUserProcess();
+    public function init()
+    {
+        $this->initHelper();
+        $this->initAutoload();
+        $this->initUserProcess();
         $this->handleRequest();
-        $this->_stopUserProcess();
+        $this->stopUserProcess();
     }
 
     /**
@@ -72,14 +80,15 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
      * It inits the application helper.
      * @return void.
      */
-    private function _initHelper() {
+    private function initHelper()
+    {
         if (!$this->isConfigFileSet()) {
-            throw new Exception("Main config file isn't define.");
+            throw new Exception("Main config file wasn't defined.");
         }
         AppHelper::getInstance()
-                ->setAppRoot(Autoloader::getInstance()->getAppRoot())
-                ->setConfigFile($this->getConfigFile())
-                ->run();
+            ->setAppRoot(Autoloader::getInstance()->getAppRoot())
+            ->setConfigFile($this->getConfigFile())
+            ->run();
     }
 
     /**
@@ -88,10 +97,10 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
      * process. 
      * @return void.
      */
-    private function _initAutoload() {
+    private function initAutoload()
+    {
         $mRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
-        foreach ($mRoot ?
-                : array() as $sRoot) {
+        foreach ($mRoot ?: array() as $sRoot) {
             Autoloader::getInstance()->add($sRoot);
         }
         Autoloader::getInstance()->run();
@@ -101,16 +110,17 @@ abstract class AApplication extends AAutoAccessors implements IFrontController, 
      * The method runs custom processes.
      * @return void.
      */
-    private function _initUserProcess() {
-        \extensions\core\Process::getInstance()->run();
+    private function initUserProcess()
+    {
+        Process::getInstance()->run();
     }
 
     /**
      * The method kills user's processes.
      * @return void.
      */
-    private function _stopUserProcess() {
-        \extensions\core\Process::getInstance()->stop();
+    private function stopUserProcess()
+    {
+        Process::getInstance()->stop();
     }
-
 }

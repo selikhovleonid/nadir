@@ -6,53 +6,56 @@ namespace core;
  * The class provides the centralized access to the parameters of input request.
  * @author coon
  */
-class Request {
-
+class Request
+{
     /** @var array It contains the superglobal array $_SERVER */
-    private $_serverMap = array();
+    private $serverMap = array();
 
     /** @var array It contains the superglobal array $_REQUEST. */
-    private $_requestMap = array();
+    private $requestMap = array();
 
     /** @var array It contains the raw request body. */
-    private $_rawBody = NULL;
+    private $rawBody = null;
 
     /**
      * The constructor inits the private properties of the object.
      * @return self.
      */
-    public function __construct() {
-        $this->_serverMap  = $_SERVER;
-        $this->_requestMap = $_REQUEST;
-        $this->_rawBody    = @file_get_contents('php://input');
+    public function __construct()
+    {
+        $this->serverMap  = $_SERVER;
+        $this->requestMap = $_REQUEST;
+        $this->rawBody    = @file_get_contents('php://input');
     }
 
     /**
      * It returns the request HTTP-method.
      * @return string|null
      */
-    public function getMethod() {
-        return isset($this->_serverMap['REQUEST_METHOD'])
-                ? $this->_serverMap['REQUEST_METHOD']
-                : NULL;
+    public function getMethod()
+    {
+        return isset($this->serverMap['REQUEST_METHOD']) ? $this->serverMap['REQUEST_METHOD']
+                : null;
     }
 
     /**
      * It returns the array of request headers.
      * @return string[]
      */
-    public function getHeaders() {
+    public function getHeaders()
+    {
         // for apache2 only method
         return getallheaders();
     }
 
-    /** 
+    /**
      * It returns the header by passed name. The search is case-insensitive.
      * @param string $sName
      * @return string|null
      */
-    public function getHeaderByName($sName) {
-        $mRes = NULL;
+    public function getHeaderByName($sName)
+    {
+        $mRes = null;
         foreach ($this->getHeaders() as $sKey => $sValue) {
             if (strtolower($sKey) === strtolower($sName)) {
                 $mRes = $sValue;
@@ -66,8 +69,9 @@ class Request {
      * The method returns the associated array of cookies.
      * @return array.
      */
-    public function getCookies() {
-        $mRes       = NULL;
+    public function getCookies()
+    {
+        $mRes       = null;
         $mRawCookie = $this->getHeaderByName('Cookie');
         if (!is_null($mRawCookie)) {
             $aCookies = explode(';', $mRawCookie);
@@ -86,21 +90,23 @@ class Request {
      * from the input stream.
      * @return string.
      */
-    public function getRawBody() {
-        return $this->_rawBody;
+    public function getRawBody()
+    {
+        return $this->rawBody;
     }
 
     /**
      * It returns trhe URL path of the request.
      * @return string|null 
      */
-    public function getUrlPath() {
-        if (isset($this->_serverMap['REQUEST_URI'])) {
-            $sUri = $this->_serverMap['REQUEST_URI'];
+    public function getUrlPath()
+    {
+        if (isset($this->serverMap['REQUEST_URI'])) {
+            $sUri = $this->serverMap['REQUEST_URI'];
             $aUri = explode('?', $sUri);
             $mRes = $aUri[0];
         } else {
-            $mRes = NULL;
+            $mRes = null;
         }
         return $mRes;
     }
@@ -111,13 +117,12 @@ class Request {
      * @param string $sKey It's empty string by default.
      * @return mixed.
      */
-    public function getParam($sKey = '') {
+    public function getParam($sKey = '')
+    {
         if (empty($sKey)) {
-            return $this->_requestMap;
+            return $this->requestMap;
         } else {
-            return isset($this->_requestMap[$sKey])
-                    ? $this->_requestMap[$sKey]
-                    : NULL;
+            return isset($this->requestMap[$sKey]) ? $this->requestMap[$sKey] : null;
         }
     }
 
@@ -127,13 +132,12 @@ class Request {
      * @param string $sKey It's empty string by default.
      * @return mixed.
      */
-    public function getServerParam($sKey = '') {
+    public function getServerParam($sKey = '')
+    {
         if (empty($sKey)) {
-            return $this->_serverMap;
+            return $this->serverMap;
         } else {
-            return isset($this->_serverMap[$sKey])
-                    ? $this->_serverMap[$sKey]
-                    : NULL;
+            return isset($this->serverMap[$sKey]) ? $this->serverMap[$sKey] : null;
         }
     }
 
@@ -141,9 +145,9 @@ class Request {
      * It checks if the request is an ajax request.
      * @return boolean.
      */
-    public function isAjax() {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) 
-            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    public function isAjax()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])
+            == 'xmlhttprequest';
     }
-
 }

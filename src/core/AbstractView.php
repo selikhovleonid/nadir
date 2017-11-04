@@ -6,8 +6,8 @@ namespace core;
  * This's a view abstract class.
  * @author coon
  */
-abstract class AView extends AUserPropAccessor {
-
+abstract class AbstractView extends AbstractUserPropAccessor
+{
     /** @var string The path to the file with view markup. */
     protected $filePath = '';
 
@@ -16,7 +16,8 @@ abstract class AView extends AUserPropAccessor {
      * @param string $sViewFilePath The path to the file with view markup.
      * @return self.
      */
-    public function __construct($sViewFilePath) {
+    public function __construct($sViewFilePath)
+    {
         $this->setFilePath($sViewFilePath);
     }
 
@@ -25,7 +26,8 @@ abstract class AView extends AUserPropAccessor {
      * with view markup.
      * @return string.
      */
-    public function getFilePath() {
+    public function getFilePath()
+    {
         return $this->filePath;
     }
 
@@ -34,19 +36,20 @@ abstract class AView extends AUserPropAccessor {
      * @param string $sViewFilePath The path to the file with view markup.
      * @throws Exception It throws if file isn't readable.
      */
-    public function setFilePath($sViewFilePath) {
-        if (is_readable($sViewFilePath)) {
-            $this->filePath = $sViewFilePath;
-        } else {
-            throw new Exception("View file {$sViewFilePath} isn't readable");
+    public function setFilePath($sViewFilePath)
+    {
+        if (!is_readable($sViewFilePath)) {
+            throw new Exception("The View file {$sViewFilePath} isn't readable.");
         }
+        $this->filePath = $sViewFilePath;
     }
 
     /**
      * The method provides massive assignment user's variables of the class.
      * @param array $aData The users's variables of the class.
      */
-    public function setVariables(array $aData) {
+    public function setVariables(array $aData)
+    {
         foreach ($aData as $sKey => $mValue) {
             $this->$sKey = $mValue;
         }

@@ -6,21 +6,22 @@ namespace core;
  * The class provides the processing of page headers.
  * @author coon
  */
-class Headers {
-
+class Headers
+{
     /** @var self The singleton object of current class. */
-    private static $_instance = NULL;
+    private static $instance = null;
 
     /** @var string[] The headers of the page stack. */
     protected $headerList = array();
 
-    /** @var boolean The flag is equal TRUE when the page headers are set. */
-    protected $isRan = FALSE;
+    /** @var boolean The flag is equal true when the page headers are set. */
+    protected $isRan = false;
 
     /**
      * @ignore.
      */
-    private function __construct() {
+    private function __construct()
+    {
         // Nothing here
     }
 
@@ -28,11 +29,12 @@ class Headers {
      * It returns the singleton instance of current class.
      * @return self.
      */
-    public static function getInstance() {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new self();
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -41,7 +43,8 @@ class Headers {
      * @return string The description.
      * @throws \core\Exception It throws if unknown HTTP code was passed.
      */
-    public static function getHTTPExplanationByCode($nCode) {
+    public static function getHTTPExplanationByCode($nCode)
+    {
         switch ((int) $nCode) {
             case 100: return 'Continue';
             case 101: return 'Switching Protocols';
@@ -92,14 +95,15 @@ class Headers {
      * @return self.
      * @throws \core\Exception It throws if passed header was already added earlier.
      */
-    public function add($sHeader) {
+    public function add($sHeader)
+    {
         foreach ($this->headerList as $sTmp) {
             if ($sTmp == $sHeader) {
-                throw new Exception("'{$sHeader}' header already added.");
+                throw new Exception("The '{$sHeader}' header has already been added.");
             }
         }
         $this->headerList[] = $sHeader;
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -107,12 +111,12 @@ class Headers {
      * @param integer $nCode The code.
      * @return self.
      */
-    public function addByHttpCode($nCode) {
-        $sProtocol = isset($_SERVER['SERVER_PROTOCOL'])
-                ? $_SERVER['SERVER_PROTOCOL']
+    public function addByHttpCode($nCode)
+    {
+        $sProtocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL']
                 : 'HTTP/1.1';
         $sHeader   = "{$sProtocol} {$nCode} "
-                . self::getHTTPExplanationByCode($nCode);
+            .self::getHTTPExplanationByCode($nCode);
         return $this->add($sHeader);
     }
 
@@ -120,15 +124,17 @@ class Headers {
      * The method returns the stack of page headers.
      * @return string[].
      */
-    public function getAll() {
+    public function getAll()
+    {
         return $this->headerList;
     }
 
     /**
-     * The method returns TRUE if the the page headers were set.
+     * The method returns true if the the page headers were set.
      * @return boolean.
      */
-    public function isRan() {
+    public function isRan()
+    {
         return $this->isRan;
     }
 
@@ -136,11 +142,11 @@ class Headers {
      * The main execution method. It sets all added headers into the page.
      * @return void.
      */
-    public function run() {
-        $this->isRan = TRUE;
+    public function run()
+    {
+        $this->isRan = true;
         foreach ($this->headerList as $sHeader) {
             header($sHeader);
         }
     }
-
 }

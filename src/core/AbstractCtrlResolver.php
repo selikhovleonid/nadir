@@ -7,8 +7,8 @@ namespace core;
  * parameters.
  * @author coon
  */
-abstract class ACtrlResolver implements IRunnable {
-
+abstract class AbstractCtrlResolver implements RunnableInterface
+{
     /** @var array[] The route map. */
     protected $routeMap = array();
 
@@ -18,14 +18,15 @@ abstract class ACtrlResolver implements IRunnable {
     /** @var string The action name. */
     protected $actionName = '';
 
-    /** @var mixed[] This's additional parameters, which were passed to the action. */
+    /** @var mixed[] These are additional parameters, which were passed to the action. */
     protected $actionArgs = array();
 
     /**
      * The constructor inits the properties of the route map object.
      * @return self.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->routeMap = AppHelper::getInstance()->getConfig('routeMap');
     }
 
@@ -35,18 +36,19 @@ abstract class ACtrlResolver implements IRunnable {
     abstract protected function createCtrl();
 
     /**
-     * The method tries to assign the request rote with the concrete controller 
+     * The method tries to assign the request rote to the concrete controller
      * action according the regexp map.
      * @return void.
      */
     abstract protected function tryAssignController();
 
     /**
-     * The method checks if the request route was assigned with the concrete 
+     * The method checks if the request route was assigned to the concrete
      * controller.
      * @return boolean
      */
-    protected function isControllerAssigned() {
+    protected function isControllerAssigned()
+    {
         return !empty($this->ctrlName) && !empty($this->actionName);
     }
 

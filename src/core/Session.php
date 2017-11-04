@@ -6,12 +6,14 @@ namespace core;
  * This's facade class for working with session.
  * @author coon
  */
-class Session implements IArrayCollection {
+class Session implements ArrayCollectionInterface
+{
 
     /**
      * @ignore.
      */
-    public function __construct() {
+    public function __construct()
+    {
         // Nothing here...
     }
 
@@ -19,7 +21,8 @@ class Session implements IArrayCollection {
      * It returns the current ident of session.
      * @return string Id сессии.
      */
-    public function getId() {
+    public function getId()
+    {
         return session_id();
     }
 
@@ -27,7 +30,8 @@ class Session implements IArrayCollection {
      * It checks if the session was started.
      * @return boolean.
      */
-    public function isStarted() {
+    public function isStarted()
+    {
         return $this->getId() !== '';
     }
 
@@ -36,7 +40,8 @@ class Session implements IArrayCollection {
      * @param string $iSess The swssion id.
      * @return void.
      */
-    public function setId($iSess) {
+    public function setId($iSess)
+    {
         @session_id($iSess);
     }
 
@@ -44,7 +49,8 @@ class Session implements IArrayCollection {
      * It returns the name of current session.
      * @return string.
      */
-    public function getName() {
+    public function getName()
+    {
         return session_name();
     }
 
@@ -53,16 +59,17 @@ class Session implements IArrayCollection {
      * @param string $sName By default it's PHPSESSID.
      * @throws Exception It throws if passed name consists digits only or is empty.
      */
-    public function setName($sName) {
+    public function setName($sName)
+    {
         if (!empty($sName)) {
             if (!is_numeric($sName)) {
                 @session_name($sName);
             } else {
-                throw new Exception('The session name can\'t consist of digits only, '
-                . 'at least one letter must be present.');
+                throw new Exception('The session name can\'t consist only of digits, '
+                .'at least one letter must be presented.');
             }
         } else {
-            throw new Exception('Empty the session name value.');
+            throw new Exception('Empty session name value was passed.');
         }
     }
 
@@ -74,7 +81,8 @@ class Session implements IArrayCollection {
      * parameter was passed.
      * @return string The id of current session.
      */
-    public function start($sSessName = NULL, $iSess = NULL) {
+    public function start($sSessName = NULL, $iSess = NULL)
+    {
         if (!$this->isStarted()) {
             if (!is_null($sSessName)) {
                 $this->setName($sSessName);
@@ -88,7 +96,8 @@ class Session implements IArrayCollection {
      * It commits the data of session and closes it.
      * @return void|null.
      */
-    public function commit() {
+    public function commit()
+    {
         if ($this->isStarted()) {
             session_commit();
         }
@@ -98,7 +107,8 @@ class Session implements IArrayCollection {
      * It destroys the session data.
      * @return boolean|null The result of destruction.
      */
-    public function destroy() {
+    public function destroy()
+    {
         $mRes = NULL;
         if ($this->isStarted()) {
             @session_unset();
@@ -111,7 +121,8 @@ class Session implements IArrayCollection {
      * It complitly destroys session with cookie.
      * @return boolean|null The result.
      */
-    public function destroyWithCookie() {
+    public function destroyWithCookie()
+    {
         $mRes = NULL;
         if ($this->isStarted()) {
             $this->destroy();
@@ -126,7 +137,8 @@ class Session implements IArrayCollection {
      * @param mixed $mValue The value of it.
      * @return void.
      */
-    public function add($sKey, $mValue) {
+    public function add($sKey, $mValue)
+    {
         $_SESSION[$sKey] = $mValue;
     }
 
@@ -135,7 +147,8 @@ class Session implements IArrayCollection {
      * @param array $aData
      * @return void.
      */
-    public function addAll(array $aPairs) {
+    public function addAll(array $aPairs)
+    {
         foreach ($aPairs as $sKey => $mValue) {
             $this->add($sKey, $mValue);
         }
@@ -146,7 +159,8 @@ class Session implements IArrayCollection {
      * @param string $sKey.
      * @return boolean.
      */
-    public function contains($sKey) {
+    public function contains($sKey)
+    {
         return isset($_SESSION[$sKey]);
     }
 
@@ -154,7 +168,8 @@ class Session implements IArrayCollection {
      * It returns TRUE if the session is empty.
      * @return boolean.
      */
-    public function isEmpty() {
+    public function isEmpty()
+    {
         return empty($_SESSION);
     }
 
@@ -163,17 +178,17 @@ class Session implements IArrayCollection {
      * @param string $sKey.
      * @return mixed|null.
      */
-    public function get($sKey) {
-        return $this->contains($sKey)
-                ? $_SESSION[$sKey]
-                : NULL;
+    public function get($sKey)
+    {
+        return $this->contains($sKey) ? $_SESSION[$sKey] : NULL;
     }
 
     /**
      * It returns the list of session variables.
      * @return string [].
      */
-    public function getKeys() {
+    public function getKeys()
+    {
         return array_keys($_SESSION);
     }
 
@@ -181,7 +196,8 @@ class Session implements IArrayCollection {
      * It returns all session variables as associative array.
      * @return mixed[].
      */
-    public function getAll() {
+    public function getAll()
+    {
         $aRes = array();
         foreach ($this->getKeys() as $sKey) {
             $aRes[$sKey] = $this->get($sKey);
@@ -194,7 +210,8 @@ class Session implements IArrayCollection {
      * @param string $sKey.
      * @return mixed|null The removed variable value.
      */
-    public function remove($sKey) {
+    public function remove($sKey)
+    {
         if ($this->contains($sKey)) {
             $mRes = $_SESSION[$sKey];
             unset($_SESSION[$sKey]);
@@ -208,7 +225,8 @@ class Session implements IArrayCollection {
      * It clears the session by removing all stored variables.
      * @return mixed[] The array of removed vars.
      */
-    public function removeAll() {
+    public function removeAll()
+    {
         $aRes = array();
         foreach ($this->getKeys() as $sKey) {
             $aRes[$sKey] = $this->remove($sKey);
@@ -220,8 +238,8 @@ class Session implements IArrayCollection {
      * It returns the count of variables containing into the session.
      * @return integer.
      */
-    public function size() {
+    public function size()
+    {
         return count($this->getKeys());
     }
-
 }

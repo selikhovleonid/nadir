@@ -6,7 +6,8 @@ namespace core;
  * This's the array collection interface.
  * @author coon
  */
-interface IArrayCollection {
+interface ArrayCollectionInterface
+{
 
     /**
      * It adds an item to the collection.

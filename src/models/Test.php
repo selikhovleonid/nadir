@@ -1,21 +1,21 @@
 <?php
-
 /**
- * Тестовый класс модели. Демонстрационный вариант.
+ * This's demo version of model class.
  * @author coon
  */
 
 namespace models;
 
-use extensions\core\AModel;
+use extensions\core\AbstractModel;
 
-class Test extends AModel {
+class Test extends AbstractModel
+{
 
-    public function readDefault() {
+    public function readDefault()
+    {
         return array(
             'foo' => 'bar',
             'bar' => array(42, 'baz')
         );
     }
-
 }

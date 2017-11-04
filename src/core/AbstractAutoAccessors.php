@@ -7,7 +7,8 @@ namespace core;
  * generation to the public properties of the children classes.
  * @author coon
  */
-class AAutoAccessors {
+class AbstractAutoAccessors
+{
 
     /**
      * It's a reflection method, which checks a availability and accessibility
@@ -15,14 +16,14 @@ class AAutoAccessors {
      * @param type $sPropName The method name.
      * @return boolean
      */
-    private function _isPropChecked($sPropName) {
-        $fRes        = FALSE;
+    private function isPropChecked($sPropName)
+    {
+        $fRes        = false;
         $sClassName  = get_class($this);
         $oReflection = new \ReflectionClass($sClassName);
-        if ($oReflection->hasProperty($sPropName) 
-                && $oReflection->getProperty($sPropName)->isPublic()
+        if ($oReflection->hasProperty($sPropName) && $oReflection->getProperty($sPropName)->isPublic()
         ) {
-            $fRes = TRUE;
+            $fRes = true;
         }
         unset($oReflection);
         return $fRes;
@@ -40,23 +41,24 @@ class AAutoAccessors {
      * boolean for isSets.
      * @throws Exception.
      */
-    public function __call($sName, $aArgs) {
+    public function __call($sName, $aArgs)
+    {
         // Lambda-function
         $funcGenException = function($sClassName, $sPropName) {
             throw new Exception('Undefined or non public property '
-            . "{$sClassName}::\${$sPropName}");
+            ."{$sClassName}::\${$sPropName}");
         };
 
         if (preg_match('#^get(\w+)$#', $sName, $aMatches)) {
             $sPropName = lcfirst($aMatches[1]);
-            if ($this->_isPropChecked($sPropName)) {
+            if ($this->isPropChecked($sPropName)) {
                 return $this->$sPropName;
             } else {
                 $funcGenException(get_class($this), $sPropName);
             }
         } elseif (preg_match('#^set(\w+)$#', $sName, $aMatches)) {
             $sPropName = lcfirst($aMatches[1]);
-            if ($this->_isPropChecked($sPropName)) {
+            if ($this->isPropChecked($sPropName)) {
                 $this->$sPropName = $aArgs[0];
                 return $aArgs[0];
             } else {
@@ -64,7 +66,7 @@ class AAutoAccessors {
             }
         } elseif (preg_match('#^is(\w+)Set$#', $sName, $aMatches)) {
             $sPropName = lcfirst($aMatches[1]);
-            if ($this->_isPropChecked($sPropName)) {
+            if ($this->isPropChecked($sPropName)) {
                 return !is_null($this->$sPropName);
             } else {
                 $funcGenException(get_class($this), $sPropName);
@@ -74,5 +76,4 @@ class AAutoAccessors {
             throw new Exception("Call to undefined method {$sClassName}::{$sName}");
         }
     }
-
 }

@@ -1,13 +1,12 @@
 <?php
 
-/**
- * Класс определяет объекты исключений, которые могут возникнуть при работе 
- * валидатора. Реализует шаблон Wrapper.
- * @author coon
- */
-
 namespace extensions\validator;
 
-class Exception extends \Exception {
+/**
+ * This is the class of validator exceptions. It realizes the Wrapper pattern.
+ * @author coon
+ */
+class Exception extends \Exception
+{
     //put your code here
 }

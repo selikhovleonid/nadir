@@ -6,7 +6,8 @@ namespace core;
  * The interface describes the Front Controller pattern functionality.
  * @author coon
  */
-interface IFrontController {
+interface FrontControllerInterface
+{
 
     /**
      * It's the main executable method. It runs the application.
