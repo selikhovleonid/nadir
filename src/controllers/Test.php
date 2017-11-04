@@ -7,9 +7,9 @@
 
 namespace controllers;
 
-use core\AWebCtrl;
+use core\AbstractWebCtrl;
 
-class Test extends AWebCtrl {
+class Test extends AbstractWebCtrl {
 
     public function actionDefault() {
         $this->getView()->addSnippet('topbar');

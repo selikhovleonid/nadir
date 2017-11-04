@@ -12,14 +12,14 @@ use \extensions\core\Auth;
  */
 class CtrlWrapper {
 
-    /** @var \core\AWebCtrl The target controller object. */
+    /** @var \core\AbstractWebCtrl The target controller object. */
     protected $ctrl = NULL;
 
     /**
      * The constructor assigns the object-wrapper with controller object.
-     * @param \core\AWebCtrl $oCtrl The controller object.
+     * @param \core\AbstractWebCtrl $oCtrl The controller object.
      */
-    public function __construct(AWebCtrl $oCtrl) {
+    public function __construct(AbstractWebCtrl $oCtrl) {
         $this->ctrl = $oCtrl;
     }
 
