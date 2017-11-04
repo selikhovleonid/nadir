@@ -1,2 +1,1 @@
-<h1>User <?= $this->isUserOnline ? 'online' : 'offline'; ?></h1>
-
+<h1>User is <?= $this->isUserOnline ? 'online' : 'offline'; ?></h1>
