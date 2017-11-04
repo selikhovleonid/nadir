@@ -8,10 +8,10 @@ namespace extensions\core;
  * scrypt.
  * @author coon
  */
-class Registry {
-
+class Registry
+{
     /** @var self This's singleton object of current class. */
-    private static $_instance = NULL;
+    private static $instance = null;
 
     /** @var mixed[] The user's variable storage. */
     protected $store = array();
@@ -20,11 +20,12 @@ class Registry {
      * It returns the singleton-instance of current class.
      * @return self.
      */
-    public static function getInstance() {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new self();
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -33,9 +34,10 @@ class Registry {
      * @param mixed $mValue The variable value.
      * @return self.
      */
-    public function set($sKey, $mValue) {
+    public function set($sKey, $mValue)
+    {
         $this->store[$sKey] = $mValue;
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -43,14 +45,12 @@ class Registry {
      * @param string $sKey The variable name.
      * @return mixed|null.
      */
-    public function get($sKey = '') {
+    public function get($sKey = '')
+    {
         if (empty($sKey)) {
             return $this->store;
         } else {
-            return isset($this->store[$sKey])
-                    ? $this->store[$sKey]
-                    : NULL;
+            return isset($this->store[$sKey]) ? $this->store[$sKey] : null;
         }
     }
-
 }
