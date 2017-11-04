@@ -8,7 +8,7 @@ namespace core;
  * to the layout file.
  * @author coon
  */
-class Layout extends ACompositeView {
+class Layout extends AbstractCompositeView {
 
     /** @var \core\View The view object. */
     public $view = NULL;

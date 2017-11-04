@@ -8,7 +8,7 @@ namespace core;
  * to the view file.
  * @author coon.
  */
-class View extends ACompositeView {
+class View extends AbstractCompositeView {
 
     /**
      * {@inheritdoc}

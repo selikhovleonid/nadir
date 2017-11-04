@@ -7,8 +7,8 @@ namespace core;
  * entities may contains the atomic view units - the snippets.
  * @author coon
  */
-abstract class ACompositeView extends AView {
-
+abstract class AbstractCompositeView extends AView
+{
     /** @var \core\Snippet[] The snippet map. */
     protected $snippets = array();
 
@@ -16,7 +16,8 @@ abstract class ACompositeView extends AView {
      * It adds snippet to the view object.
      * @param string $sSnptName
      */
-    public function addSnippet($sSnptName) {
+    public function addSnippet($sSnptName)
+    {
         $oSnpt                      = ViewFactory::createSnippet($sSnptName);
         $this->snippets[$sSnptName] = $oSnpt;
     }
@@ -27,13 +28,13 @@ abstract class ACompositeView extends AView {
      * @param string $sSnptName
      * @return \core\Snippet|\core\Snippet[]|null
      */
-    public function getSnippet($sSnptName = '') {
+    public function getSnippet($sSnptName = '')
+    {
         if (empty($sSnptName)) {
             return $this->snippets;
         } else {
-            return isset($this->snippets[$sSnptName]) 
-                ? $this->snippets[$sSnptName] 
-                : NULL;
+            return isset($this->snippets[$sSnptName]) ? $this->snippets[$sSnptName]
+                    : null;
         }
     }
 
@@ -41,8 +42,8 @@ abstract class ACompositeView extends AView {
      * The method returns the View-assigned snippet map.
      * @return \core\Snippet[]
      */
-    public function getAllSnippets() {
+    public function getAllSnippets()
+    {
         return $this->getSnippet();
     }
-
 }
