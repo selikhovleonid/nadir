@@ -381,11 +381,11 @@ class Validator implements \core\RunnableInterface
     }
 
     /**
-     * Метод применяет правило валидации к валидируемому полю входных данных.
-     * @param string $sFieldName Имя валидируемого поля. Имя вложенного поля
-     * формируется по пути дерева, ярусы которого разделены точкой.
-     * @param string $sRuleName Имя правила валидации.
-     * @param array $aOpt Опции валидации.
+     * The method applies the validation rule to the validable field.
+     * @param string $sFieldName The field name. The name of the nested field is
+     * formed by the path of the tree the tiers of which are separated by the point.
+     * @param string $sRuleName The validation rule name.
+     * @param array $aOpt The validation options.
      * @throws \extensions\validator\Exception.
      */
     private function _applyRuleToField($sFieldName, $sRuleName,
