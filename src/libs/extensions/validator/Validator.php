@@ -7,7 +7,7 @@
 
 namespace extensions\validator;
 
-class Validator implements \core\IRunnable {
+class Validator implements \core\RunnableInterface {
 
     /** @var mixed[] Входные данные для валидации. */
     protected $data = NULL;

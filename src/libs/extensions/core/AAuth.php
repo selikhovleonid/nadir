@@ -2,13 +2,13 @@
 
 namespace extensions\core;
 
-use \core\IRunnable;
+use \core\RunnableInterface;
 
 /**
  * This's the abstract auth class.
  * @author coon
  */
-abstract class AAuth implements IRunnable {
+abstract class AAuth implements RunnableInterface {
 
     /**
      * The method checks if the user auth is valid.
