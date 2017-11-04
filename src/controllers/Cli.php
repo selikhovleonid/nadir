@@ -6,9 +6,9 @@ namespace controllers;
  * Контроллер интерфейса командной строки.
  * @author coon
  */
-use core\ACliCtrl;
+use core\AbstractCliCtrl;
 
-class Cli extends ACliCtrl {
+class Cli extends AbstractCliCtrl {
 
     public function actionTest(array $aArgs) {
         if (!empty($aArgs)) {
