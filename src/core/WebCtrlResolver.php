@@ -7,16 +7,17 @@ namespace core;
  * in it and binding with corresponding layout and view.
  * @author coon
  */
-class WebCtrlResolver extends AbstractCtrlResolver {
-
+class WebCtrlResolver extends AbstractCtrlResolver
+{
     /** @var \core\Request Объект запроса. */
-    protected $request = NULL;
+    protected $request = null;
 
     /**
      * It inits the request property.
      * @param \core\Request $oRequest.
      */
-    public function __construct(Request $oRequest) {
+    public function __construct(Request $oRequest)
+    {
         parent::__construct();
         $this->request = $oRequest;
     }
@@ -26,12 +27,12 @@ class WebCtrlResolver extends AbstractCtrlResolver {
      * objects.
      * @return \core\AWebController.
      */
-    protected function createCtrl() {
+    protected function createCtrl()
+    {
         $oView         = ViewFactory::createView(
-                        $this->ctrlName,
-                        str_replace('action', '', $this->actionName)
+                $this->ctrlName, str_replace('action', '', $this->actionName)
         );
-        $sCtrlNameFull = '\\controllers\\' . $this->ctrlName;
+        $sCtrlNameFull = '\\controllers\\'.$this->ctrlName;
         if (!is_null($oView)) {
             $sLayoutName = AppHelper::getInstance()->getConfig('defaultLayout');
             if (!is_null($sLayoutName)) {
@@ -49,12 +50,13 @@ class WebCtrlResolver extends AbstractCtrlResolver {
     /**
      *  {@inheritdoc}
      */
-    protected function tryAssignController() {
+    protected function tryAssignController()
+    {
         $sMethod = strtolower($this->request->getMethod());
         if (isset($this->routeMap[$sMethod])) {
             foreach ($this->routeMap[$sMethod] as $sRoute => $aRouteConfig) {
-                if (preg_match('#^' . $sRoute . '/?$#u',
-                                urldecode($this->request->getUrlPath()), $aParam)
+                if (preg_match('#^'.$sRoute.'/?$#u',
+                        urldecode($this->request->getUrlPath()), $aParam)
                 ) {
                     AppHelper::getInstance()->setRouteConfig($aRouteConfig);
                     $this->ctrlName   = $aRouteConfig['ctrl'][0];
@@ -71,15 +73,14 @@ class WebCtrlResolver extends AbstractCtrlResolver {
      * It runs the controller action on execution.
      * @throws \core\Exception.
      */
-    public function run() {
+    public function run()
+    {
         $this->tryAssignController();
-        if ($this->isControllerAssigned()) {
-            $oCtrl        = $this->createCtrl();
-            $oCtrlWrapper = new CtrlWrapper($oCtrl);
-            $oCtrlWrapper->{$this->actionName}($this->actionArgs);
-        } else {
-            throw new Exception("It's unable to assign controller with this route path.");
+        if (!$this->isControllerAssigned()) {
+            throw new Exception("It's unable to assign controller to this route path.");
         }
+        $oCtrl        = $this->createCtrl();
+        $oCtrlWrapper = new CtrlWrapper($oCtrl);
+        $oCtrlWrapper->{$this->actionName}($this->actionArgs);
     }
-
 }
