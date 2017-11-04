@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This's an abstract class, which contains functionality of setting, reading and
  * exist checking of the user's variable for a child class. The abstract modifier
@@ -9,15 +8,16 @@
 
 namespace core;
 
-abstract class AUserPropAccessor {
-
+abstract class AbstractUserPropAccessor
+{
     /** @var array The user's variable pairs map. */
-    private $_dataMap = array();
+    private $dataMap = array();
 
     /**
      * @ignore.
      */
-    public function __construct() {
+    public function __construct()
+    {
         // Nothing here...
     }
 
@@ -26,8 +26,9 @@ abstract class AUserPropAccessor {
      * @param string $sKey The variable name.
      * @param mixed $sValue The variable value.
      */
-    public function __set($sKey, $sValue) {
-        $this->_dataMap[$sKey] = $sValue;
+    public function __set($sKey, $sValue)
+    {
+        $this->dataMap[$sKey] = $sValue;
     }
 
     /**
@@ -35,11 +36,12 @@ abstract class AUserPropAccessor {
      * @param string $sKey The variable name.
      * @return mixed|null
      */
-    public function __get($sKey) {
-        if (array_key_exists($sKey, $this->_dataMap)) {
-            return $this->_dataMap[$sKey];
+    public function __get($sKey)
+    {
+        if (array_key_exists($sKey, $this->dataMap)) {
+            return $this->dataMap[$sKey];
         } else {
-            return NULL;
+            return null;
         }
     }
 
@@ -48,8 +50,8 @@ abstract class AUserPropAccessor {
      * @param string $sKey This's variable name.
      * @return boolean.
      */
-    public function __isset($sKey) {
-        return isset($this->_dataMap[$sKey]);
+    public function __isset($sKey)
+    {
+        return isset($this->dataMap[$sKey]);
     }
-
 }

@@ -6,7 +6,7 @@ namespace core;
  * This's a view abstract class.
  * @author coon
  */
-abstract class AView extends AUserPropAccessor {
+abstract class AView extends AbstractUserPropAccessor {
 
     /** @var string The path to the file with view markup. */
     protected $filePath = '';
