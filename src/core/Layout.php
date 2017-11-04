@@ -8,8 +8,8 @@ namespace core;
  * to the layout file.
  * @author coon
  */
-class Layout extends AbstractCompositeView {
-
+class Layout extends AbstractCompositeView
+{
     /** @var \core\View The view object. */
     public $view = NULL;
 
@@ -19,7 +19,8 @@ class Layout extends AbstractCompositeView {
      * @param string $sLayoutFilePath The path to the file with the layout markup.
      * @param \core\View|null $oView The object of view.
      */
-    public function __construct($sLayoutFilePath, View $oView) {
+    public function __construct($sLayoutFilePath, View $oView)
+    {
         parent::__construct($sLayoutFilePath);
         $this->view = $oView;
     }
@@ -28,15 +29,16 @@ class Layout extends AbstractCompositeView {
      * The method returns the view object binded with the layout.
      * @return \core\View|null
      */
-    public function getView() {
+    public function getView()
+    {
         return $this->view;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function render() {
+    public function render()
+    {
         include $this->filePath;
     }
-
 }
