@@ -10,20 +10,20 @@ namespace Nadir\Core;
  */
 abstract class AbstractWebCtrl
 {
-    /** @var \core\Request The request object. */
+    /** @var \Nadir\Core\Request The request object. */
     protected $request = null;
 
-    /** @var \core\View The view object. */
+    /** @var \Nadir\Core\View The view object. */
     protected $view = null;
 
-    /** @var \core\Layout The layout object. */
+    /** @var \Nadir\Core\Layout The layout object. */
     protected $layout = null;
 
     /**
      * The constructor assigns object with request object and possibly with
      * the view object (full or partial).
-     * @param \core\Request $oRequest The request object.
-     * @param \core\AbstractView|null $oView The view object.
+     * @param Nadir\Core\Request $oRequest The request object.
+     * @param Nadir\Core\AbstractView|null $oView The view object.
      */
     public function __construct(Request $oRequest, AbstractView $oView = null)
     {
@@ -40,7 +40,7 @@ abstract class AbstractWebCtrl
 
     /**
      * It returns the object of assigned request.
-     * @return \core\Request|null.
+     * @return \Nadir\Core\Request|null.
      */
     public function getRequest()
     {
@@ -49,7 +49,7 @@ abstract class AbstractWebCtrl
 
     /**
      * It returns the object of associated view.
-     * @return \core\View|null.
+     * @return \Nadir\Core\View|null.
      */
     protected function getView()
     {
@@ -73,7 +73,7 @@ abstract class AbstractWebCtrl
 
     /**
      * It returns the object of associated layout.
-     * @return \core\Layout|null.
+     * @return \Nadir\Core\Layout|null.
      */
     protected function getLayout()
     {

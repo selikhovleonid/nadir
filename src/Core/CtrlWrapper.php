@@ -12,12 +12,12 @@ use Nadir\Extensions\Core\Auth;
  */
 class CtrlWrapper
 {
-    /** @var \core\AbstractWebCtrl The target controller object. */
+    /** @var \Nadir\Core\AbstractWebCtrl The target controller object. */
     protected $ctrl = null;
 
     /**
      * The constructor assigns the object-wrapper with controller object.
-     * @param \core\AbstractWebCtrl $oCtrl The controller object.
+     * @param Nadir\Core\AbstractWebCtrl $oCtrl The controller object.
      */
     public function __construct(AbstractWebCtrl $oCtrl)
     {

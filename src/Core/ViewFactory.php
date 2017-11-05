@@ -24,7 +24,7 @@ class ViewFactory
      * as controller, it's in the root of the view directory.
      * @param string $sCtrlName|null The controller name (as optional)
      * @param string $sActionName The action name.
-     * @return \core\View|null It returns null if view file isn't readable.
+     * @return \Nadir\Core\View|null It returns null if view file isn't readable.
      */
     public static function createView($sCtrlName = null, $sActionName)
     {
@@ -44,8 +44,8 @@ class ViewFactory
     /**
      * It creates a layout object.
      * @param type $sLayoutName The layout name.
-     * @param \core\View $oView The object of view.
-     * @return \core\Layout|null
+     * @param Nadir\Core\View $oView The object of view.
+     * @return \Nadir\Core\Layout|null
      */
     public static function createLayout($sLayoutName, View $oView)
     {
@@ -61,7 +61,7 @@ class ViewFactory
     /**
      * The method creates a snippet-object.
      * @param type $sSnptName The snippet name.
-     * @return \core\Snippet|null.
+     * @return \Nadir\Core\Snippet|null.
      */
     public static function createSnippet($sSnptName)
     {
