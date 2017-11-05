@@ -1,7 +1,7 @@
 <?php
-require_once './core/Autoloader.php';
+require_once './Core/Autoloader.php';
 
-\core\Autoloader::getInstance()
+\Nadir\Core\Autoloader::getInstance()
     // The Application root setting.
     ->setAppRoot(__DIR__)
     // Adding the Core package to the autoload stack.
@@ -10,8 +10,8 @@ require_once './core/Autoloader.php';
     ->run();
 
 // Running the Web Application.
-\core\WebApp::getInstance()
+\Nadir\Core\WebApp::getInstance()
     // Setting the relative path to the main configuration file of the
     // Application.
-    ->setConfigFile('/config/main.php')
+    ->setConfigFile('/Config/main.php')
     ->run();

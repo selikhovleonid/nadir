@@ -1,12 +1,12 @@
 <?php
 return array(
     'componentsRootMap'  => array(
-        'controllers' => '/controllers',
+        'controllers' => '/Controllers',
         'views'       => '/views/views',
         'layouts'     => '/views/layouts',
         'snippets'    => '/views/snippets',
-        'models'      => '/models',
-        'libs'        => '/libs',
+        'models'      => '/Models',
+        'libs'        => '/Libs',
         'vendor'      => '/vendor',
         'images'      => '/assets/imgs',
         'js'          => '/js',
@@ -14,9 +14,7 @@ return array(
     ),
     'autoloadingRootSet' => array(
         '/', // controllers & models autoload
-        '/libs', // core extensions classes autoload
-//        '/libs/some_dbms_name', // for example
-//        '/vendor/some_framework_name/src', // for example
+        '/Libs', // core extensions classes autoload
     ),
     'defaultLayout'      => 'main',
 //    'db'                 => array(// for example

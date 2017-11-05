@@ -1,0 +1,13 @@
+<?php
+
+namespace Nadir\Extensions\Core;
+
+/**
+ * This's an abstract model class. For functionality demonstration only.
+ * @todo Realize the interface and business logic.
+ * @author coon.
+ */
+abstract class AbstractModel
+{
+    // Put your code here.
+}
