@@ -13,5 +13,5 @@ require_once './Core/Autoloader.php';
 \Nadir\Core\WebApp::getInstance()
     // Setting the relative path to the main configuration file of the
     // Application.
-    ->setConfigFile('/Config/main.php')
+    ->setConfigFile('/config/main.php')
     ->run();
