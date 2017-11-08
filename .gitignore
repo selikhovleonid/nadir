@@ -1,4 +1,4 @@
 *~
 /vendor/
 /nbproject
-/src/.htaccess
+/src/web/.htaccess
