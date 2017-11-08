@@ -9,7 +9,7 @@ namespace nadir\core;
  */
 abstract class AbstractCompositeView extends AbstractView
 {
-    /** @var \core\Snippet[] The snippet map. */
+    /** @var \nadir\core\Snippet[] The snippet map. */
     protected $snippets = array();
 
     /**
@@ -26,7 +26,7 @@ abstract class AbstractCompositeView extends AbstractView
      * It returns assigned snippet object by the name. If the name not presents, 
      * then it returns the map with all View-assigned snippets.
      * @param string $sSnptName
-     * @return \core\Snippet|\core\Snippet[]|null
+     * @return \nadir\core\Snippet|\core\Snippet[]|null
      */
     public function getSnippet($sSnptName = '')
     {
@@ -40,7 +40,7 @@ abstract class AbstractCompositeView extends AbstractView
 
     /**
      * The method returns the View-assigned snippet map.
-     * @return \core\Snippet[]
+     * @return \nadir\core\Snippet[]
      */
     public function getAllSnippets()
     {

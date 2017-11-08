@@ -9,12 +9,12 @@ namespace nadir\core;
  */
 class WebCtrlResolver extends AbstractCtrlResolver
 {
-    /** @var \core\Request Объект запроса. */
+    /** @var \nadir\core\Request Объект запроса. */
     protected $request = null;
 
     /**
      * It inits the request property.
-     * @param \core\Request $oRequest.
+     * @param \nadir\core\Request $oRequest.
      */
     public function __construct(Request $oRequest)
     {
@@ -25,7 +25,7 @@ class WebCtrlResolver extends AbstractCtrlResolver
     /**
      * It creates the controller object, assignes it with default view and layout
      * objects.
-     * @return \core\AWebController.
+     * @return \nadir\core\AWebController.
      */
     protected function createCtrl()
     {
