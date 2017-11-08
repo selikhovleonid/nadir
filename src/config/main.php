@@ -1,16 +1,14 @@
 <?php
 return array(
     'componentsRootMap'  => array(
+        'models'      => '/models',
         'controllers' => '/controllers',
         'views'       => '/views/views',
         'layouts'     => '/views/layouts',
         'snippets'    => '/views/snippets',
-        'models'      => '/models',
-        'libs'        => '/libs',
-        'vendor'      => '/vendor',
-        'images'      => '/assets/imgs',
-        'js'          => '/js',
-        'css'         => '/css'
+        'images'      => '/web/assets/imgs',
+        'js'          => '/web/js',
+        'css'         => '/web/css'
     ),
     'autoloadingRootSet' => array(
         // controllers, models and extensions autoloading root
