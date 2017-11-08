@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * This's class of core exceptions. It realizes the Wrapper pattern.

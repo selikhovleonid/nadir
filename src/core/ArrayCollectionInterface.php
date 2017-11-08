@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * This's the array collection interface.

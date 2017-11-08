@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * This's autoloader of the PHP classes, realized as Singleton. It recognized both
@@ -148,6 +148,7 @@ class Autoloader
     {
         // Currying
         return function ($sClassName) use ($sRoot) {
+            $sClassName = str_replace('nadir\\', '', $sClassName);
             if (preg_match('/\\\\/', $sClassName)) {
                 $sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR,
                     $sClassName);

@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * The class provides the processing of page headers.

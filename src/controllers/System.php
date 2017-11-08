@@ -2,9 +2,9 @@
 
 namespace controllers;
 
-use core\AbstractWebCtrl;
-use extensions\core\SystemCtrlInterface;
-use core\Headers;
+use nadir\core\AbstractWebCtrl;
+use nadir\extensions\core\SystemCtrlInterface;
+use nadir\core\Headers;
 
 /**
  * This is system controller.

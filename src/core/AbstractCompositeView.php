@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * This's composite class of the View (the view in a broad sense), which 

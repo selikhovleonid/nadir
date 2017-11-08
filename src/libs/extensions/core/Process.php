@@ -1,8 +1,8 @@
 <?php
 
-namespace extensions\core;
+namespace nadir\extensions\core;
 
-use \core\ProcessInterface;
+use nadir\core\ProcessInterface;
 
 /**
  * The class provides custom configuration loading during the application is starting.

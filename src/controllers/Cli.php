@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-use core\AbstractCliCtrl;
+use nadir\core\AbstractCliCtrl;
 
 /**
  * This is command line interface controller.

@@ -1,8 +1,8 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
-use \extensions\core\Auth;
+use nadir\extensions\core\Auth;
 
 /**
  * This's a class of controller wrapper, an instance of which perfoms delegated 

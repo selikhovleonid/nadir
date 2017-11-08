@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * The class provides auto method-accessors (get-, set- and isSet- methods) 

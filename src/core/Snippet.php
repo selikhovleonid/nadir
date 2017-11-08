@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * The instance of the class is Snippet - an atomic element of the view.

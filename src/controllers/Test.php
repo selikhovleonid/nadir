@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-use core\AbstractWebCtrl;
+use nadir\core\AbstractWebCtrl;
 
 /**
  * This is demo test controller class.

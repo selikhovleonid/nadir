@@ -1,13 +1,13 @@
 <?php
+
+namespace nadir\core;
+
 /**
  * This's an abstract class, which contains functionality of setting, reading and
  * exist checking of the user's variable for a child class. The abstract modifier
  * was set a specially.
  * @author coon
  */
-
-namespace core;
-
 abstract class AbstractUserPropAccessor
 {
     /** @var array The user's variable pairs map. */

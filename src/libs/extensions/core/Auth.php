@@ -5,10 +5,10 @@
  * @author coon
  */
 
-namespace extensions\core;
+namespace nadir\extensions\core;
 
-use core\Request;
-use core\AppHelper;
+use nadir\core\Request;
+use nadir\core\AppHelper;
 
 class Auth extends AbstractAuth
 {

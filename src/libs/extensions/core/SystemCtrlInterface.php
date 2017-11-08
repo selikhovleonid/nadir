@@ -1,6 +1,6 @@
 <?php
 
-namespace extensions\core;
+namespace nadir\extensions\core;
 
 /**
  * The interface of system controller.

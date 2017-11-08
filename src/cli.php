@@ -5,7 +5,7 @@
 
 require_once './core/Autoloader.php';
 
-\core\Autoloader::getInstance()
+nadir\core\Autoloader::getInstance()
         // Setting the path to the root of application.
         ->setAppRoot(__DIR__)
         // Adding the root of core package to the autoloading stack.
@@ -14,7 +14,7 @@ require_once './core/Autoloader.php';
         ->run();
 
 // Running cli application.
-\core\CliApp::getInstance()
+nadir\core\CliApp::getInstance()
         ->setConfigFile('/config/main.php')
         ->run();
 

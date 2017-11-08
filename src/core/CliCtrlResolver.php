@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * The class provides the binding of call parameters of cli-script  with determinated

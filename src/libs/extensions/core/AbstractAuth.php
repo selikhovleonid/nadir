@@ -1,8 +1,8 @@
 <?php
 
-namespace extensions\core;
+namespace nadir\extensions\core;
 
-use \core\RunnableInterface;
+use nadir\core\RunnableInterface;
 
 /**
  * This's the abstract auth class.

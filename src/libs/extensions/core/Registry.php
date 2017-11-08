@@ -1,6 +1,6 @@
 <?php
 
-namespace extensions\core;
+namespace nadir\extensions\core;
 
 /**
  * The singleton instance of current class is the Registry - the global storage 

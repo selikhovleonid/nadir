@@ -1,13 +1,13 @@
 <?php
+
+namespace models;
+
+use nadir\extensions\core\AbstractModel;
+
 /**
  * This's demo version of model class.
  * @author coon
  */
-
-namespace models;
-
-use extensions\core\AbstractModel;
-
 class Test extends AbstractModel
 {
 

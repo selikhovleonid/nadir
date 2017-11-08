@@ -1,8 +1,8 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
-use extensions\core\Process;
+use nadir\extensions\core\Process;
 
 /**
  * This's an abstract application class. It determines the central entry point for

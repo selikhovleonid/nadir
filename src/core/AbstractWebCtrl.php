@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace nadir\core;
 
 /**
  * This's the class of abstract web-controller. Despite the fact that no one method 
