@@ -6,11 +6,9 @@ return array(
         'layouts'     => '/views/layouts',
         'snippets'    => '/views/snippets',
         'models'      => '/models',
-        'libs'        => '/libs',
-        'vendor'      => '/vendor',
         'images'      => '/assets/imgs',
-        'js'          => '/js',
-        'css'         => '/css'
+        'js'          => '/web/js',
+        'css'         => '/web/css'
     ),
     'autoloadingRootSet' => array(
         // controllers, models and extensions autoloading root
