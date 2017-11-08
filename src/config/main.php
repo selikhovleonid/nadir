@@ -13,10 +13,8 @@ return array(
         'css'         => '/css'
     ),
     'autoloadingRootSet' => array(
-        '/', // controllers & models autoload
-        '/libs', // core extensions classes autoload
-//        '/libs/some_dbms_name', // for example
-//        '/vendor/some_framework_name/src', // for example
+        // controllers, models and extensions autoloading root
+        '/',
     ),
     'defaultLayout'      => 'main',
 //    'db'                 => array(// for example
