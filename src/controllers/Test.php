@@ -20,6 +20,7 @@ class Test extends AbstractWebCtrl
         $aData                 = $oModel->readDefault();
         $this->getView()->foo  = $aData['foo'];
         $this->getView()->bar  = $aData['bar'];
+        \nadir\core\Tools::dumpVar($aData);
         $this->render();
     }
 }
