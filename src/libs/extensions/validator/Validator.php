@@ -1,12 +1,14 @@
 <?php
 
-namespace extensions\validator;
+namespace nadir\extensions\validator;
+
+use nadir\core\RunnableInterface;
 
 /**
  * This is class for input data validation.
  * @author coon
  */
-class Validator implements \core\RunnableInterface
+class Validator implements RunnableInterface
 {
     /** @var mixed[] Input data for validation. */
     protected $data = null;
@@ -97,7 +99,7 @@ class Validator implements \core\RunnableInterface
             // Required value rules
             ->addRule('required',
                 function($sFieldName) use ($aData) {
-                if (\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
                     return true;
                 }
@@ -109,10 +111,10 @@ class Validator implements \core\RunnableInterface
             // String rules
             ->addRule('string',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
-                            $sFieldName);
+                    $mValue = \nadir\extensions\validator\Validator
+                        ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_string($mValue)) {
                         return false;
                     }
@@ -162,10 +164,10 @@ class Validator implements \core\RunnableInterface
             // Number rules
             ->addRule('number',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
-                            $sFieldName);
+                    $mValue = \nadir\extensions\validator\Validator
+                        ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_numeric($mValue)) {
                         return false;
                     }
@@ -224,10 +226,10 @@ class Validator implements \core\RunnableInterface
             // Array rules
             ->addRule('array',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
-                            $sFieldName);
+                    $mValue = \nadir\extensions\validator\Validator
+                        ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_array($mValue)) {
                         return false;
                     }
@@ -277,10 +279,10 @@ class Validator implements \core\RunnableInterface
             // Boolean rules
             ->addRule('boolean',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \extensions\validator\Validator::getArrayItemByPointSeparatedKey($aData,
-                            $sFieldName);
+                    $mValue = \nadir\extensions\validator\Validator
+                        ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_bool($mValue)) {
                         return false;
                     }

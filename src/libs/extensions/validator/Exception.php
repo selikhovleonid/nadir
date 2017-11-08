@@ -1,6 +1,6 @@
 <?php
 
-namespace extensions\validator;
+namespace nadir\extensions\validator;
 
 /**
  * This is the class of validator exceptions. It realizes the Wrapper pattern.
