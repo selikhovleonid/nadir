@@ -148,7 +148,6 @@ class Autoloader
     {
         // Currying
         return function ($sClassName) use ($sRoot) {
-            $sClassName = str_replace('nadir\\', '', $sClassName);
             if (preg_match('/\\\\/', $sClassName)) {
                 $sRelativePath = str_replace('\\', DIRECTORY_SEPARATOR,
                     $sClassName);

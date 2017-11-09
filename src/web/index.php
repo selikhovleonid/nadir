@@ -1,5 +1,5 @@
 <?php
-require_once '../core/Autoloader.php';
+require_once '../../vendor/autoload.php';
 
 \nadir\core\Autoloader::getInstance()
     // The Application root setting.
