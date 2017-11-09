@@ -14,10 +14,10 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     RunnableInterface
 {
     /** @var string This's path to the config file root. */
-    public $configFile = null;
+    public $configFile = '';
 
     /** @var string The path to the root of application. */
-    public $appRoot = null;
+    public $appRoot = '';
 
     /** @var self This's singleton object of the current class. */
     protected static $instance = null;
