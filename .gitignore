@@ -1,5 +1,4 @@
 *~
 /vendor/
 /nbproject
-/src/web/.htaccess
 /composer.lock
