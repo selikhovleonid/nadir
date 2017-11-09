@@ -1,6 +1,6 @@
 <?php
 
-namespace nadir\extensions\validator;
+namespace nadir\core\validator;
 
 use nadir\core\RunnableInterface;
 
