@@ -16,6 +16,9 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     /** @var string This's path to the config file root. */
     public $configFile = null;
 
+    /** @var string The path to the root of application. */
+    public $appRoot = null;
+
     /** @var self This's singleton object of the current class. */
     protected static $instance = null;
 
@@ -52,6 +55,17 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     }
 
     /**
+     * It sets the root of application.
+     * @param string $sAppRoot The path to the application root.
+     * @return self.
+     */
+    public function setAppRoot($sAppRoot)
+    {
+        $this->appRoot = $sAppRoot;
+        return static::$instance;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -65,7 +79,6 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     public function init()
     {
         $this->initHelper();
-        $this->initAutoload();
         $this->initUserProcess();
         $this->handleRequest();
         $this->stopUserProcess();
@@ -83,27 +96,15 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     private function initHelper()
     {
         if (!$this->isConfigFileSet()) {
-            throw new Exception("Main config file wasn't defined.");
+            throw new Exception("The main config file wasn't defined.");
+        }
+        if (!$this->isAppRootSet()) {
+            throw new Exception("The application root wasn't defined.");
         }
         AppHelper::getInstance()
-            ->setAppRoot(Autoloader::getInstance()->getAppRoot())
+            ->setAppRoot($this->getAppRoot())
             ->setConfigFile($this->getConfigFile())
             ->run();
-    }
-
-    /**
-     * It inits class autoloading. The Autoloader object gets all directory roots 
-     * from the Application Helper, after that it assignes them with autoloading 
-     * process. 
-     * @return void.
-     */
-    private function initAutoload()
-    {
-        $mRoot = AppHelper::getInstance()->getConfig('autoloadingRootSet');
-        foreach ($mRoot ?: array() as $sRoot) {
-            Autoloader::getInstance()->add($sRoot);
-        }
-        Autoloader::getInstance()->run();
     }
 
     /**
