@@ -2,7 +2,7 @@
 
 namespace nadir\core;
 
-use nadir\extensions\core\Process;
+use extensions\core\Process;
 
 /**
  * This's an abstract application class. It determines the central entry point for

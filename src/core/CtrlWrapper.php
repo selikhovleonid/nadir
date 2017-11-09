@@ -2,7 +2,7 @@
 
 namespace nadir\core;
 
-use nadir\extensions\core\Auth;
+use extensions\core\Auth;
 
 /**
  * This's a class of controller wrapper, an instance of which perfoms delegated 

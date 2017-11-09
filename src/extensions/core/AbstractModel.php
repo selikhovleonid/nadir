@@ -1,6 +1,6 @@
 <?php
 
-namespace nadir\extensions\core;
+namespace extensions\core;
 
 /**
  * This's an abstract model class. For functionality demonstration only.
