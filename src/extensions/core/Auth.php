@@ -5,7 +5,7 @@
  * @author coon
  */
 
-namespace nadir\extensions\core;
+namespace extensions\core;
 
 use nadir\core\Request;
 use nadir\core\AppHelper;

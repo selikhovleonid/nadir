@@ -2,7 +2,7 @@
 
 namespace models;
 
-use nadir\extensions\core\AbstractModel;
+use extensions\core\AbstractModel;
 
 /**
  * This's demo version of model class.

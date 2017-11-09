@@ -1,6 +1,6 @@
 <?php
 
-namespace nadir\extensions\core;
+namespace extensions\core;
 
 use nadir\core\RunnableInterface;
 
