@@ -4,16 +4,12 @@
 
 require_once '../core/Autoloader.php';
 
-\nadir\core\Autoloader::getInstance()
-    // Setting the path to the root of application.
-    ->setAppRoot(__DIR__.DIRECTORY_SEPARATOR.'..')
-    // Adding the root of core package to the autoloading stack.
-    // By default the core directory is in the application root.
-    ->add(DIRECTORY_SEPARATOR)
-    ->run();
-
 // Running cli application.
 \nadir\core\CliApp::getInstance()
+    // The Application root setting.
+    ->setAppRoot(dirname(__DIR__))
+    // Setting the relative path to the main configuration file of the
+    // Application.
     ->setConfigFile('/config/main.php')
     ->run();
 
