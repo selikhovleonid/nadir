@@ -99,7 +99,7 @@ class Validator implements RunnableInterface
             // Required value rules
             ->addRule('required',
                 function($sFieldName) use ($aData) {
-                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\core\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
                     return true;
                 }
@@ -111,9 +111,9 @@ class Validator implements RunnableInterface
             // String rules
             ->addRule('string',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\core\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \nadir\extensions\validator\Validator
+                    $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_string($mValue)) {
                         return false;
@@ -164,9 +164,9 @@ class Validator implements RunnableInterface
             // Number rules
             ->addRule('number',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\core\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \nadir\extensions\validator\Validator
+                    $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_numeric($mValue)) {
                         return false;
@@ -226,9 +226,9 @@ class Validator implements RunnableInterface
             // Array rules
             ->addRule('array',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\core\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \nadir\extensions\validator\Validator
+                    $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_array($mValue)) {
                         return false;
@@ -279,9 +279,9 @@ class Validator implements RunnableInterface
             // Boolean rules
             ->addRule('boolean',
                 function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\extensions\validator\Validator::isIndexSet($aData,
+                if (\nadir\core\validator\Validator::isIndexSet($aData,
                         $sFieldName)) {
-                    $mValue = \nadir\extensions\validator\Validator
+                    $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
                     if (!is_bool($mValue)) {
                         return false;
