@@ -2,8 +2,6 @@
 
 namespace nadir\core;
 
-use extensions\core\Auth;
-
 /**
  * This's a class of controller wrapper, an instance of which perfoms delegated 
  * function - it calls target controller after the succesful auth or calls onFail 
@@ -33,17 +31,19 @@ class CtrlWrapper
      */
     protected function processAuth($sName, & $aArgs)
     {
-        $oAuth = new Auth($this->ctrl->getRequest());
-        $oAuth->run();
-        if ($oAuth->isValid()) {
-            if (empty($aArgs)) {
-                $this->ctrl->{$sName}();
+        if (class_exists('\extensions\core\Auth')) {
+            $oAuth = new \extensions\core\Auth($this->ctrl->getRequest());
+            $oAuth->run();
+            if ($oAuth->isValid()) {
+                if (empty($aArgs)) {
+                    $this->ctrl->{$sName}();
+                } else {
+                    $oMethod = new \ReflectionMethod($this->ctrl, $sName);
+                    $oMethod->invokeArgs($this->ctrl, $aArgs);
+                }
             } else {
-                $oMethod = new \ReflectionMethod($this->ctrl, $sName);
-                $oMethod->invokeArgs($this->ctrl, $aArgs);
+                $oAuth->onFail();
             }
-        } else {
-            $oAuth->onFail();
         }
     }
 
