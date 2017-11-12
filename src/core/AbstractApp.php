@@ -2,8 +2,6 @@
 
 namespace nadir\core;
 
-use extensions\core\Process;
-
 /**
  * This's an abstract application class. It determines the central entry point for
  * the all requests, creates the configured application. It implements Front 
@@ -18,6 +16,9 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
 
     /** @var string The path to the root of application. */
     public $appRoot = '';
+
+    /** @var \nadir\core\ProcessInterface The user defined Process object. */
+    public $customProcess = null;
 
     /** @var self This's singleton object of the current class. */
     protected static $instance = null;
@@ -66,6 +67,17 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     }
 
     /**
+     * It sets the custom Process.
+     * @param \nadir\core\ProcessInterface $oProcess The user defined Process object.
+     * @return self.
+     */
+    public function setCustomProcess(ProcessInterface $oProcess)
+    {
+        $this->customProcess = $oProcess;
+        return static::$instance;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -79,9 +91,9 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     public function init()
     {
         $this->initHelper();
-        $this->initUserProcess();
+        $this->runCustomProcess();
         $this->handleRequest();
-        $this->stopUserProcess();
+        $this->stopCustomProcess();
     }
 
     /**
@@ -108,20 +120,30 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     }
 
     /**
-     * The method runs custom processes.
+     * This method runs custom process. The highest priority has a Process that
+     * has been set by the setCustomProcess() method. If it wasn't set, it inits
+     * the default Process from the project skeleton extension.
      * @return void.
      */
-    private function initUserProcess()
+    private function runCustomProcess()
     {
-        Process::getInstance()->run();
+        if ($this->isCustomProcessSet()) {
+            $this->getCustomProcess()->run();
+        } elseif (class_exists('\extensions\core\Process')) {
+            \extensions\core\Process::getInstance()->run();
+        }
     }
 
     /**
-     * The method kills user's processes.
+     * The method kills custom process.
      * @return void.
      */
-    private function stopUserProcess()
+    private function stopCustomProcess()
     {
-        Process::getInstance()->stop();
+        if ($this->isCustomProcessSet()) {
+            $this->getCustomProcess()->stop();
+        } elseif (class_exists('\extensions\core\Process')) {
+            \extensions\core\Process::getInstance()->stop();
+        }
     }
 }
