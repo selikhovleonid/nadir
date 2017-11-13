@@ -22,8 +22,8 @@ class CliCtrlResolver extends AbstractCtrlResolver
     {
         parent::__construct();
         if (!isset($aArgs[1])) {
-            throw new Exception('Undefined route for cli request. '
-            ."The route wasn't passed as first param when cli script was called.");
+            throw new Exception('Undefined route for the cli request. '
+            ."The route wasn't passed as first param when the cli script was called.");
         }
         $this->requestRoute = $aArgs[1];
         unset($aArgs[0]);
@@ -36,7 +36,14 @@ class CliCtrlResolver extends AbstractCtrlResolver
      */
     protected function createCtrl()
     {
-        $sCtrlNameFull = '\\controllers\\'.$this->ctrlName;
+        $aComponentsRootMap = AppHelper::getInstance()->getConfig('componentsRootMap');
+        if (!isset($aComponentsRootMap['controllers'])) {
+            throw new Exception("The field 'componentsRootMap.controllers' must be "
+            ."presented in the main configuration file.");
+        }
+        $sCtrlNamespace = str_replace(\DIRECTORY_SEPARATOR, '\\',
+            $aComponentsRootMap['controllers']);
+        $sCtrlNameFull  = $sCtrlNamespace.'\\'.$this->ctrlName;
         return new $sCtrlNameFull();
     }
 
