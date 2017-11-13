@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * The instance of the class is Snippet - an atomic element of the view.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Snippet extends AbstractView
 {

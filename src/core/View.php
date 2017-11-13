@@ -3,10 +3,10 @@
 namespace nadir\core;
 
 /**
- * This's а class of the View (the view in a strictly).
+ * This is а class of the View (the view in a strictly).
  * @property mixed $name The variable for a passing custom data from a controller 
  * to the view file.
- * @author coon.
+ * @author Leonid Selikhov.
  */
 class View extends AbstractCompositeView {
 

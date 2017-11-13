@@ -3,9 +3,9 @@
 namespace nadir\core;
 
 /**
- * This's composite class of the View (the view in a broad sense), which 
+ * This is composite class of the View (the view in a broad sense), which 
  * entities may contains the atomic view units - the snippets.
- * @author coon
+ * @author Leonid Selikhov
  */
 abstract class AbstractCompositeView extends AbstractView
 {

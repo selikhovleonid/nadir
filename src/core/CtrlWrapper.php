@@ -3,10 +3,10 @@
 namespace nadir\core;
 
 /**
- * This's a class of controller wrapper, an instance of which perfoms delegated 
+ * This is a class of controller wrapper, an instance of which perfoms delegated 
  * function - it calls target controller after the succesful auth or calls onFail 
  * auth class functionality in other case.
- * @author coon
+ * @author Leonid Selikhov
  */
 class CtrlWrapper
 {
@@ -48,7 +48,7 @@ class CtrlWrapper
     }
 
     /**
-     * This's the method-interseptor of method calling of the target controller.
+     * This is the method-interseptor of method calling of the target controller.
      * @param string $sName The action name of target controller.
      * @param mixed[] $aArgs The action parameters.
      */

@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * The interface describes the Front Controller pattern functionality.
- * @author coon
+ * @author Leonid Selikhov
  */
 interface FrontControllerInterface
 {

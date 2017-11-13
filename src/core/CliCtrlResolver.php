@@ -5,7 +5,7 @@ namespace nadir\core;
 /**
  * The class provides the binding of call parameters of cli-script  with determinated
  * controller and action in it.
- * @author coon
+ * @author Leonid Selikhov
  */
 class CliCtrlResolver extends AbstractCtrlResolver
 {

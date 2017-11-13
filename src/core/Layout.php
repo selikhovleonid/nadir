@@ -3,10 +3,10 @@
 namespace nadir\core;
 
 /**
- * This's the class of layout.
+ * This is the class of layout.
  * @property mixed $name The variable for passing custom data from the controller 
  * to the layout file.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Layout extends AbstractCompositeView
 {

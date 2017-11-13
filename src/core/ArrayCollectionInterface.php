@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's the array collection interface.
- * @author coon
+ * This is the array collection interface.
+ * @author Leonid Selikhov
  */
 interface ArrayCollectionInterface
 {

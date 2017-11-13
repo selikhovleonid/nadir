@@ -5,7 +5,7 @@ namespace nadir\core;
 /**
  * The application helper class, which provides config data loading and general 
  * access to them. It realized as Singleton.
- * @author coon.
+ * @author Leonid Selikhov.
  */
 class AppHelper extends AbstractAutoAccessors implements RunnableInterface
 {
@@ -49,7 +49,7 @@ class AppHelper extends AbstractAutoAccessors implements RunnableInterface
     }
 
     /**
-     * This's mutator-method. It sets the path to the root of application.
+     * This is mutator-method. It sets the path to the root of application.
      * @param string $sRoot The path to the application root.
      * @return self.
      */
@@ -128,7 +128,7 @@ class AppHelper extends AbstractAutoAccessors implements RunnableInterface
     }
 
     /**
-     * This's method-accessor to basic site URL.
+     * This is method-accessor to basic site URL.
      * @return string.
      */
     public function getSiteBaseUrl()

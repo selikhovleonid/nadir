@@ -4,7 +4,8 @@ namespace nadir\core;
 
 /**
  * This is an abstract class of cli-controller.
- * @author lapotchkin, coon.
+ * @author Roman Lapotchkin
+ * @author Leonid Selikhov
  */
 class AbstractCliCtrl
 {

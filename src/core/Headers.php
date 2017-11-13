@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * The class provides the processing of page headers.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Headers
 {

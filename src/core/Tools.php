@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's the class of developer's tools.
- * @author coon.
+ * This is the class of developer's tools.
+ * @author Leonid Selikhov.
  */
 class Tools
 {

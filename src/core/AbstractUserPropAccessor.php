@@ -3,10 +3,10 @@
 namespace nadir\core;
 
 /**
- * This's an abstract class, which contains functionality of setting, reading and
+ * This is an abstract class, which contains functionality of setting, reading and
  * exist checking of the user's variable for a child class. The abstract modifier
  * was set a specially.
- * @author coon
+ * @author Leonid Selikhov
  */
 abstract class AbstractUserPropAccessor
 {
@@ -47,7 +47,7 @@ abstract class AbstractUserPropAccessor
 
     /**
      * It overrides the magic method __isset().
-     * @param string $sKey This's variable name.
+     * @param string $sKey This is variable name.
      * @return boolean.
      */
     public function __isset($sKey)

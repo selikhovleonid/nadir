@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * It's the web-application class. It specifies an abstract application.
- * @author coon
+ * @author Leonid Selikhov
  */
 class WebApp extends AbstractApp
 {

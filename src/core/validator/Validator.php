@@ -6,7 +6,7 @@ use nadir\core\RunnableInterface;
 
 /**
  * This is class for input data validation.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Validator implements RunnableInterface
 {

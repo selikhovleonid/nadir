@@ -6,11 +6,11 @@ namespace nadir\core;
  * The singleton instance of current class is the Registry - the global storage 
  * of custom variables, which lifetime is equal to the life cycle time of the
  * scrypt.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Registry
 {
-    /** @var self This's singleton object of current class. */
+    /** @var self This is singleton object of current class. */
     private static $instance = null;
 
     /** @var mixed[] The user's variable storage. */

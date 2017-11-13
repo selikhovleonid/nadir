@@ -3,9 +3,9 @@
 namespace nadir\core;
 
 /**
- * This's the abstract class, which assign a controller with the request 
+ * This is the abstract class, which assign a controller with the request 
  * parameters.
- * @author coon
+ * @author Leonid Selikhov
  */
 abstract class AbstractCtrlResolver implements RunnableInterface
 {

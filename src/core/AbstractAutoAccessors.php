@@ -5,7 +5,7 @@ namespace nadir\core;
 /**
  * The class provides auto method-accessors (get-, set- and isSet- methods) 
  * generation to the public properties of the children classes.
- * @author coon
+ * @author Leonid Selikhov
  */
 class AbstractAutoAccessors
 {
@@ -30,7 +30,7 @@ class AbstractAutoAccessors
     }
 
     /**
-     * This's interceptor method, which catches the calls of undeclared methods of
+     * This is interceptor method, which catches the calls of undeclared methods of
      * the class. If the name of the invoked method matches the setProperty, getProperty
      * or isPropertySet pattern and the target class has corresponding public 
      * property, then it calls needed accessor as if it was declared directly in 

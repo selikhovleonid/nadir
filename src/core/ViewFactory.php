@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's a factory class for generating of View-objects (View, Layout).
- * @author coon
+ * This is a factory class for generating of View-objects (View, Layout).
+ * @author Leonid Selikhov
  */
 class ViewFactory
 {

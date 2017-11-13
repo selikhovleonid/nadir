@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * This class describes the running process functionality.
- * @author coon.
+ * @author Leonid Selikhov.
  */
 interface RunnableInterface
 {

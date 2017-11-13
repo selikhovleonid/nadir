@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's a view abstract class.
- * @author coon
+ * This is a view abstract class.
+ * @author Leonid Selikhov
  */
 abstract class AbstractView extends AbstractUserPropAccessor
 {
@@ -22,7 +22,7 @@ abstract class AbstractView extends AbstractUserPropAccessor
     }
 
     /**
-     * This's method-accessor to the variable which contains the path to the file 
+     * This is method-accessor to the variable which contains the path to the file 
      * with view markup.
      * @return string.
      */

@@ -3,10 +3,10 @@
 namespace nadir\core;
 
 /**
- * This's the class of abstract web-controller. Despite the fact that no one method 
+ * This is the class of abstract web-controller. Despite the fact that no one method 
  * declared as abstract, the 'abstract' modifier is set a specially to exclude the 
  * possibility of creating an instance of the class. 
- * @author coon
+ * @author Leonid Selikhov
  */
 abstract class AbstractWebCtrl
 {

@@ -5,7 +5,7 @@ namespace nadir\core;
 /**
  * This class provides the choosing of controller, passing the request parameters 
  * in it and binding with corresponding layout and view.
- * @author coon
+ * @author Leonid Selikhov
  */
 class WebCtrlResolver extends AbstractCtrlResolver
 {

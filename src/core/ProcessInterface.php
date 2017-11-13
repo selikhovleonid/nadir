@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * This interface describes a started and stopped process functionality.
- * @author coon
+ * @author Leonid Selikhov
  */
 interface ProcessInterface extends RunnableInterface
 {

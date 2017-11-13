@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's class of core exceptions. It realizes the Wrapper pattern.
- * @author coon
+ * This is class of core exceptions. It realizes the Wrapper pattern.
+ * @author Leonid Selikhov
  */
 class Exception extends \Exception
 {

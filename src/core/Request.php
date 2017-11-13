@@ -4,7 +4,7 @@ namespace nadir\core;
 
 /**
  * The class provides the centralized access to the parameters of input request.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Request
 {

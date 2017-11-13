@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's a class of cli-application (command line interface application).
- * @author coon
+ * This is a class of cli-application (command line interface application).
+ * @author Leonid Selikhov
  */
 class CliApp extends AbstractApp
 {

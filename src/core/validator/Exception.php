@@ -4,7 +4,7 @@ namespace nadir\core\validator;
 
 /**
  * This is the class of validator exceptions. It realizes the Wrapper pattern.
- * @author coon
+ * @author Leonid Selikhov
  */
 class Exception extends \Exception
 {

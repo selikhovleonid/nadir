@@ -3,15 +3,15 @@
 namespace nadir\core;
 
 /**
- * This's an abstract application class. It determines the central entry point for
+ * This is an abstract application class. It determines the central entry point for
  * the all requests, creates the configured application. It implements Front 
  * Controller pattern, it's Singleton-instance.
- * @author coon
+ * @author Leonid Selikhov
  */
 abstract class AbstractApp extends AbstractAutoAccessors implements FrontControllerInterface,
     RunnableInterface
 {
-    /** @var string This's path to the config file root. */
+    /** @var string This is path to the config file root. */
     public $configFile = '';
 
     /** @var string The path to the root of application. */
@@ -20,7 +20,7 @@ abstract class AbstractApp extends AbstractAutoAccessors implements FrontControl
     /** @var \nadir\core\ProcessInterface The user defined Process object. */
     public $customProcess = null;
 
-    /** @var self This's singleton object of the current class. */
+    /** @var self This is singleton object of the current class. */
     protected static $instance = null;
 
     /**

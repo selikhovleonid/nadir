@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This's facade class for working with session.
- * @author coon
+ * This is facade class for working with session.
+ * @author Leonid Selikhov
  */
 class Session implements ArrayCollectionInterface
 {
