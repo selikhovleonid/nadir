@@ -29,10 +29,16 @@ class WebCtrlResolver extends AbstractCtrlResolver
      */
     protected function createCtrl()
     {
-        $oView         = ViewFactory::createView(
-                $this->ctrlName, str_replace('action', '', $this->actionName)
-        );
-        $sCtrlNameFull = '\\controllers\\'.$this->ctrlName;
+        $oView              = ViewFactory::createView($this->ctrlName,
+                str_replace('action', '', $this->actionName));
+        $aComponentsRootMap = AppHelper::getInstance()->getConfig('componentsRootMap');
+        if (!isset($aComponentsRootMap['controllers'])) {
+            throw new Exception("The field 'componentsRootMap.controllers' must be "
+            ."presented in the main configuration file.");
+        }
+        $sCtrlNamespace = str_replace(\DIRECTORY_SEPARATOR, '\\',
+            $aComponentsRootMap['controllers']);
+        $sCtrlNameFull  = $sCtrlNamespace.'\\'.$this->ctrlName;
         if (!is_null($oView)) {
             $sLayoutName = AppHelper::getInstance()->getConfig('defaultLayout');
             if (!is_null($sLayoutName)) {
