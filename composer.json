@@ -19,6 +19,7 @@
         "php": ">=5.3.0"
     },
     "autoload": {
+        "files": ["src/functions.php"],
         "psr-4": {
             "nadir\\": "src/"
         }
