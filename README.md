@@ -161,7 +161,7 @@ class Test extends AbstractWebCtrl
     {
         // ...
         $this->getView()->foo  = 'foo';
-        $this->getView()->bar  = 'bar';
+        $this->getView()->bar  = array(42, 'bar');
         $this->getView()->setVariables(array(
             'baz'  => 'baz',
             'qux'  => 'qux',
@@ -179,3 +179,55 @@ containing only the View file (it's clear that Layout in this case must be null)
 Moreover, in case of AJAX-request HTML-page rendering is often not needed at all, 
 a more specific answer format is required, in this case the `\nadir\core\AbstractWebCtrl::renderJson()`
 method is provided.
+
+## View
+
+### Composite view
+
+The view contains HTML-code and a minimum of logic, which is necessary only for 
+operating variables received from the controller. The view is generally composite 
+and consists of a Layout (an instance of the class `\nadir\core\Layout`) and View 
+in a narrow sense (object of the class `\nadir\core\View`). Each of the composites 
+of the view can in turn contain snippets (objects of the `\nadir\core\Snippet` class) - 
+fragments of the frequently encountered elements of the interface - navigation 
+panels, various information blocks, etc.
+
+```php
+namespace controllers;
+
+use nadir\core\AbstractWebCtrl;
+
+class Test extends AbstractWebCtrl
+{
+
+    public function actionDefault()
+    {
+        // ...
+        $this->setView('test', 'default');
+        $this->setLayout('main');
+        $this->getLayout()->isUserOnline = false;
+        $this->getView()->foo            = 'foo';
+        $this->getView()->bar            = array(42, 'bar');
+        // ...
+        $this->render();
+    }
+}
+```
+
+In the markup file of this View `/views/views/test/default.php` variables are 
+readable by calling `$this->foo` and `$this->bar`.
+
+```php
+<!-- ... -->
+<div>
+	<h1><?= $this->foo; ?></h1>
+	<?php if (is_array($this->bar) && !empty($this->bar)): ?>
+		<ul>
+		<?php foreach ($this->bar as $elem): ?>
+			<li><?= $elem; ?></li>
+		<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+</div>
+<!-- ... -->
+```
