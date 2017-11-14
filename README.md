@@ -180,6 +180,37 @@ Moreover, in case of AJAX-request HTML-page rendering is often not needed at all
 a more specific answer format is required, in this case the `\nadir\core\AbstractWebCtrl::renderJson()`
 method is provided.
 
+### CLI controller
+
+The example of shell command:
+
+```
+php cli.php --test --foo=bar
+```
+
+This command after the query binding according route table will be processed by 
+the CLI controller action:
+
+```php
+namespace controllers;
+
+use nadir\core\AbstractCliCtrl;
+
+class Cli extends AbstractCliCtrl
+{
+
+    public function actionTest(array $aArgs)
+    {
+        if (!empty($aArgs)) {
+            $this->printInfo('The test cli action was called with args: '
+                .implode(', ', $aArgs).'.');
+        } else {
+            $this->printError(new \Exception('The test cli action was called without args.'));
+        }
+    }
+}
+```
+
 ## View
 
 ### Composite view
