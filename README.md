@@ -214,10 +214,10 @@ class Test extends AbstractWebCtrl
 }
 ```
 
-In the markup file of this View `/views/views/test/default.php` variables are 
+In the markup file `/views/views/test/default.php` of this View variables are 
 readable by calling `$this->foo` and `$this->bar`.
 
-```php
+```html
 <!-- ... -->
 <div>
 	<h1><?= $this->foo; ?></h1>
