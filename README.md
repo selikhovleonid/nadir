@@ -119,5 +119,7 @@ array(
 );
 ```
 
-Access to the configurations within the client code is done by calling the 
-`\nadir\core\AppHelper::getInstance()->getConfig('configName')` method.
+Access to the configurations within the client code is done by calling the
+```php
+\nadir\core\AppHelper::getInstance()->getConfig('configName')
+```
