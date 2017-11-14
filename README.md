@@ -134,7 +134,7 @@ for the purpose of obtaining data, their further conversion and pass to the view
 
 ### Controller and view
 
-In the life cycle of the web application, after the query binding with the Controller-Action 
+In the lifetime of the web application, after the query binding with the Controller-Action 
 pair, a controller object is created, which by default tries to associate the view 
 objects with it. The view is generally composite and consists of a Layout (an 
 instance of the class `\nadir\core\Layout`) and View in a narrow sense (object of 
@@ -217,17 +217,96 @@ class Test extends AbstractWebCtrl
 In the markup file `/views/views/test/default.php` of this View variables are 
 readable by calling `$this->foo` and `$this->bar`.
 
-```html
+```
 <!-- ... -->
 <div>
-	<h1><?= $this->foo; ?></h1>
-	<?php if (is_array($this->bar) && !empty($this->bar)): ?>
-		<ul>
-		<?php foreach ($this->bar as $elem): ?>
-			<li><?= $elem; ?></li>
-		<?php endforeach; ?>
-		</ul>
-	<?php endif; ?>
+    <h1><?= $this->foo; ?></h1>
+    <?php if (is_array($this->bar) && !empty($this->bar)): ?>
+        <ul>
+            <?php foreach ($this->bar as $elem): ?>
+                <li><?= $elem; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>
+<!-- ... -->
+```
+
+Similarly, in the markup file `/views/layouts/main.php` of the Layout, the variable 
+is readable by calling `$this->isUserOnline`
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Nadir Microframework</title>
+    </head>
+    <body>
+        <?php $this->getView()->render(); ?>
+    </body>
+</html>
+```
+
+Pay attention that the rendering of the View in Layout is determined by the location 
+of the method call `$this->getView()->render()`.
+
+### Snippets
+
+Working with snippets, in general, is similar to working with Composites - View 
+and Layout. The class of the snippet is also inherits the class `\nadir\core\AbstractView` 
+and the process of sending and calling user variables is similar to that of the 
+Layout and View. Composites can contain more than one snippet. The snippet can't 
+include another snippet. We will take the part of the markup from the previous 
+example into the separate snippet `topbar`. The file `/views/snippets/topbar.php` 
+will contain the following code:
+
+```
+<h1>User <?= $this->isUserOnline ? 'online' : 'offline'; ?></h1>
+```
+
+The controller action will look like this:
+
+```php
+namespace controllers;
+
+use nadir\core\AbstractWebCtrl;
+
+class Test extends AbstractWebCtrl
+{
+
+    public function actionDefault()
+    {
+        // ...
+        $this->setView('test', 'default');
+        $this->setLayout('main');
+        $this->getView()->addSnippet('topbar');
+        $this->getView()
+            ->getSnippet('topbar')
+            ->isUserOnline               = false;
+        $this->getView()->foo            = 'foo';
+        $this->getView()->bar            = array(42, 'bar');
+        // ...
+        $this->render();
+    }
+}
+```
+
+The rendering of the snippet `topbar` in View is determined by the location 
+of the method call `$this->getSnippet('topbar')->render()`.
+
+```
+<!-- ... -->
+<div>
+    <?php $this->getSnippet('topbar')->render(); ?>
+    <h1><?= $this->foo; ?></h1>
+    <?php if (is_array($this->bar) && !empty($this->bar)): ?>
+        <ul>
+            <?php foreach ($this->bar as $elem): ?>
+                <li><?= $elem; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 </div>
 <!-- ... -->
 ```
