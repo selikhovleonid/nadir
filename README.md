@@ -22,7 +22,7 @@ php composer.phar create-project -s dev selikhovleonid/nadir-skeleton <project-n
 
 The created project template will have a structure simular to this:
 
-```
+<pre>
 ├── cli
 │   └── cli.php
 ├── composer.json
@@ -59,8 +59,7 @@ The created project template will have a structure simular to this:
 │           └── default.php
 └── web
     └── index.php
-
-```
+</pre>
 
 ## Main configuration file
 
