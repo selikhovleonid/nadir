@@ -1,44 +1,58 @@
-# Nadir Framework
+# Nadir
 
-Yet another MVC PHP microframework.
+Yet Another PHP Microframework.
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
 
-## Манифест
+Nadir is a PHP microframework which helps you quickly write web applications, console 
+applications and RESTful services. It's based on the MVC meta-pattern. This microframework 
+provides wide opportunities for modification and customization.
 
-Nadir - это микрофреймворк, базирующийся на меташаблоне MVC, с максимально общим, 
-простым в использовании и в то же время мощным функционалом. Ядро фреймворка 
-включает минимально необходимый и достаточный набор классов  для построения каркаса 
-любого полноценного веб-приложения (в т.ч. и RESTfull). Nadir обеспечивает 
-централизованную глобальную конфигурацию, изящный роутинг и валидацию запросов, 
-прозрачную связь между контроллером и системой макет + представление, простые механизмы работы с 
-сессией, заголовками страницы и рендерингом. Микрофреймворк предоставляет расширяемый 
-каркас авторизации и системы ролей пользователя. Исходя из концепции "максимально 
-простого в конфигурации, гибкого, расширяемого и масштабируемого микрофреймворка" 
-и с целью избежать захламления невостребованными возможностями, Nadir не содержит 
-определенных правил и предписаний по построению модели. Конкретная реализация этой 
-составляющей паттерна MVC отдана на откуп разработчику.
- 
-Вы всегда сможете легко добавить функциональности, но вам никогда не захочется 
-ее урезать.
+## Installing
 
+You will need Composer dependency manager to install Nadir. The easiest way 
+to start working with Nadir is to create project skeleton running the following 
+command:
 
-## Технические требования
+```
+composer create-project -s dev selikhovleonid/nadir-skeleton <project-name>
+```
 
-1. PHP 5.3+.
-2. Веб-сервер Apache2 или Nginx с подключенными модулями mod_rewrite или 
-ngx_http_rewrite_module соответственно.
+## Project structure
 
-## Быстрый старт
+The created project template will have a structure simular to this:
 
-1. [Конфигурирование веб-сервера.]
-2. [Основной конфигурационный файл приложения.]
-4. [Контроллер.]
-5. [Представление.]
-6. [Модель.]
-
-[Конфигурирование веб-сервера.]:https://github.com/selikhovleonid/nadir/blob/master/docs/webserver.markdown
-[Основной конфигурационный файл приложения.]:https://github.com/selikhovleonid/nadir/blob/master/docs/mainconfig.markdown
-[Контроллер.]:https://github.com/selikhovleonid/nadir/blob/master/docs/controller.markdown
-[Представление.]:https://github.com/selikhovleonid/nadir/blob/master/docs/view.markdown
-[Модель.]:https://github.com/selikhovleonid/nadir/blob/master/docs/model.markdown
+<pre>
+├── cli
+│   └── cli.php
+├── config
+│   └── main.php
+├── controllers
+│   ├── Cli.php
+│   ├── System.php
+│   └── Test.php
+├── extensions
+│   └── core
+│       ├── AbstractAuth.php
+│       ├── AbstractModel.php
+│       ├── Auth.php
+│       ├── Process.php
+│       └── SystemCtrlInterface.php
+├── models
+│   └── Test.php
+├── vendor
+├── views
+│   ├── layouts
+│   │   └── main.php
+│   ├── snippets
+│   │   └── topbar.php
+│   └── views
+│       ├── system
+│       │   ├── page401.php
+│       │   ├── page403.php
+│       │   └── page404.php
+│       └── test
+│           └── default.php
+└── web
+    └── index.php
+</pre>
