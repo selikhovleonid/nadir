@@ -15,7 +15,7 @@ to start working with Nadir is to create project skeleton running the following
 command:
 
 ```
-composer create-project -s dev selikhovleonid/nadir-skeleton <project-name>
+php composer.phar create-project -s dev selikhovleonid/nadir-skeleton <project-name>
 ```
 
 ## Project structure
@@ -130,8 +130,7 @@ Access to the configurations within the client code is done by calling the
 The controller is an instance of a class inherited from the `\nadir\core\AbstractWebController` 
 or the `\nadir\core\AbstractCliController` abstract superclasses. 
 When called, the controller performs some action, which usually refers to the model 
-for the purpose of obtaining data, their further conversion and transfer to the 
-view.
+for the purpose of obtaining data, their further conversion and pass to the view.
 
 ### Controller and view
 
@@ -144,8 +143,8 @@ are associated markup files. The name of the markup file is obtained by discardi
 the 'action' prefix from the action name, the file is placed in the directory with 
 the controller name (file names and directories should be in lowercase). View objects 
 are available within the controller by calling the accessors `$this->getView()`, 
-`$this->setView()`, `$this->getLayout()`, and `$this->setLayout()`. At any time 
-prior to the beginning of page rendering, it is possible to change the default Layout 
+`$this->setView()`, `$this->getLayout()` and `$this->setLayout()`. At any time 
+prior to the beginning of page rendering, it's possible to change the default Layout 
 or View to any other available single-type object.
 
 Passing values of user variables from the controller to the view:
@@ -169,8 +168,14 @@ class Test extends AbstractWebCtrl
             'quux' => 'quux',
         ));
         // ...
+        $this->render();
     }
 }
 ```
 In the markup file `/views/views/test/default.php` of this view the variables are 
-readable by calling `$this->foo`, `$this->bar`, `$this->baz` and so on.
+readable by calling `$this->foo`, `$this->bar`, `$this->baz` and so on. The page 
+is rendered by calling `$this->render()` within the action. You can render a page 
+containing only the View file (it's clear that Layout in this case must be null). 
+Moreover, in case of AJAX-request HTML-page rendering is often not needed at all, 
+a more specific answer format is required, in this case the `\nadir\core\AbstractWebCtrl::renderJson()`
+method is provided.
