@@ -22,9 +22,11 @@ php composer.phar create-project -s dev selikhovleonid/nadir-skeleton <project-n
 
 The created project template will have a structure simular to this:
 
-<pre>
+```
 ├── cli
 │   └── cli.php
+├── composer.json
+├── composer.lock
 ├── config
 │   └── main.php
 ├── controllers
@@ -38,8 +40,10 @@ The created project template will have a structure simular to this:
 │       ├── Auth.php
 │       ├── Process.php
 │       └── SystemCtrlInterface.php
+├── LICENSE
 ├── models
 │   └── Test.php
+├── README.md
 ├── vendor
 ├── views
 │   ├── layouts
@@ -55,7 +59,8 @@ The created project template will have a structure simular to this:
 │           └── default.php
 └── web
     └── index.php
-</pre>
+
+```
 
 ## Main configuration file
 
