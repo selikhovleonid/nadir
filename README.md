@@ -8,6 +8,19 @@ Nadir is a PHP microframework which helps you quickly write web applications, co
 applications and RESTful services. It's based on the MVC pattern. This microframework 
 provides wide opportunities for modification and customization.
 
+* [Installing](#installing)
+* [Project structure](#project-structure)
+* [Main configuration file](#main-configuration-file)
+* [Controller](#controller)
+    + [Controller and view](#controller-and-view)
+    + [CLI controller](#cli-controller)
+* [View](#view)
+    + [Composite view](#composite-view)
+    + [Snippets](#snippets)
+* [Model](#model)
+* [Authorization](#authorization)
+* [Data validation](#data-validation)
+
 ## Installing
 
 You will need Composer dependency manager to install Nadir. The easiest way 
@@ -497,12 +510,12 @@ class Test extends AbstractWebCtrl
         $oValidator->setItems(array(
             array(
                 array('foo', 'bar'),
-                'required'
+                'required',
             ),
             array(
                 array('foo', 'bar'),
                 'string',
-                array('notEmpty' => true)
+                array('notEmpty' => true),
             ),
             array(
                 'bar',
@@ -525,7 +538,7 @@ class Test extends AbstractWebCtrl
             array(
                 'qux',
                 'boolean',
-                array('isTrue' => false)
+                array('isTrue' => false),
             ),
             array(
                 'quux',
@@ -533,7 +546,7 @@ class Test extends AbstractWebCtrl
                 array(
                     'assoc'  => true,
                     'length' => array('equal' => 1),
-                )
+                ),
             ),
         ));
         if ($oValidator->run()->isValid()) {
@@ -542,7 +555,6 @@ class Test extends AbstractWebCtrl
                 'errors' => array(),
             ));
         } else {
-
             $this->renderJson(array(
                 'result' => 'fail',
                 'errors' => $oValidator->getErrors(),
