@@ -366,7 +366,7 @@ class Test extends AbstractModel
         // Dummy mode
         return array(
             'foo' => 'bar',
-            'bar' => array(42, 'baz')
+            'bar' => array(42, 'baz'),
         );
     }
 }
@@ -393,4 +393,77 @@ class Test extends AbstractWebCtrl
         $this->render();
     }
 }
+```
+
+## Authorization
+
+Nadir provides a wide range of customization options for user authorization. It's 
+necessary to fill the `\extensions\core\Auth` class with a concrete functional for
+this.
+
+```php
+namespace extensions\core;
+
+use nadir\core\Request;
+use nadir\core\AppHelper;
+
+class Auth extends AbstractAuth
+{
+    protected $request     = null;
+    protected $routeConfig = null;
+    protected $error       = null;
+
+    public function __construct(Request $oRequest)
+    {
+        $this->request     = $oRequest;
+        $this->routeConfig = AppHelper::getInstance()->getRouteConfig();
+    }
+
+    protected function checkCookies(array $aCookies)
+    {
+        // Put your code here...
+    }
+
+    public function run()
+    {
+        if (!isset($this->routeConfig['auth'])) {
+            throw new \Exception("Undefined option 'auth' for the current route.");
+        }
+        $mCookies = $this->request->getCookies();
+        $this->checkCookies(!is_null($mCookies) ? $mCookies : array());
+    }
+
+    public function isValid()
+    {
+        return is_null($this->error);
+    }
+
+    public function onFail()
+    {
+        // Put your code here...
+    }
+}
+```
+
+To realize role based access control you should also make additional options in 
+routes in the main configuration file.
+
+```php
+'routeMap'          => array(
+    // ...
+    'get'    => array(
+        '/'  => array(
+            'ctrl'  => array('Test', 'actionDefault'),
+            'roles' => array('admin', 'manager'),
+            'auth'  => true,
+        ),
+        // ...
+        '.*' => array(
+            'ctrl'  => array('System', 'actionPage404'),
+            'roles' => array('admin', 'manager', 'user'),
+            'auth'  => true,
+        ),
+    ),
+    // ...
+),
 ```
