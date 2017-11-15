@@ -467,3 +467,87 @@ routes in the main configuration file.
     // ...
 ),
 ```
+
+## Data validation
+
+The class `nadir\core\validator\Validator` provides the validation of input data.
+Its functionality can be extended by adding new custom validation rules.
+
+```php
+namespace controllers;
+
+use nadir\core\AbstractWebCtrl;
+use nadir\core\validator\Validator;
+
+class Test extends AbstractWebCtrl
+{
+
+    public function actionDefault()
+    {
+        $aData      = array(
+            'foo'  => 'fooValue',
+            'bar'  => 'barValue',
+            'baz'  => -42,
+            'qux'  => false,
+            'quux' => array(
+                'quuux' => 'quuuxValue',
+            ),
+        );
+        $oValidator = new Validator($aData);
+        $oValidator->setItems(array(
+            array(
+                array('foo', 'bar'),
+                'required'
+            ),
+            array(
+                array('foo', 'bar'),
+                'string',
+                array('notEmpty' => true)
+            ),
+            array(
+                'bar',
+                'string',
+                array(
+                    'length'  => array('min' => 3, 'max' => 8),
+                    'pattern' => '#^bar#',
+                )
+            ),
+            array(
+                'baz',
+                'number',
+                array(
+                    'integer'  => true,
+                    'float'    => false,
+                    'positive' => false,
+                    'value'    => array('max' => -1),
+                )
+            ),
+            array(
+                'qux',
+                'boolean',
+                array('isTrue' => false)
+            ),
+            array(
+                'quux',
+                'array',
+                array(
+                    'assoc'  => true,
+                    'length' => array('equal' => 1),
+                )
+            ),
+        ));
+        if ($oValidator->run()->isValid()) {
+            $this->renderJson(array(
+                'result' => 'ok',
+                'errors' => array(),
+            ));
+        } else {
+
+            $this->renderJson(array(
+                'result' => 'fail',
+                'errors' => $oValidator->getErrors(),
+            ));
+        }
+    }
+}
+```
