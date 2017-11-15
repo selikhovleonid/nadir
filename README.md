@@ -5,7 +5,7 @@ Yet Another PHP Microframework.
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
 
 Nadir is a PHP microframework which helps you quickly write web applications, console 
-applications and RESTful services. It's based on the MVC meta-pattern. This microframework 
+applications and RESTful services. It's based on the MVC pattern. This microframework 
 provides wide opportunities for modification and customization.
 
 ## Installing
@@ -22,7 +22,7 @@ php composer.phar create-project -s dev selikhovleonid/nadir-skeleton <project-n
 
 The created project template will have a structure simular to this:
 
-<pre>
+```
 ├── cli
 │   └── cli.php
 ├── composer.json
@@ -59,7 +59,7 @@ The created project template will have a structure simular to this:
 │           └── default.php
 └── web
     └── index.php
-</pre>
+```
 
 ## Main configuration file
 
@@ -344,4 +344,53 @@ of the method call `$this->getSnippet('topbar')->render()`.
     <?php endif; ?>
 </div>
 <!-- ... -->
+```
+
+## Model
+
+Nadir doesn't contain certain rules and regulations for building a model. The 
+concrete implementation of this component of the MVC pattern is given to the developer.
+Depending on many factors, the model can be represented as one layer (single object), 
+and several levels of abstraction (a complex hierarchy of associated objects).
+
+```php
+namespace models;
+
+use extensions\core\AbstractModel;
+
+class Test extends AbstractModel
+{
+
+    public function readDefault()
+    {
+        // Dummy mode
+        return array(
+            'foo' => 'bar',
+            'bar' => array(42, 'baz')
+        );
+    }
+}
+```
+
+```php
+namespace controllers;
+
+use nadir\core\AbstractWebCtrl;
+
+class Test extends AbstractWebCtrl
+{
+
+    public function actionDefault()
+    {
+        $this->getView()->addSnippet('topbar');
+        $this->getView()
+            ->getSnippet('topbar')
+            ->isUserOnline     = false;
+        $oModel                = new \models\Test();
+        $aData                 = $oModel->readDefault();
+        $this->getView()->foo  = $aData['foo'];
+        $this->getView()->bar  = $aData['bar'];
+        $this->render();
+    }
+}
 ```
