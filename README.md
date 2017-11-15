@@ -8,18 +8,14 @@ Nadir is a PHP microframework which helps you quickly write web applications, co
 applications and RESTful services. It's based on the MVC pattern. This microframework 
 provides wide opportunities for modification and customization.
 
-* [Installing](#installing)
-* [Project structure](#project-structure)
-* [Main configuration file](#main-configuration-file)
-* [Controller](#controller)
-    + [Controller and view](#controller-and-view)
-    + [CLI controller](#cli-controller)
-* [View](#view)
-    + [Composite view](#composite-view)
-    + [Snippets](#snippets)
-* [Model](#model)
-* [Authorization](#authorization)
-* [Data validation](#data-validation)
+1. [Installing](#installing)
+2. [Project structure](#project-structure)
+3. [Main configuration file](#main-configuration-file)
+4. [Controller](#controller)
+5. [View](#view)
+6. [Model](#model)
+7. [Authorization](#authorization)
+8. [Data validation](#data-validation)
 
 ## Installing
 
@@ -145,24 +141,30 @@ Access to the configurations within the client code is done by calling the
 ## Controller
 
 The controller is an instance of a class inherited from the `\nadir\core\AbstractWebController` 
-or the `\nadir\core\AbstractCliController` abstract superclasses. 
-When called, the controller performs some action, which usually refers to the model 
-for the purpose of obtaining data, their further conversion and pass to the view.
+or the `\nadir\core\AbstractCliController` abstract superclasses. When called, 
+the controller performs some action, which usually refers to the model for the 
+purpose of obtaining data, their further conversion and pass to the view.
 
 ### Controller and view
 
 In the lifetime of the web application, after the query binding with the Controller-Action 
 pair, a controller object is created, which by default tries to associate the view 
-objects with it. The view is generally composite and consists of a Layout (an 
-instance of the class `\nadir\core\Layout`) and View in a narrow sense (object of 
-the class `\nadir\core\View`). Defaulted view objects are assigned only if there 
-are associated markup files. The name of the markup file is obtained by discarding 
-the 'action' prefix from the action name, the file is placed in the directory with 
-the controller name (file names and directories should be in lowercase). View objects 
-are available within the controller by calling the accessors `$this->getView()`, 
+objects with it. 
+
+
+The view is generally composite and consists of a Layout (an instance of the class 
+`\nadir\core\Layout`) and View in a narrow sense (object of the class `\nadir\core\View`). 
+Defaulted view objects are assigned only if there are associated markup files. 
+The name of the markup file is obtained by discarding the 'action' prefix from the 
+action name, the file is placed in the directory with the controller name (file 
+names and directories should be in lowercase). 
+
+
+View objects are available within the controller by calling the accessors `$this->getView()`, 
 `$this->setView()`, `$this->getLayout()` and `$this->setLayout()`. At any time 
 prior to the beginning of page rendering, it's possible to change the default Layout 
 or View to any other available single-type object.
+
 
 Passing values of user variables from the controller to the view:
 
@@ -190,8 +192,10 @@ class Test extends AbstractWebCtrl
 }
 ```
 In the markup file `/views/views/test/default.php` of this view the variables are 
-readable by calling `$this->foo`, `$this->bar`, `$this->baz` and so on. The page 
-is rendered by calling `$this->render()` within the action. You can render a page 
+readable by calling `$this->foo`, `$this->bar`, `$this->baz` and so on. 
+
+
+The page is rendered by calling `$this->render()` within the action. You can render a page 
 containing only the View file (it's clear that Layout in this case must be null). 
 Moreover, in case of AJAX-request HTML-page rendering is often not needed at all, 
 a more specific answer format is required, in this case the `\nadir\core\AbstractWebCtrl::renderJson()`
@@ -235,10 +239,12 @@ class Cli extends AbstractCliCtrl
 The view contains HTML-code and a minimum of logic, which is necessary only for 
 operating variables received from the controller. The view is generally composite 
 and consists of a Layout (an instance of the class `\nadir\core\Layout`) and View 
-in a narrow sense (object of the class `\nadir\core\View`). Each of the composites 
-of the view can in turn contain snippets (objects of the `\nadir\core\Snippet` class) - 
-fragments of the frequently encountered elements of the interface - navigation 
-panels, various information blocks, etc.
+in a narrow sense (object of the class `\nadir\core\View`). 
+
+
+Each of the composites of the view can in turn contain snippets (objects of the 
+`\nadir\core\Snippet` class) - fragments of the frequently encountered elements 
+of the interface - navigation panels, various information blocks, etc.
 
 ```php
 namespace controllers;
@@ -305,9 +311,12 @@ Working with snippets, in general, is similar to working with Composites - View
 and Layout. The class of the snippet is also inherits the class `\nadir\core\AbstractView` 
 and the process of sending and calling user variables is similar to that of the 
 Layout and View. Composites can contain more than one snippet. The snippet can't 
-include another snippet. We will take the part of the markup from the previous 
-example into the separate snippet `topbar`. The file `/views/snippets/topbar.php` 
-will contain the following code:
+include another snippet. 
+
+
+We will take the part of the markup from the previous example into the separate 
+snippet `topbar`. The file `/views/snippets/topbar.php` will contain the following 
+code:
 
 ```
 <h1>User <?= $this->isUserOnline ? 'online' : 'offline'; ?></h1>
