@@ -2,7 +2,7 @@
 
 Yet Another PHP Microframework.
 
-[![GitHub release](https://img.shields.io/github/release/selikhovleonid/nadir.svg)]()
+[![GitHub release](https://img.shields.io/github/release/selikhovleonid/nadir.svg)](https://github.com/selikhovleonid/nadir/releases)
 [![Latest Stable Version](https://poser.pugx.org/selikhovleonid/nadir/v/stable)](https://packagist.org/packages/selikhovleonid/nadir)
 [![License](https://poser.pugx.org/selikhovleonid/nadir/license)](https://packagist.org/packages/selikhovleonid/nadir)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/selikhovleonid/nadir.svg)](https://packagist.org/packages/selikhovleonid/nadir)
