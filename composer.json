@@ -3,15 +3,15 @@
     "description": "Nadir PHP Microframework Version 1",
     "keywords": [
         "nadir",
-        "framework",
-        "microframework"
+        "php-framework",
+        "php-micro-framework"
     ],
     "license": "MIT",
     "authors": [
         {
             "name": "Leonid Selikhov",
             "email": "selikhovleonid@ya.ru",
-            "role": "Framework developer"
+            "role": "Developer"
         }
     ],
     "minimum-stability": "dev",
