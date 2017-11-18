@@ -2,7 +2,9 @@
 
 Yet Another PHP Microframework.
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
+[![Latest Stable Version](https://poser.pugx.org/selikhovleonid/nadir/v/stable)](https://packagist.org/packages/selikhovleonid/nadir)
+[![Latest Unstable Version](https://poser.pugx.org/selikhovleonid/nadir/v/unstable)](https://packagist.org/packages/selikhovleonid/nadir)
+[![License](https://poser.pugx.org/selikhovleonid/nadir/license)](https://packagist.org/packages/selikhovleonid/nadir)
 
 Nadir is a PHP microframework which helps you quickly write web applications, console 
 applications and RESTful services. It's based on the MVC pattern. This microframework 
@@ -19,9 +21,9 @@ provides wide opportunities for modification and customization.
 
 ## Installing
 
-You will need Composer dependency manager to install Nadir. The easiest way 
-to start working with Nadir is to create project skeleton running the following 
-command:
+The minimum required PHP version of Nadir is PHP 5.3. You will need Composer dependency 
+manager to install this microframework. The easiest way to start working with Nadir 
+is to create project skeleton running the following shell command:
 
 ```
 php composer.phar create-project -s dev selikhovleonid/nadir-skeleton <project-name>
