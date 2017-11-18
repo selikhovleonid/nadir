@@ -3,3 +3,4 @@
 /nbproject
 /composer.lock
 /skeleton/
+/.php_cs.cache

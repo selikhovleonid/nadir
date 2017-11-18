@@ -60,8 +60,10 @@ class Validator implements RunnableInterface
             if (!is_array($aData[$aKey[1]])) {
                 throw new Exception("The element indexed {$aKey[1]} isn't an array.");
             }
-            return self::getArrayItemByPointSeparatedKey($aData[$aKey[1]],
-                    $aKey[2]);
+            return self::getArrayItemByPointSeparatedKey(
+                $aData[$aKey[1]],
+                $aKey[2]
+            );
         } elseif (isset($aData[$sKey])) {
             return $aData[$sKey];
         } else {
@@ -97,214 +99,240 @@ class Validator implements RunnableInterface
 
         $this
             // Required value rules
-            ->addRule('required',
-                function($sFieldName) use ($aData) {
-                if (\nadir\core\validator\Validator::isIndexSet($aData,
-                        $sFieldName)) {
-                    return true;
+            ->addRule(
+                'required',
+                function ($sFieldName) use ($aData) {
+                    if (\nadir\core\validator\Validator::isIndexSet(
+                        $aData,
+                        $sFieldName
+                    )) {
+                        return true;
+                    }
+                    return false;
+                },
+                function ($sFieldName) {
+                    return "Field '{$sFieldName}' is required.";
                 }
-                return false;
-            },
-                function($sFieldName) {
-                return "Field '{$sFieldName}' is required.";
-            })
+            )
             // String rules
-            ->addRule('string',
-                function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\core\validator\Validator::isIndexSet($aData,
-                        $sFieldName)) {
-                    $mValue = \nadir\core\validator\Validator
+            ->addRule(
+                'string',
+                function ($sFieldName, array $aOpt = array()) use ($aData) {
+                    if (\nadir\core\validator\Validator::isIndexSet(
+                        $aData,
+                        $sFieldName
+                    )) {
+                        $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                    if (!is_string($mValue)) {
-                        return false;
-                    }
-                    if (isset($aOpt['notEmpty'])) {
-                        $mTmp = trim($mValue);
-                        if ($aOpt['notEmpty'] && empty($mTmp)) {
+                        if (!is_string($mValue)) {
                             return false;
                         }
-                        if (!$aOpt['notEmpty'] && !empty($mTmp)) {
-                            return false;
-                        }
-                    }
-                    if (isset($aOpt['pattern'])) {
-                        if (!preg_match($aOpt['pattern'], $mValue)) {
-                            return false;
-                        }
-                    }
-                    if (isset($aOpt['length'])) {
-                        $nLength = mb_strlen($mValue, 'UTF-8');
-                        if (isset($aOpt['length']['min'])) {
-                            if ($nLength < $aOpt['length']['min']) {
+                        if (isset($aOpt['notEmpty'])) {
+                            $mTmp = trim($mValue);
+                            if ($aOpt['notEmpty'] && empty($mTmp)) {
+                                return false;
+                            }
+                            if (!$aOpt['notEmpty'] && !empty($mTmp)) {
                                 return false;
                             }
                         }
-                        if (isset($aOpt['length']['max'])) {
-                            if ($nLength > $aOpt['length']['max']) {
+                        if (isset($aOpt['pattern'])) {
+                            if (!preg_match($aOpt['pattern'], $mValue)) {
                                 return false;
                             }
                         }
-                        if (isset($aOpt['length']['equal'])) {
-                            if ($nLength != $aOpt['length']['equal']) {
-                                return false;
+                        if (isset($aOpt['length'])) {
+                            $nLength = mb_strlen($mValue, 'UTF-8');
+                            if (isset($aOpt['length']['min'])) {
+                                if ($nLength < $aOpt['length']['min']) {
+                                    return false;
+                                }
+                            }
+                            if (isset($aOpt['length']['max'])) {
+                                if ($nLength > $aOpt['length']['max']) {
+                                    return false;
+                                }
+                            }
+                            if (isset($aOpt['length']['equal'])) {
+                                if ($nLength != $aOpt['length']['equal']) {
+                                    return false;
+                                }
                             }
                         }
                     }
+                    return true;
+                },
+                function ($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid string field '{$sFieldName}' value. "
+                        . "Validation options: {$sKeys}";
+                    }
+                    return "Invalid string field '{$sFieldName}' value.";
                 }
-                return true;
-            },
-                function($sFieldName, array $aOpt = array()) {
-                if (!empty($aOpt)) {
-                    $aKeys = array_keys($aOpt);
-                    $sKeys = implode(', ', $aKeys);
-                    return "Invalid string field '{$sFieldName}' value. Validation options: {$sKeys}";
-                }
-                return "Invalid string field '{$sFieldName}' value.";
-            })
+            )
             // Number rules
-            ->addRule('number',
-                function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\core\validator\Validator::isIndexSet($aData,
-                        $sFieldName)) {
-                    $mValue = \nadir\core\validator\Validator
+            ->addRule(
+                'number',
+                function ($sFieldName, array $aOpt = array()) use ($aData) {
+                    if (\nadir\core\validator\Validator::isIndexSet(
+                        $aData,
+                        $sFieldName
+                    )) {
+                        $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                    if (!is_numeric($mValue)) {
-                        return false;
-                    }
-                    if (isset($aOpt['float'])) {
-                        if ($aOpt['float'] && !is_float($mValue)) {
+                        if (!is_numeric($mValue)) {
                             return false;
                         }
-                        if (!$aOpt['float'] && is_float($mValue)) {
-                            return false;
-                        }
-                    }
-                    if (isset($aOpt['integer'])) {
-                        if ($aOpt['integer'] && !is_int($mValue)) {
-                            return false;
-                        }
-                        if (!$aOpt['integer'] && is_int($mValue)) {
-                            return false;
-                        }
-                    }
-                    if (isset($aOpt['positive'])) {
-                        if ($aOpt['positive'] && $mValue <= 0) {
-                            return false;
-                        }
-                        if (!$aOpt['positive'] && $mValue >= 0) {
-                            return false;
-                        }
-                    }
-                    if (isset($aOpt['value'])) {
-                        if (isset($aOpt['value']['equal'])) {
-                            if ($mValue != $aOpt['value']['equal']) {
+                        if (isset($aOpt['float'])) {
+                            if ($aOpt['float'] && !is_float($mValue)) {
+                                return false;
+                            }
+                            if (!$aOpt['float'] && is_float($mValue)) {
                                 return false;
                             }
                         }
-                        if (isset($aOpt['value']['min'])) {
-                            if ($mValue < $aOpt['value']['min']) {
+                        if (isset($aOpt['integer'])) {
+                            if ($aOpt['integer'] && !is_int($mValue)) {
+                                return false;
+                            }
+                            if (!$aOpt['integer'] && is_int($mValue)) {
                                 return false;
                             }
                         }
-                        if (isset($aOpt['value']['max'])) {
-                            if ($mValue > $aOpt['value']['max']) {
+                        if (isset($aOpt['positive'])) {
+                            if ($aOpt['positive'] && $mValue <= 0) {
                                 return false;
+                            }
+                            if (!$aOpt['positive'] && $mValue >= 0) {
+                                return false;
+                            }
+                        }
+                        if (isset($aOpt['value'])) {
+                            if (isset($aOpt['value']['equal'])) {
+                                if ($mValue != $aOpt['value']['equal']) {
+                                    return false;
+                                }
+                            }
+                            if (isset($aOpt['value']['min'])) {
+                                if ($mValue < $aOpt['value']['min']) {
+                                    return false;
+                                }
+                            }
+                            if (isset($aOpt['value']['max'])) {
+                                if ($mValue > $aOpt['value']['max']) {
+                                    return false;
+                                }
                             }
                         }
                     }
+                    return true;
+                },
+                function ($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid number field '{$sFieldName}' value. "
+                        . "Validation options: {$sKeys}";
+                    }
+                    return "Invalid number field '{$sFieldName}' value.";
                 }
-                return true;
-            },
-                function($sFieldName, array $aOpt = array()) {
-                if (!empty($aOpt)) {
-                    $aKeys = array_keys($aOpt);
-                    $sKeys = implode(', ', $aKeys);
-                    return "Invalid number field '{$sFieldName}' value. Validation options: {$sKeys}";
-                }
-                return "Invalid number field '{$sFieldName}' value.";
-            })
+            )
             // Array rules
-            ->addRule('array',
-                function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\core\validator\Validator::isIndexSet($aData,
-                        $sFieldName)) {
-                    $mValue = \nadir\core\validator\Validator
+            ->addRule(
+                'array',
+                function ($sFieldName, array $aOpt = array()) use ($aData) {
+                    if (\nadir\core\validator\Validator::isIndexSet(
+                        $aData,
+                        $sFieldName
+                    )) {
+                        $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                    if (!is_array($mValue)) {
-                        return false;
-                    }
-                    if (isset($aOpt['assoc'])) {
-                        $funcIsAssoc = function(array $aArray) {
-                            // return false if array is empty
-                            return (bool) count(array_filter(array_keys($aArray),
-                                        'is_string'));
-                        };
-                        if ($aOpt['assoc'] && !$funcIsAssoc($mValue)) {
+                        if (!is_array($mValue)) {
                             return false;
                         }
-                        if (!$aOpt['assoc'] && $funcIsAssoc($mValue)) {
-                            return false;
+                        if (isset($aOpt['assoc'])) {
+                            $funcIsAssoc = function (array $aArray) {
+                                // return false if array is empty
+                                return (bool) count(array_filter(
+                                    array_keys($aArray),
+                                    'is_string'
+                                ));
+                            };
+                            if ($aOpt['assoc'] && !$funcIsAssoc($mValue)) {
+                                return false;
+                            }
+                            if (!$aOpt['assoc'] && $funcIsAssoc($mValue)) {
+                                return false;
+                            }
+                            unset($funcIsAssoc);
                         }
-                        unset($funcIsAssoc);
+                        if (isset($aOpt['length'])) {
+                            $nLength = count($mValue);
+                            if (isset($aOpt['length']['min'])) {
+                                if ($nLength < $aOpt['length']['min']) {
+                                    return false;
+                                }
+                            }
+                            if (isset($aOpt['length']['max'])) {
+                                if ($nLength > $aOpt['length']['max']) {
+                                    return false;
+                                }
+                            }
+                            if (isset($aOpt['length']['equal'])) {
+                                if ($nLength != $aOpt['length']['equal']) {
+                                    return false;
+                                }
+                            }
+                        }
                     }
-                    if (isset($aOpt['length'])) {
-                        $nLength = count($mValue);
-                        if (isset($aOpt['length']['min'])) {
-                            if ($nLength < $aOpt['length']['min']) {
-                                return false;
-                            }
-                        }
-                        if (isset($aOpt['length']['max'])) {
-                            if ($nLength > $aOpt['length']['max']) {
-                                return false;
-                            }
-                        }
-                        if (isset($aOpt['length']['equal'])) {
-                            if ($nLength != $aOpt['length']['equal']) {
-                                return false;
-                            }
-                        }
+                    return true;
+                },
+                function ($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid array field '{$sFieldName}' value. "
+                        . "Validation options: {$sKeys}";
                     }
+                    return "Invalid array field '{$sFieldName}' value.";
                 }
-                return true;
-            },
-                function($sFieldName, array $aOpt = array()) {
-                if (!empty($aOpt)) {
-                    $aKeys = array_keys($aOpt);
-                    $sKeys = implode(', ', $aKeys);
-                    return "Invalid array field '{$sFieldName}' value. Validation options: {$sKeys}";
-                }
-                return "Invalid array field '{$sFieldName}' value.";
-            })
+            )
             // Boolean rules
-            ->addRule('boolean',
-                function($sFieldName, array $aOpt = array()) use ($aData) {
-                if (\nadir\core\validator\Validator::isIndexSet($aData,
-                        $sFieldName)) {
-                    $mValue = \nadir\core\validator\Validator
+            ->addRule(
+                'boolean',
+                function ($sFieldName, array $aOpt = array()) use ($aData) {
+                    if (\nadir\core\validator\Validator::isIndexSet(
+                        $aData,
+                        $sFieldName
+                    )) {
+                        $mValue = \nadir\core\validator\Validator
                         ::getArrayItemByPointSeparatedKey($aData, $sFieldName);
-                    if (!is_bool($mValue)) {
-                        return false;
-                    }
-                    if (isset($aOpt['isTrue'])) {
-                        if ($aOpt['isTrue'] && !$mValue) {
+                        if (!is_bool($mValue)) {
                             return false;
                         }
-                        if (!$aOpt['isTrue'] && $mValue) {
-                            return false;
+                        if (isset($aOpt['isTrue'])) {
+                            if ($aOpt['isTrue'] && !$mValue) {
+                                return false;
+                            }
+                            if (!$aOpt['isTrue'] && $mValue) {
+                                return false;
+                            }
                         }
                     }
+                    return true;
+                },
+                function ($sFieldName, array $aOpt = array()) {
+                    if (!empty($aOpt)) {
+                        $aKeys = array_keys($aOpt);
+                        $sKeys = implode(', ', $aKeys);
+                        return "Invalid boolean field '{$sFieldName}' value. "
+                        . "Validation options: {$sKeys}";
+                    }
+                    return "Invalid boolean field '{$sFieldName}' value.";
                 }
-                return true;
-            },
-                function($sFieldName, array $aOpt = array()) {
-                if (!empty($aOpt)) {
-                    $aKeys = array_keys($aOpt);
-                    $sKeys = implode(', ', $aKeys);
-                    return "Invalid boolean field '{$sFieldName}' value. Validation options: {$sKeys}";
-                }
-                return "Invalid boolean field '{$sFieldName}' value.";
-            });
+            );
     }
 
     /**
@@ -390,9 +418,11 @@ class Validator implements RunnableInterface
      * @param array $aOpt The validation options.
      * @throws \extensions\validator\Exception.
      */
-    private function applyRuleToField($sFieldName, $sRuleName,
-                                      array $aOpt = array())
-    {
+    private function applyRuleToField(
+        $sFieldName,
+        $sRuleName,
+        array $aOpt = array()
+    ) {
         if (!isset($this->rules[$sRuleName])) {
             throw new Exception('Undefined rule name.');
         }

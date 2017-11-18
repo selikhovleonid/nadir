@@ -15,7 +15,7 @@ class CliCtrlResolver extends AbstractCtrlResolver
     /**
      * The oject properties initialization.
      * @param string[] $aArgs The array of passed to script arguments.
-     * @throws \core\Exception It throws if it wasn't passed the route as the first 
+     * @throws \core\Exception It throws if it wasn't passed the route as the first
      * call param.
      */
     public function __construct(array $aArgs)
@@ -41,8 +41,11 @@ class CliCtrlResolver extends AbstractCtrlResolver
             throw new Exception("The field 'componentsRootMap.controllers' must be "
             ."presented in the main configuration file.");
         }
-        $sCtrlNamespace = str_replace(\DIRECTORY_SEPARATOR, '\\',
-            $aComponentsRootMap['controllers']);
+        $sCtrlNamespace = str_replace(
+            \DIRECTORY_SEPARATOR,
+            '\\',
+            $aComponentsRootMap['controllers']
+        );
         $sCtrlNameFull  = $sCtrlNamespace.'\\'.$this->ctrlName;
         return new $sCtrlNameFull();
     }
@@ -66,7 +69,7 @@ class CliCtrlResolver extends AbstractCtrlResolver
 
     /**
      * It executes the action of controller.
-     * @throws Exception It throws if it was unable to assign controller with 
+     * @throws Exception It throws if it was unable to assign controller with
      * route path.
      */
     public function run()

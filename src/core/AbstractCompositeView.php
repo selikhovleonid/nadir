@@ -3,7 +3,7 @@
 namespace nadir\core;
 
 /**
- * This is composite class of the View (the view in a broad sense), which 
+ * This is composite class of the View (the view in a broad sense), which
  * entities may contains the atomic view units - the snippets.
  * @author Leonid Selikhov
  */
@@ -23,7 +23,7 @@ abstract class AbstractCompositeView extends AbstractView
     }
 
     /**
-     * It returns assigned snippet object by the name. If the name not presents, 
+     * It returns assigned snippet object by the name. If the name not presents,
      * then it returns the map with all View-assigned snippets.
      * @param string $sSnptName
      * @return \nadir\core\Snippet|\core\Snippet[]|null

@@ -30,8 +30,11 @@ class AbstractCliCtrl
     {
         $oDate = new \DateTime();
         echo $oDate->format('H:i:s')."\t{$sMessage}".PHP_EOL;
-        return '('.$oDate->format('H:i:s').') '.preg_replace('#(\[[0-9]+m)#',
-                '', $sMessage);
+        return '('.$oDate->format('H:i:s').') '.preg_replace(
+            '#(\[[0-9]+m)#',
+            '',
+            $sMessage
+        );
     }
 
     /**

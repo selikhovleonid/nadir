@@ -3,7 +3,7 @@
 namespace nadir\core;
 
 /**
- * The class provides auto method-accessors (get-, set- and isSet- methods) 
+ * The class provides auto method-accessors (get-, set- and isSet- methods)
  * generation to the public properties of the children classes.
  * @author Leonid Selikhov
  */
@@ -32,19 +32,19 @@ class AbstractAutoAccessors
     /**
      * This is interceptor method, which catches the calls of undeclared methods of
      * the class. If the name of the invoked method matches the setProperty, getProperty
-     * or isPropertySet pattern and the target class has corresponding public 
-     * property, then it calls needed accessor as if it was declared directly in 
+     * or isPropertySet pattern and the target class has corresponding public
+     * property, then it calls needed accessor as if it was declared directly in
      * the child-class. In another case it throws exception.
      * @param string $sName The name of the method.
      * @param mixed[] $aArgs The array of passed args.
-     * @return mixed|boolean The result is mixed for the getters and setters, is 
+     * @return mixed|boolean The result is mixed for the getters and setters, is
      * boolean for isSets.
      * @throws Exception.
      */
     public function __call($sName, $aArgs)
     {
         // Lambda-function
-        $funcGenException = function($sClassName, $sPropName) {
+        $funcGenException = function ($sClassName, $sPropName) {
             throw new Exception('Undefined or non public property '
             ."{$sClassName}::\${$sPropName}");
         };

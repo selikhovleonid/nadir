@@ -3,7 +3,7 @@
 namespace nadir\core;
 
 /**
- * The singleton instance of current class is the Registry - the global storage 
+ * The singleton instance of current class is the Registry - the global storage
  * of custom variables, which lifetime is equal to the life cycle time of the
  * scrypt.
  * @author Leonid Selikhov

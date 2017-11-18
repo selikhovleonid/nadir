@@ -18,9 +18,12 @@ const SPACES_PER_TAB = 4;
  * @param mixed[] $aObjects Optional The array of variable ojects.
  * @return string.
  */
-function _getDumpArrayIteration($mVar, $nDepth = 10, $nLevel = 0,
-                                array& $aObjects = array())
-{
+function _getDumpArrayIteration(
+    $mVar,
+    $nDepth = 10,
+    $nLevel = 0,
+    array& $aObjects = array()
+) {
     $sOut       = '';
     $sSpacesOut = str_repeat(' ', SPACES_PER_TAB * $nLevel);
     if ($nDepth <= $nLevel) {
@@ -50,9 +53,12 @@ function _getDumpArrayIteration($mVar, $nDepth = 10, $nLevel = 0,
  * @param mixed[] $aObjects Optional The array of variable ojects.
  * @return string.
  */
-function _getDumpObjIteration($mVar, $nDepth = 10, $nLevel = 0,
-                              array& $aObjects = array())
-{
+function _getDumpObjIteration(
+    $mVar,
+    $nDepth = 10,
+    $nLevel = 0,
+    array& $aObjects = array()
+) {
     $sOut       = '';
     $sClassName = get_class($mVar);
     $sSpacesOut = str_repeat(' ', SPACES_PER_TAB * $nLevel);
@@ -65,7 +71,7 @@ function _getDumpObjIteration($mVar, $nDepth = 10, $nLevel = 0,
             ."\n{$sSpacesOut}(...)";
     } else {
         // Возвращает модификаторы свойств объекта.
-        $funcGetPropMod = function(\ReflectionProperty $oProp) {
+        $funcGetPropMod = function (\ReflectionProperty $oProp) {
             if ($oProp->isPublic()) {
                 $sOut = 'public';
             } elseif ($oProp->isProtected()) {
@@ -91,8 +97,12 @@ function _getDumpObjIteration($mVar, $nDepth = 10, $nLevel = 0,
                 ._getDumpIteration($oProp->getName(), $nDepth, 0, $aObjects)
                 .':'.$funcGetPropMod($oProp)
                 .'] => '
-                ._getDumpIteration($oProp->getValue($mVar), $nDepth,
-                    $nLevel + 1, $aObjects);
+                ._getDumpIteration(
+                    $oProp->getValue($mVar),
+                    $nDepth,
+                    $nLevel + 1,
+                    $aObjects
+                );
             if (!$oProp->isPublic()) {
                 $oProp->setAccessible(false);
             }
@@ -113,9 +123,12 @@ function _getDumpObjIteration($mVar, $nDepth = 10, $nLevel = 0,
  * @param mixed[] $aObjects Optional The array of variable ojects.
  * @return string.
  */
-function _getDumpIteration($mVar, $nDepth = 10, $nLevel = 0,
-                           array& $aObjects = array())
-{
+function _getDumpIteration(
+    $mVar,
+    $nDepth = 10,
+    $nLevel = 0,
+    array& $aObjects = array()
+) {
     $sOut = '';
     switch (gettype($mVar)) {
         case 'NULL':

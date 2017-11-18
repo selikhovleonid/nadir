@@ -3,9 +3,9 @@
 namespace nadir\core;
 
 /**
- * This is the class of abstract web-controller. Despite the fact that no one method 
- * declared as abstract, the 'abstract' modifier is set a specially to exclude the 
- * possibility of creating an instance of the class. 
+ * This is the class of abstract web-controller. Despite the fact that no one method
+ * declared as abstract, the 'abstract' modifier is set a specially to exclude the
+ * possibility of creating an instance of the class.
  * @author Leonid Selikhov
  */
 abstract class AbstractWebCtrl
@@ -126,12 +126,18 @@ abstract class AbstractWebCtrl
      */
     private static function unescapeUnicode($sData)
     {
-        return preg_replace_callback('/\\\\u([0-9a-f]{4})/i',
+        return preg_replace_callback(
+            '/\\\\u([0-9a-f]{4})/i',
             function (array & $aMatches) {
-            $sSym = mb_convert_encoding(pack('H*', $aMatches[1]), 'UTF-8',
-                'UTF-16');
-            return $sSym;
-        }, $sData);
+                $sSym = mb_convert_encoding(
+                    pack('H*', $aMatches[1]),
+                    'UTF-8',
+                    'UTF-16'
+                );
+                return $sSym;
+            },
+            $sData
+        );
     }
 
     /**
@@ -146,7 +152,7 @@ abstract class AbstractWebCtrl
 
     /**
      * The method redirects to the URL, which passed as param. The HTTP-code is
-     * 302 as default. The method unconditional completes the script execution, 
+     * 302 as default. The method unconditional completes the script execution,
      * the code after it will not be executed.
      * @param string $sUrl
      * @param bool $fIsPermanent The flag of permanent redirect.

@@ -86,7 +86,7 @@ class Request
     }
 
     /**
-     * The method returns the raw body of the request as string, which was gotten 
+     * The method returns the raw body of the request as string, which was gotten
      * from the input stream.
      * @return string.
      */
@@ -97,7 +97,7 @@ class Request
 
     /**
      * It returns trhe URL path of the request.
-     * @return string|null 
+     * @return string|null
      */
     public function getUrlPath()
     {
@@ -112,7 +112,7 @@ class Request
     }
 
     /**
-     * The method returns the string values of request by key or whole request 
+     * The method returns the string values of request by key or whole request
      * string as array.
      * @param string $sKey It's empty string by default.
      * @return mixed.

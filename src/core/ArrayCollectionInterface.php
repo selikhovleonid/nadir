@@ -17,13 +17,13 @@ interface ArrayCollectionInterface
     public function add($sKey, $mValue);
 
     /**
-     * It adds the array of items to the collection. 
+     * It adds the array of items to the collection.
      * @param array $aPairs The name-value pairs array.
      */
     public function addAll(array $aPairs);
 
     /**
-     * It returns the keys of the collection (the iterator analog). 
+     * It returns the keys of the collection (the iterator analog).
      */
     public function getKeys();
 

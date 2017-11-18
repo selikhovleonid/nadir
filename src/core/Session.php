@@ -75,13 +75,13 @@ class Session implements ArrayCollectionInterface
 
     /**
      * It inits the data of new session or continues the current session.
-     * @param string $sSessName The optional name of session, it has higher priority 
+     * @param string $sSessName The optional name of session, it has higher priority
      * than the $iSess parameter.
-     * @param string $iSess The optional session ident. It ignored if the $sSessName 
+     * @param string $iSess The optional session ident. It ignored if the $sSessName
      * parameter was passed.
      * @return string The id of current session.
      */
-    public function start($sSessName = NULL, $iSess = NULL)
+    public function start($sSessName = null, $iSess = null)
     {
         if (!$this->isStarted()) {
             if (!is_null($sSessName)) {
@@ -109,7 +109,7 @@ class Session implements ArrayCollectionInterface
      */
     public function destroy()
     {
-        $mRes = NULL;
+        $mRes = null;
         if ($this->isStarted()) {
             @session_unset();
             $mRes = session_destroy();
@@ -123,7 +123,7 @@ class Session implements ArrayCollectionInterface
      */
     public function destroyWithCookie()
     {
-        $mRes = NULL;
+        $mRes = null;
         if ($this->isStarted()) {
             $this->destroy();
             $mRes = setcookie($this->getName(), '', time() - 1, '/');
@@ -180,7 +180,7 @@ class Session implements ArrayCollectionInterface
      */
     public function get($sKey)
     {
-        return $this->contains($sKey) ? $_SESSION[$sKey] : NULL;
+        return $this->contains($sKey) ? $_SESSION[$sKey] : null;
     }
 
     /**
@@ -217,7 +217,7 @@ class Session implements ArrayCollectionInterface
             unset($_SESSION[$sKey]);
             return $mRes;
         } else {
-            return NULL;
+            return null;
         }
     }
 

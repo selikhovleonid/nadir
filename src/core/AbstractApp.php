@@ -4,11 +4,12 @@ namespace nadir\core;
 
 /**
  * This is an abstract application class. It determines the central entry point for
- * the all requests, creates the configured application. It implements Front 
+ * the all requests, creates the configured application. It implements Front
  * Controller pattern, it's Singleton-instance.
  * @author Leonid Selikhov
  */
-abstract class AbstractApp extends AbstractAutoAccessors implements FrontControllerInterface,
+abstract class AbstractApp extends AbstractAutoAccessors implements
+    FrontControllerInterface,
     RunnableInterface
 {
     /** @var string This is path to the config file root. */

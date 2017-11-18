@@ -3,8 +3,8 @@
 namespace nadir\core;
 
 /**
- * This is a class of controller wrapper, an instance of which perfoms delegated 
- * function - it calls target controller after the succesful auth or calls onFail 
+ * This is a class of controller wrapper, an instance of which perfoms delegated
+ * function - it calls target controller after the succesful auth or calls onFail
  * auth class functionality in other case.
  * @author Leonid Selikhov
  */
@@ -24,7 +24,7 @@ class CtrlWrapper
 
     /**
      * The method calls user's auth checking, on successful complition of which
-     * it invokes the target controller and the onFail method of Auth class in 
+     * it invokes the target controller and the onFail method of Auth class in
      * other case.
      * @param type $sName The action name of target controller.
      * @param type $aArgs The action parameters.

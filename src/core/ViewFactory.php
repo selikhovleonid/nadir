@@ -18,9 +18,9 @@ class ViewFactory
     }
 
     /**
-     * The method creates a view object assigned with the specific controller and 
-     * action in it. If controller name is empty it means a markup file determined 
-     * only with action name. It doesn't physically consist into the direcory named 
+     * The method creates a view object assigned with the specific controller and
+     * action in it. If controller name is empty it means a markup file determined
+     * only with action name. It doesn't physically consist into the direcory named
      * as controller, it's in the root of the view directory.
      * @param string $sCtrlName|null The controller name (as optional)
      * @param string $sActionName The action name.

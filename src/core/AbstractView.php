@@ -22,7 +22,7 @@ abstract class AbstractView extends AbstractUserPropAccessor
     }
 
     /**
-     * This is method-accessor to the variable which contains the path to the file 
+     * This is method-accessor to the variable which contains the path to the file
      * with view markup.
      * @return string.
      */

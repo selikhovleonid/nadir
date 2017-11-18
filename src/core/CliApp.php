@@ -9,7 +9,7 @@ namespace nadir\core;
 class CliApp extends AbstractApp
 {
     /** @var self The singleton object of current class. */
-    protected static $instance = NULL;
+    protected static $instance = null;
 
     /**
      * @ignore.
@@ -20,11 +20,11 @@ class CliApp extends AbstractApp
     }
 
     /**
-     * It processes the call parameters of cli-script and passed them to the 
+     * It processes the call parameters of cli-script and passed them to the
      * CliCtrlResolver object.
      * @global string[] $argv The array of passed to cli-scrypt args.
-     * @throws \core\Exception It throws if it was attempting to call cli-scprit 
-     * out the command line interface. 
+     * @throws \core\Exception It throws if it was attempting to call cli-scprit
+     * out the command line interface.
      */
     public function handleRequest()
     {

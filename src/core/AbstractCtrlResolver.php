@@ -3,7 +3,7 @@
 namespace nadir\core;
 
 /**
- * This is the abstract class, which assign a controller with the request 
+ * This is the abstract class, which assign a controller with the request
  * parameters.
  * @author Leonid Selikhov
  */
