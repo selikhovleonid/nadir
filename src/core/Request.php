@@ -8,11 +8,6 @@ namespace nadir\core;
  */
 class Request
 {
-    /** @var array It contains the superglobal array $_SERVER */
-    private $serverMap = array();
-
-    /** @var array It contains the superglobal array $_REQUEST. */
-    private $requestMap = array();
 
     /** @var array It contains the raw request body. */
     private $rawBody = null;
@@ -23,66 +18,29 @@ class Request
      */
     public function __construct()
     {
-        $this->serverMap  = $_SERVER;
-        $this->requestMap = $_REQUEST;
-        $this->rawBody    = @file_get_contents('php://input');
+        $this->rawBody = @file_get_contents('php://input');
     }
 
     /**
-     * It returns the request HTTP-method.
-     * @return string|null
+     * The method returns the server parameter value by the key. It's wrapper over
+     * the filter_input() function.
+     * @param string $sName Name of a variable to get.
+     * @param int $nFilter
+     * @param mixed $mOptions Associative array of options or bitwise disjunction
+     * of flags. If filter accepts options, flags can be provided in "flags"
+     * field of array.
+     * @return mixed Value of the requested variable on success, false if the filter
+     * fails, or null if the variable is not set.
      */
-    public function getMethod()
-    {
-        return isset($this->serverMap['REQUEST_METHOD']) ? $this->serverMap['REQUEST_METHOD']
-                : null;
-    }
-
-    /**
-     * It returns the array of request headers.
-     * @return string[]
-     */
-    public function getHeaders()
-    {
-        // for apache2 only method
-        return getallheaders();
-    }
-
-    /**
-     * It returns the header by passed name. The search is case-insensitive.
-     * @param string $sName
-     * @return string|null
-     */
-    public function getHeaderByName($sName)
-    {
-        $mRes = null;
-        foreach ($this->getHeaders() as $sKey => $sValue) {
-            if (strtolower($sKey) === strtolower($sName)) {
-                $mRes = $sValue;
-                break;
-            }
-        }
-        return $mRes;
-    }
-
-    /**
-     * The method returns the associated array of cookies.
-     * @return array.
-     */
-    public function getCookies()
-    {
-        $mRes       = null;
-        $mRawCookie = $this->getHeaderByName('Cookie');
-        if (!is_null($mRawCookie)) {
-            $aCookies = explode(';', $mRawCookie);
-            foreach ($aCookies as $sCookie) {
-                $aParts = explode('=', $sCookie);
-                if (count($aParts) > 1) {
-                    $mRes[trim($aParts[0])] = trim($aParts[1]);
-                }
-            }
-        }
-        return $mRes;
+    public function getServerParam(
+        $sName,
+        $nFilter = \FILTER_DEFAULT,
+        $mOptions = null
+    ) {
+        // Can be useful if FastCGI has strange side-effects with unexpected null
+        // values when using INPUT_SERVER and INPUT_ENV with this function.
+        return isset($_SERVER[$sName]) ? filter_var($_SERVER[$sName], $nFilter, $mOptions)
+            : null;
     }
 
     /**
@@ -96,49 +54,98 @@ class Request
     }
 
     /**
-     * It returns trhe URL path of the request.
+     * The method returns the parameter value of request by the passed key. It's
+     * wrapper over the filter_var() function.
+     * @param string $sName Name of a variable to get.
+     * @param int $nFilter
+     * @param mixed $mOptions Associative array of options or bitwise disjunction
+     * of flags. If filter accepts options, flags can be provided in "flags"
+     * field of array.
+     * @return mixed Value of the requested variable on success, false if the filter
+     * fails, or null if the variable is not set.
+     */
+    public function getParam(
+        $sName,
+        $nFilter = \FILTER_DEFAULT,
+        $mOptions = null
+    ) {
+        // Can be useful when INPUT_REQUEST is implemented for the filter_input()
+        // function.
+        //return filter_input(\INPUT_REQUEST, $name, $filter, $options);
+        return isset($_REQUEST[$sName]) ? filter_var(
+            $_REQUEST[$sName],
+            $nFilter,
+            $mOptions
+        ) : null;
+    }
+
+    /**
+     * It returns the request HTTP-method.
+     * @return string|null
+     */
+    public function getMethod()
+    {
+        return $this->getServerParam('REQUEST_METHOD', \FILTER_SANITIZE_STRING);
+    }
+
+    /**
+     * It returns the array of request headers.
+     * @return string[]
+     */
+    public function getAllHeaders()
+    {
+        return getallheaders();
+    }
+
+    /**
+     * It returns the header by passed name. The search is case-insensitive.
+     * @param string $sName
+     * @return string|null
+     */
+    public function getHeader($sName)
+    {
+        $sName = strtolower($sName);
+        foreach ($this->getAllHeaders() as $sKey => $mValue) {
+            if (strtolower($sKey) === $sName) {
+                return $mValue;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * It returns cookie value by name if it exists and matches predefined filter.
+     * @param string $sName Cookie name.
+     * @return string|false|null
+     */
+    public function getCookie($sName)
+    {
+        return filter_input(\INPUT_COOKIE, $sName, \FILTER_SANITIZE_STRING);
+    }
+
+    /**
+     * The method returns the associated array of cookies.
+     * @return mixed[]|null
+     */
+    public function getAllCookies()
+    {
+        return filter_input_array(\INPUT_COOKIE, array_combine(
+            array_keys($_COOKIE),
+            array_fill(0, count($_COOKIE), \FILTER_SANITIZE_STRING)
+        ));
+    }
+
+    /**
+     * It returns the URL path of the request.
      * @return string|null
      */
     public function getUrlPath()
     {
-        if (isset($this->serverMap['REQUEST_URI'])) {
-            $sUri = $this->serverMap['REQUEST_URI'];
-            $aUri = explode('?', $sUri);
-            $mRes = $aUri[0];
-        } else {
-            $mRes = null;
+        $sUri = $this->getServerParam('REQUEST_URI', \FILTER_SANITIZE_URL);
+        if (!is_null($sUri)) {
+            return parse_url($sUri, \PHP_URL_PATH);
         }
-        return $mRes;
-    }
-
-    /**
-     * The method returns the string values of request by key or whole request
-     * string as array.
-     * @param string $sKey It's empty string by default.
-     * @return mixed.
-     */
-    public function getParam($sKey = '')
-    {
-        if (empty($sKey)) {
-            return $this->requestMap;
-        } else {
-            return isset($this->requestMap[$sKey]) ? $this->requestMap[$sKey] : null;
-        }
-    }
-
-    /**
-     * The method returns the server parameter value by the key (from superglobal
-     * array $_SERVER) or the full array.
-     * @param string $sKey It's empty string by default.
-     * @return mixed.
-     */
-    public function getServerParam($sKey = '')
-    {
-        if (empty($sKey)) {
-            return $this->serverMap;
-        } else {
-            return isset($this->serverMap[$sKey]) ? $this->serverMap[$sKey] : null;
-        }
+        return null;
     }
 
     /**
@@ -147,7 +154,7 @@ class Request
      */
     public function isAjax()
     {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])
-            == 'xmlhttprequest';
+        $sParam = $this->getServerParam('HTTP_X_REQUESTED_WITH', \FILTER_SANITIZE_STRING);
+        return !is_null($sParam) && strtolower($sParam) === 'xmlhttprequest';
     }
 }

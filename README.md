@@ -454,7 +454,7 @@ class Auth extends AbstractAuth
         if (!isset($this->routeConfig['auth'])) {
             throw new \Exception("Undefined option 'auth' for the current route.");
         }
-        $mCookies = $this->request->getCookies();
+        $mCookies = $this->request->getAllCookies();
         $this->checkCookies(!is_null($mCookies) ? $mCookies : array());
     }
 
@@ -525,7 +525,11 @@ class Test extends AbstractWebCtrl
                 'required',
             ),
             array(
-                array('foo', 'bar'),
+                array(
+                    'foo', 
+                    'bar', 
+                    'quux.quuux'
+                ),
                 'string',
                 array('notEmpty' => true),
             ),
